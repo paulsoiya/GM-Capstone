@@ -1,0 +1,10 @@
+body{
+	background-image:url('../images/rsz_bgimg.jpg');
+}
+
+.middleDiv{
+	background:url('../images/midtile.png') repeat;
+	border-radius: 12px;
+	padding:4px;
+	
+}
