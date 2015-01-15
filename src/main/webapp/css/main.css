@@ -1,10 +1,54 @@
 body{
-	background-image:url('../images/rsz_bgimg.jpg');
+    background-image:url('../images/rsz_bgimg.jpg');
+    color:#fff;
 }
 
 .middleDiv{
-	background:url('../images/midtile.png') repeat;
-	border-radius: 12px;
-	padding:4px;
-	
+    background:url('../images/midtile.png') repeat;
+    border-radius: 12px;
+    padding:30px;
+
+}
+
+.mainRow{
+    width:980px;
+    margin:0 auto;//center row
+}
+
+.blkRow{
+    background-color:#000;
+    color:#fff;
+    font-size:16px;
+}
+
+.padBtn{
+    margin-top:1em;
+}
+
+.mainSplashPicture{
+    background: url('../images/carimg.jpg') no-repeat;
+    height:387px;
+    width:980px;
+}
+
+.mainSplashPicture p{
+    width:210px;
+    padding:10px;
+    margin-left:20px;
+    margin-top:20px;
+    line-height: 22px;
+    font-size:18px;
+}
+
+.alignRight{
+    text-align: right;
+}
+
+a{
+    color:white;
+    text-decoration: none;
+}
+a:hover{
+    color:white;
+    text-decoration: underline;
 }
