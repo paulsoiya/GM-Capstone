@@ -30,8 +30,10 @@
       <div class="container">
         <div class="navbar-header">
         
-          <a class="navbar-brand" href="#">  <img src="../images/primaryNavigationGMLogo.png" 
-                             style="margin-top:-10px;" alt="General Motors"></a>
+          <a class="navbar-brand" href="#">  
+              <img src="../images/primaryNavigationGMLogo.png" 
+                   style="margin-top:-10px;" alt="General Motors">
+          </a>
         </div>
           <div class="paddingTop alignRight">
               Welcome, Admin | <a href="">Logout</a>
@@ -43,10 +45,16 @@
         <div class="row">
             <div class="col-md-8"><h1>SocialGM: Admin</h1></div>
             <div class="col-md-4"> 
-                <ul class="nav nav-pills">
-                    <li role="presentation" class="active"><a href="#">Manage Data</a></li>
-                    <li role="presentation"><a href="#">Manage Analytics</a></li>
-                    <li role="presentation"><a href="#">Manage Users</a></li>
+                <ul class="nav nav-pills pillMarigin">
+                    <li role="presentation" class="active">
+                        <a href="#">Manage Data</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#">Manage Analytics</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#">Manage Users</a>
+                    </li>
                 </ul>
             </div>
         </div>  
@@ -59,7 +67,7 @@
             <div class="col-lg-5 grayBoxArea">
                 <h3>Pending Requests</h3>
                 <div class="table-responsive">
-                     <table class="table table-hover">
+                     <table class="table">
                     
                         <thead>
                             <tr>
@@ -85,15 +93,17 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="button" class="btn btn-success">Grant Access</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-               
+                <div class="pull-right">
+                    <button type="button" class="btn btn-success">Grant Access
+                    </button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-5 grayBoxArea">
                 <h3>Existing Users</h3>
                    <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table">
                     
                         <thead>
                             <tr>
@@ -116,8 +126,12 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="button" class="btn btn-success">Make Admin</button>
-                <button type="button" class="btn btn-danger">Remove Access</button>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-success">Make Admin
+                    </button>
+                    <button type="button" class="btn btn-danger">Remove Access
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -126,7 +140,7 @@
 
     <footer class="footer">
       <div class="container">
-        <p class="text-muted">Last Updated: XXXX</p>
+          <p>Last Updated: XXXX</p>
       </div>
     </footer>
 

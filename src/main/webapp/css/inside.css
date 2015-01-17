@@ -16,7 +16,9 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #f5f5f5;
+  background-color:#656572;
+  color:#fff;
+  padding-top:18px;
 }
 
 body > .container {
@@ -67,3 +69,6 @@ h3{
     margin-top:4px;
 }
 
+.pillMarigin{
+    margin-top: 20px;
+}
