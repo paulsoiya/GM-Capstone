@@ -7,7 +7,6 @@ body{
     background:url('../images/midtile.png') repeat;
     border-radius: 12px;
     padding:30px;
-
 }
 
 .mainRow{
@@ -51,4 +50,8 @@ a{
 a:hover{
     color:white;
     text-decoration: underline;
+}
+
+.formPadding{
+    padding:5px;
 }
