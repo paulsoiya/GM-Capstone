@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Admin- Manage Users</title>
+
+
+        <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+
+        <script src="../plugins/jquery/jquery-1.11.2.min.js"></script>
+        <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../css/inside.css">
+
+       
+    </head>
+    <body>
+
+        
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top white">
+      <div class="container">
+        <div class="navbar-header">
+        
+          <a class="navbar-brand" href="#">  
+              <img src="../images/primaryNavigationGMLogo.png" 
+                   style="margin-top:-10px;" alt="General Motors">
+          </a>
+        </div>
+          <div class="paddingTop alignRight">
+              Welcome, Admin | <a href="">Logout</a>
+          </div>
+      </div>
+    </nav>
+    <div class="secondNavBar">
+        
+        <div class="row">
+            <div class="col-md-8"><h1>SocialGM: Admin</h1></div>
+            <div class="col-md-4"> 
+                <ul class="nav nav-pills pillMarigin">
+                    <li role="presentation">
+                        <a href="index.html">Manage Data</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="manage-analytics.html">Manage Analytics</a>
+                    </li>
+                    <li role="presentation" class="active">
+                        <a href="manage-users.html">Manage Users</a>
+                    </li>
+                </ul>
+            </div>
+        </div>  
+    </div>
+
+    <!-- Begin page content -->
+    <div class="container">
+     
+        <div class="row">
+            <div class="col-lg-5 grayBoxArea">
+                <h3>Pending Requests</h3>
+                <div class="table-responsive">
+                     <table class="table">
+                    
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Position</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Paul Soiya</td>
+                                <td>psoiya@asu.edu</td>
+                                <td>Developer</td>
+                                <td>To view development work</td>
+                            </tr>
+                            <tr>
+                                <td>Sean McElroy</td>
+                                <td>sdmcelro@asu.edu</td>
+                                <td>Developer</td>
+                                <td>To view development work</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-success">Grant Access
+                    </button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-5 grayBoxArea">
+                <h3>Existing Users</h3>
+                   <div class="table-responsive">
+                    <table class="table">
+                    
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Admin</td>
+                                <td>Becca Little</td>
+                                <td>rebecca.little@asu.edu</td>
+                            </tr>
+                            <tr>
+                                <td>User</td>
+                                <td>Vance Anderson</td>
+                                <td>vanceanderson41@gmail.com</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-success">Make Admin
+                    </button>
+                    <button type="button" class="btn btn-danger">Remove Access
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+          <p>Last Updated: XXXX</p>
+      </div>
+    </footer>
+
+        <script src="scripts/splash.js"></script>
+    </body>
+</html>

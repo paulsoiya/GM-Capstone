@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Admin- Manage Data</title>
+        <title>Admin- Manage Analytics</title>
 
 
         <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
@@ -43,10 +43,10 @@
             <div class="col-md-8"><h1>SocialGM: Admin</h1></div>
             <div class="col-md-4"> 
                 <ul class="nav nav-pills pillMarigin">
-                    <li role="presentation" class="active">
+                    <li role="presentation">
                         <a href="index.html">Manage Data</a>
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" class="active">
                         <a href="manage-analytics.html">Manage Analytics</a>
                     </li>
                     <li role="presentation">
@@ -62,25 +62,31 @@
      
         <div class="row">
             <div class="col-lg-5 grayBoxArea">
-                <h3>Data Pull Frequency</h3>
+              
+                <h3>User Data Access</h3>
                 <form id="dataAccessForm">
                     <select name="accessFrequency">
-                        <option>24 Hours</option>
+                        <option>6 Months</option>
                     </select>
                 </form>
-                <h3>Data Retention</h3>
-                <form id="topWordsForm">
-                    
+                <h3>Number of Top Words</h3>
+                <form id="numTomWordsForm">
+                    <select>
+                        <option>
+                            3
+                        </option>
+                    </select>
                 </form>
-                <h3>Data Statistics</h3>
-               
+                <h3>Query Statistics</h3>
                 
                
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-5 grayBoxArea">
-                <h3>Hash Tags</h3>
-               
+                <h3>Explicit Content</h3>
+                <h3>Makes, Models, Years</h3>
+                   
+              
             </div>
         </div>
         
