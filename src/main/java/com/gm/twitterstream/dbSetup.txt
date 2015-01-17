@@ -1,0 +1,14 @@
+USE testGM
+
+DROP TABLE IF EXISTS filterquery;
+
+CREATE TABLE filterquery(
+	filterid INT NOT NULL,
+	makes varchar(128),
+	models varchar(128),
+	years varchar(128),
+	alternates varchar(128),
+	PRIMARY KEY(filterid)
+);
+
+insert into filterquery values(0, 'generalmotors,chevrolet,gmc,buick,cadillac', 'equinox,cruze,camero,corvette,malibu,silverado,sierra,acadia,yukon,lacrosse,verano,escalade', '2012,2013,2014,2015', 'caddy,chevy');
