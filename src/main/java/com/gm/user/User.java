@@ -49,7 +49,8 @@ public class User implements Serializable{
     public User() { }
    
     public User(long id, String email, String password, String salt, 
-            boolean admin, String firstName, String lastName, Timestamp createDate) {
+            boolean admin, String firstName, String lastName, 
+            Timestamp createDate) {
         this.id = id;
         this.email = email;
         this.password = password;

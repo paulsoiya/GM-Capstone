@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Admin- Manage Data</title>
+        <title>User- Queries</title>
 
 
         <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
@@ -32,24 +32,24 @@
           </a>
         </div>
           <div class="paddingTop alignRight">
-              Welcome, Admin | <a href="">Logout</a>
+              Welcome, User | <a href="">Logout</a>
           </div>
       </div>
     </nav>
     <div class="secondNavBar">
         
         <div class="row">
-            <div class="col-md-8"><h1>SocialGM: Admin</h1></div>
+            <div class="col-md-8"><h1>SocialGM</h1></div>
             <div class="col-md-4"> 
                 <ul class="nav nav-pills pillMarigin">
                     <li role="presentation" class="active">
-                        <a href="index.html">Manage Data</a>
+                        <a href="queries.html">Queries</a>
                     </li>
                     <li role="presentation">
-                        <a href="manage-analytics.html">Manage Analytics</a>
+                        <a href="compare.html">Compare</a>
                     </li>
                     <li role="presentation">
-                        <a href="manage-users.html">Manage Users</a>
+                        <a href="index.html">Profile</a>
                     </li>
                 </ul>
             </div>
@@ -61,46 +61,55 @@
      
         <div class="row">
             <div class="col-lg-5 grayBoxArea">
-                <h3>Data Pull Frequency</h3>
-                <form class="form-inline" id="dataAccessForm">
+                <h3>Your Profile</h3>
+                <form class="form-horizontal">
                 <div class="form-group">
-              
-                    <select class="form-control"
-                            name="accessFrequency" 
-                            style="width:200px">
-                        <option>24 Hours</option>
-                    </select>
+                    <label for="inputEmail3" class="col-sm-3 control-label">First name</label>
+                    <div class="col-sm-9">
+                        <input type="text" 
+                               class="form-control"
+                               id="inputEmail3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Last name</label>
+                    <div class="col-sm-9">
+                        <input type="email" 
+                               class="form-control"
+                               id="inputEmail3">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" 
+                               class="form-control"
+                               id="inputEmail3">
+                    </div>
+                </div>
+                <div class="form-group">
+                <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+                    <div class="col-sm-9">
+                        <input type="password" 
+                               class="form-control" 
+                               id="inputPassword3">
+                    </div>
+                </div>
                     
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Update
-                    </button>
+                <div class="form-group">
+                    <div class="col-sm-offset-8 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
                 </div>
                 </form>
-                <h3>Data Retention</h3>
-                <form class="form-inline" id="dataRetentionForm">
-                <div class="form-group">
-              
-                    <select class="form-control"
-                            name="top-words" 
-                            style="width:200px">
-                        <option value="6">6 Months</option>
-                    </select>
-                    
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
-                </form>
-                <h3>Data Statistics</h3>
+             
                 
                 
                
             </div>
             <div class="col-lg-1"></div>
             <div class="col-lg-5 grayBoxArea">
-                <h3>Hash Tags</h3>
+                <h3>Saved Searches</h3>
                
             </div>
         </div>
@@ -114,6 +123,6 @@
       </div>
     </footer>
 
-       
+        
     </body>
 </html>
