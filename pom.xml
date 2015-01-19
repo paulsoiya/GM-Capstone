@@ -32,6 +32,7 @@
             <artifactId>json</artifactId>
             <version>20141113</version>
         </dependency>
+        
         <dependency>
             <groupId>com.oracle.toplink</groupId>
             <artifactId>javax.persistence</artifactId>
@@ -49,6 +50,7 @@
             <artifactId>toplink-dataservices-web</artifactId>
             <version>12.1.2-0-0</version>
         </dependency>
+        
     </dependencies>
 
     <build>

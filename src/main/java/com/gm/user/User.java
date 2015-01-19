@@ -12,13 +12,13 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.sql.Timestamp;
 
-
-
-
+ 
 @Entity 
 public class User implements Serializable{
     
@@ -36,19 +36,20 @@ public class User implements Serializable{
     @Column(name="is_admin")
     private boolean admin;
     
-    @Column(name = "FNAME")
+    @Column(name = "fname")
     private String firstName;
     
     @Column(name = "lname")
     private String lastName;
     
-    @Column(name = "create_date")
-    private Date createDate;
+    @Column(name = "create_date") 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp createDate;
 
     public User() { }
    
     public User(long id, String email, String password, String salt, 
-            boolean admin, String firstName, String lastName, Date createDate) {
+            boolean admin, String firstName, String lastName, Timestamp createDate) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -58,6 +59,18 @@ public class User implements Serializable{
         this.lastName = lastName;
         this.createDate = createDate;
     }
+
+    public User(String email, String password, String salt, boolean admin,
+            String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
+        this.admin = admin;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    
+    
     
     public long getId() {
         return id;
@@ -119,9 +132,8 @@ public class User implements Serializable{
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
-    
     
 }

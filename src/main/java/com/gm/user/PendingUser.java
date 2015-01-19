@@ -35,9 +35,29 @@ public class PendingUser implements Serializable {
     
     @Column(name="lname")
     private String lastName;
-    
-    
 
+    
+    public PendingUser() { } 
+    
+    public PendingUser(Long id, String email, String position, String reason,
+                       String firstName, String lastName) {
+        this.id = id;
+        this.email = email;
+        this.position = position;
+        this.reason = reason;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public PendingUser(String email, String position, String reason,
+                       String firstName, String lastName) {
+        this.email = email;
+        this.position = position;
+        this.reason = reason;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    
     public Long getId() {
         return id;
     }
