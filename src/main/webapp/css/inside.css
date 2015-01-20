@@ -72,3 +72,7 @@ h3{
 .pillMarigin{
     margin-top: 20px;
 }
+
+.nav>li>a:hover {
+background-color:#204d74;
+}
