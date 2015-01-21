@@ -16,3 +16,9 @@ GM-Capstone/
 │   	│	├── com/
 │   	│		├── gm/ (The java files will be here in separate packages)
 │ 	├── webapp (HTML/CSS/Javascript files will be here)
+|   ├── resources
+|   	├── META-INF (Contains the persistence.xml file used for defining persistence units)
+|   	├── SQL (Contains the database model and SQL files)
+
+
+

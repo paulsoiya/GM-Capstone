@@ -16,10 +16,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.sql.Timestamp;
-
+import javax.xml.bind.annotation.XmlRootElement;
  
-@Entity 
+@Entity @XmlRootElement
 public class User implements Serializable{
     
     private static final long serialVersionUID = 1L;
@@ -42,15 +41,14 @@ public class User implements Serializable{
     @Column(name = "lname")
     private String lastName;
     
-    @Column(name = "create_date") 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp createDate;
+    @Column(name = "create_date")  @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
 
     public User() { }
    
     public User(long id, String email, String password, String salt, 
             boolean admin, String firstName, String lastName, 
-            Timestamp createDate) {
+            Date createDate) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -69,6 +67,7 @@ public class User implements Serializable{
         this.admin = admin;
         this.firstName = firstName;
         this.lastName = lastName;
+        
     }
     
     
@@ -133,7 +132,7 @@ public class User implements Serializable{
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
     

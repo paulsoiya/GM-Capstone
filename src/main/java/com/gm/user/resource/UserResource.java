@@ -6,7 +6,8 @@
  */
 package com.gm.user.resource;
 
-import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -18,32 +19,48 @@ import javax.ws.rs.QueryParam;
 import java.util.List;
 
 import com.gm.user.User;
-import com.gm.user.service.UserDao;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-@Path("/api/user")
+@Stateless
+@LocalBean
+@Path("/api/users")
 public class UserResource {
     
-    @EJB
-    private UserDao userDao;
+    @PersistenceContext(unitName="mydb")
+    EntityManager em;
     
     @GET @Produces("application/json")
     public List<User> getAll(){
-        return userDao.retrieveAllUsers();
+       
+        Query query = em.createQuery("SELECT u from User u", User.class);
+        
+        return query.getResultList();
+        
     }
-    
+   
     @POST @Produces("application/json")
-    public User createUser(@QueryParam("email") String email,
+    public void createUser(@QueryParam("email") String email,
                            @QueryParam("password") String password,
                            @QueryParam("first_name") String firstName,
                            @QueryParam("last_name") String lastName){
         
-       return userDao.createUser(email, password, false, firstName,
-                                 lastName);
+        
+       String salt = ""; // this will be replaced by the hashing function
+       User user = new User(email, password, salt, false, firstName, lastName); 
+        
+       em.persist(user);
     }
     
     @DELETE @Path("/{id}")
     public void deleteUser(@PathParam("id") long id){
-        userDao.deleteUser(id);
+        em.remove(em.find(User.class, id));
+    }
+    
+    @PUT @Path("/{id}")
+    public void updateUser(@PathParam("id") long id){
+        
     }
     
 }
