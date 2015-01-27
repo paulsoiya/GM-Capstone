@@ -19,7 +19,7 @@ public class Twit {
   		
   		try { 
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
-   			dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "cst316");
+   			dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "digiocean2@");
    			statement = dbConn.createStatement();
    			resultSet = statement.executeQuery("SELECT * FROM filterquery WHERE filterid = 0");
    			
