@@ -11,7 +11,7 @@
         $years = '2001';
         $alternates= 'caddy';
         //
-        $dao.setFilterQuery($makes, $models, $years, $alternates);
+        $dao->setFilterQuery($makes, $models, $years, $alternates);
     }
 ?>
     <head>
@@ -132,7 +132,7 @@
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                     <!-- right here will need to be display and collection of hashtags to be pushed into db -->
-                    <button class="btn btn-primary" onclick><a href="index.php?sethashtags=true">Set Hashtags</a></button>
+                    <button class="btn btn-primary" onclick><a href="index.php?sethashtags=true">Apply Hashtags</a></button>
                 </form>
             </div>
         </div>
