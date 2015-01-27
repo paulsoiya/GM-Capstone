@@ -1,6 +1,6 @@
 <?php
 
-class BaseDao
+class adminDao
 {
 	protected $objectName;
 	protected $database;
@@ -73,25 +73,6 @@ class BaseDao
 
 	        print( "</tr>" ); 
 	    } // end for 
-	}
-
-	//@example: how to get associative array between column names and data
-	public function getAssocArray($result)
-	{
-		//headers
-		echo "<tr>";
-			echo "<td>gameID</td>";
-	    	echo "<td>team1</td>";
-		echo "</tr>";
-
-		//mysql_fetch_assoc creates 
-		while ($row = mysql_fetch_assoc($result)) 
-		{
-			echo "<tr>";
-			    echo "<td>" . $row['gameID'] . "</td>";
-			    echo "<td>" . $row['team1'] . "</td>";
-		    echo "</tr>";
-		}	
 	}
 
 	//This is mostly for test functions that need to do things like execute delete queries etc. Try not to use this method in non-test code
