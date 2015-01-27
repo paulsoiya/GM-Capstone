@@ -4,7 +4,7 @@
 <?php
     require_once('adminDao.php');
     if (isset($_GET['sethashtags'])) {
-        $dao = new BaseDao('filterquery');
+        $dao = new adminDao('filterquery');
         // test data
         $makes = 'chevy';
         $models = 'cruze';
