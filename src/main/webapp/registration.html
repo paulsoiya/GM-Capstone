@@ -73,43 +73,50 @@
                                 <input type="text" 
                                        class="form-control"
                                        placeholder="First name" 
-                                       name="fname">
+                                       name="first_name" 
+                                       id="first_name">
 
                                 <input type="text"
                                        class="form-control"
                                        placeholder="Last name"
-                                       name="lname">
+                                       name="last_name"
+                                       id="last_name">
                             </div>     
 
                             <div class="form-group formPadding">
                                 <input type="text" 
                                        class="form-control"
                                        placeholder="Email"
-                                       name="email">
+                                       name="email"
+                                       id="email">
 
                                 <input type="text" 
                                        class="form-control"
                                        placeholder="Confirm Email"
-                                       name="confirm_email">
+                                       name="confirm_email"
+                                       id="confirm_email">
                             </div>
                             
                             <div class="form-group formPadding">
-                                <input type="text" 
+                                <input type="password" 
                                        class="form-control"
                                        placeholder="Password"
-                                       name="password">
+                                       name="password"
+                                       id="password">
 
-                                <input type="text" 
+                                <input type="password" 
                                        class="form-control "
                                        placeholder="Confirm Password"
-                                       name="confirm_password">
+                                       name="confirm_password"
+                                       id="confirm_password">
                             </div>     
                             <div class="form-group formPadding">
                              
                                 <textarea 
                                        class="form-control"
                                        placeholder="What is your position at General Motors?"
-                                       name="position" 
+                                       name="position"
+                                       id="position"
                                        style="width:368px"></textarea>
                             </div>     
                             <br>
@@ -117,20 +124,19 @@
                                 <textarea 
                                        class="form-control"
                                        placeholder="Why do you need access to SocialGM?"
-                                       name="access"
+                                       name="reason"
+                                       id="reason"
                                        style="width:368px"></textarea>
                             </div>
                             <br>
                             <div class="form-group formPadding">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" 
+                                        class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
-
-
-
             </div>
             <hr>
 
@@ -138,6 +144,7 @@
                 <p>&copy; General Motors 2015</p>
             </footer>
         </div> <!-- /container -->
+        <script src="scripts/validation.js"></script>
         <script src="scripts/register.js"></script>
     </body>
 </html>

@@ -14,49 +14,67 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
-
-@Entity @Table(name="PENDING_USER")
+@Entity @Table(name="PENDING_USER") @XmlRootElement
 public class PendingUser implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id 
     private Long id;
     
     private String email;
     
+    private String password;
+    
+    private String salt;
+    
+    @Column(name="FNAME")
+    private String firstName;
+    
+    @Column(name="LNAME")
+    private String lastName;
+
     private String position;
     
     private String reason;
     
-    @Column(name="fname")
-    private String firstName;
-    
-    @Column(name="lname")
-    private String lastName;
-
+    @Column(name = "CREATE_DATE", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate = new Date();
     
     public PendingUser() { } 
     
-    public PendingUser(Long id, String email, String position, String reason,
+    public PendingUser(Long id, String email, String password, String salt, 
+                       String position, String reason,
                        String firstName, String lastName) {
         this.id = id;
         this.email = email;
+        this.password = password;
+        this.salt = salt;
         this.position = position;
         this.reason = reason;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public PendingUser(String email, String position, String reason,
-                       String firstName, String lastName) {
+    public PendingUser(String firstName, String lastName, String email, 
+                        String password, String salt, 
+                       String position, String reason) {
         this.email = email;
+        this.password = password;
+        this.salt = salt;
         this.position = position;
         this.reason = reason;
         this.firstName = firstName;
         this.lastName = lastName;
     }
+    
+    
     
     public Long getId() {
         return id;
@@ -74,6 +92,23 @@ public class PendingUser implements Serializable {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    
     public String getPosition() {
         return position;
     }
@@ -105,6 +140,15 @@ public class PendingUser implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    
     
     
 

@@ -25,7 +25,7 @@ import javax.persistence.Query;
 
 @Stateless
 @LocalBean
-@Path("/api/users")
+@Path("/users")
 public class UserResource {
     
     @PersistenceContext(unitName="mydb")

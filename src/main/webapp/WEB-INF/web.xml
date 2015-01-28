@@ -22,11 +22,12 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>jersey</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     <persistence-context-ref>
         <persistence-context-ref-name>persistence/em</persistence-context-ref-name>
         <persistence-unit-name>mydb</persistence-unit-name>
     </persistence-context-ref>
-
+    
+    
 </web-app>
