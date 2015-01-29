@@ -9,7 +9,16 @@ GMAdminApp.controller('ManageUsersController',
     
     //fill the users table
     $http.get('../api/users').success(function(data) {
-        $scope.cusers = data.user;
+        
+        //change boolean value for admin to 
+        //textual representation of user role
+        for(i = 0; i < data.user.length; i++){
+            if(data.user[i].admin == "true")
+                data.user[i].admin = "Admin";
+            else
+                data.user[i].admin = "User";
+        }
+        $scope.users = data.user;
     });
 
  
