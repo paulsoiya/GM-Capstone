@@ -6,12 +6,12 @@
     if (isset($_GET['sethashtags'])) {
         $dao = new adminDao('filterquery');
         // test data
-        $makes = 'chevy';
-        $models = 'cruze';
-        $years = '2001';
-        $alternates= 'caddy';
-        //
-        $dao->setFilterQuery($makes, $models, $years, $alternates);
+        // $makes = 'chevy';
+        // $models = 'cruze';
+        // $years = '2001';
+        // $alternates= 'caddy';
+        // //
+        // $dao->setFilterQuery($makes, $models, $years, $alternates);
     }
 ?>
     <head>
