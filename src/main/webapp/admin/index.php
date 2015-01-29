@@ -132,7 +132,7 @@
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                     <?php
-                        $result = adminDao->getFilterQuery();
+                        $result = $dao->getFilterQuery();
                         echo "<table>";
                         while($row = mysql_fetch_array($result)) {
                             echo "<tr>";
