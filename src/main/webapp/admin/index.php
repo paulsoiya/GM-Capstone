@@ -137,7 +137,7 @@
                 <?php
                     $result = $dao->getFilterQuery();
                     echo "<table>";
-                    while($row = mysql_fetch_array($result)) {
+                    while($row = mysql_fetch_assoc($result)) {
                         echo "<tr>";
                         echo "<td>" . $row['makes'] . "</td>";
                         echo "</tr>";
