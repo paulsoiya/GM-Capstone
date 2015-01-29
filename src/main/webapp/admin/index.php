@@ -139,11 +139,17 @@
                     echo "<table>";
                     while($row = mysql_fetch_array($result)) {
                         echo "<tr>";
-                        echo $row['makes'];
-                        echo $row['models'];
-                        echo $row['years'];
-                        echo $row['alternates'];
-                        echo "</tr>";  
+                        echo "<td>" . $row['makes'] . "</td>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>" . $row['models'] . "</td>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>" . $row['years'] . "</td>";
+                        echo "</tr>";
+                        echo "<tr>";
+                        echo "<td>" . $row['alternates'] . "</td>";
+                        echo "</tr>";
                     }
                     echo "</table>";
                 ?>
