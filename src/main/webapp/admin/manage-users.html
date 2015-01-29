@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="GMAdminApp">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,12 +13,14 @@
 
         <script src="../plugins/jquery/jquery-1.11.2.min.js"></script>
         <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-
+        <script src="../plugins/angular/angular.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../css/inside.css">
 
+        <script src="scripts/app.js"></script>
+        <script src="scripts/manage-users.js"></script>
        
     </head>
-    <body>
+    <body ng-controller="ManageUsersController">
 
         
     <!-- Fixed navbar -->
@@ -74,17 +76,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Paul Soiya</td>
-                                <td>psoiya@asu.edu</td>
-                                <td>Developer</td>
-                                <td>To view development work</td>
-                            </tr>
-                            <tr>
-                                <td>Sean McElroy</td>
-                                <td>sdmcelro@asu.edu</td>
-                                <td>Developer</td>
-                                <td>To view development work</td>
+                            <tr ng-repeat="puser in pusers">
+                                <td>{{puser.firstName}} {{puser.lastName}}</td>
+                                <td>{{puser.email}}</td>
+                                <td>{{puser.position}}</td>
+                                <td>{{puser.reason}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -109,16 +105,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Admin</td>
-                                <td>Becca Little</td>
-                                <td>rebecca.little@asu.edu</td>
-                            </tr>
-                            <tr>
-                                <td>User</td>
-                                <td>Vance Anderson</td>
-                                <td>vanceanderson41@gmail.com</td>
-                            </tr>
+                        <tr ng-repeat="cuser in cusers">
+                                <td>{{cuser.admin}}</td>
+                                <td>{{cuser.firstName}} {{cuser.lastName}}</td>
+                                <td>{{cuser.email}}</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -139,7 +130,6 @@
           <p>Last Data Update: XXXX</p>
       </div>
     </footer>
-
-        <script src="scripts/splash.js"></script>
+        
     </body>
 </html>

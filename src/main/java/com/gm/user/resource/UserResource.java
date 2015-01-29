@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.FormParam;
 import java.util.List;
 
 import com.gm.user.User;
@@ -51,6 +52,15 @@ public class UserResource {
        User user = new User(email, password, salt, false, firstName, lastName); 
         
        em.persist(user);
+    }
+    
+    @POST
+    @Path("/authenticate")
+    public void login(@FormParam("email") String email, @FormParam("password") 
+            String password){
+        
+        
+        
     }
     
     @DELETE @Path("/{id}")

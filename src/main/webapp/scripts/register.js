@@ -1,7 +1,7 @@
 $( "#registerForm" ).submit(function( event ) {
   event.preventDefault();
   
-  console.log("about to post");
+
   
   var postFields = {first_name: $("#first_name").val(),
                     last_name: $("#last_name").val(),
