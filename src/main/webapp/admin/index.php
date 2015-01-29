@@ -131,22 +131,22 @@
                                placeholder="Enter hashtag">
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
-                    <?php
-                        $result = $dao->getFilterQuery();
-                        echo "<table>";
-                        while($row = mysql_fetch_array($result)) {
-                            echo "<tr>";
-                            echo $row['makes'];
-                            echo $row['models'];
-                            echo $row['years'];
-                            echo $row['alternates'];
-                            echo "</tr>";  
-                        }
-                        echo "</table>";
-                    ?>
                     <!-- right here will need to be display and collection of hashtags to be pushed into db -->
                     <button class="btn btn-primary" onclick><a href="index.php?sethashtags=true">Apply Hashtags</a></button>
                 </form>
+                <?php
+                    $result = $dao->getFilterQuery();
+                    echo "<table>";
+                    while($row = mysql_fetch_array($result)) {
+                        echo "<tr>";
+                        echo $row['makes'];
+                        echo $row['models'];
+                        echo $row['years'];
+                        echo $row['alternates'];
+                        echo "</tr>";  
+                    }
+                    echo "</table>";
+                ?>
             </div>
         </div>
         
