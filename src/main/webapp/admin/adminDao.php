@@ -29,14 +29,12 @@ class adminDao
 	public function getFilterQUery()
 	{
 		$query = "select * from " . $this->objectName;
-		echo "Query is: " . $query . " <br />";
 
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{ 
 			print( "Could not execute query! <br />" ); 
 			die( mysql_error() . "</body></html>" ); 
 		} 
-		//echo "initial query is: " . $query;
 		return $result;
 	}
 
