@@ -121,10 +121,8 @@
                                name="hashtag" 
                                class="form-control"
                                placeholder="Enter hashtag">
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary">Add Make</button>
                     </div>
-                    <!-- right here will need to be display and collection of hashtags to be pushed into db -->
-                    <button class="btn btn-primary" onclick><a href="index.php?sethashtags=true">Apply Hashtags</a></button>
                 </form>
                 <?php
                     $result = $dao->getFilterQuery();
@@ -132,7 +130,7 @@
                    	$makes = preg_split('/[,]/', $row['makes']);
                     echo "<select>";
                     foreach($makes as $make) {
-                    	echo "<option value=" . $make . ">" . $make . "</option>";  
+                    	echo "<option value=" . $make . " selected>" . $make . "</option>";  
                     }
                     echo "</select class=\"form-control\">";
                     
