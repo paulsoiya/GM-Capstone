@@ -8,7 +8,7 @@
 
     $dao = new adminDao('filterquery');
     if(isset($_GET['newMake'])) {
-    	$newMake = $_GET['newMake']);
+    	$newMake = $_GET['newMake'];
     }
 
     echo $newMake;
