@@ -150,7 +150,7 @@
                         echo "<tr>";
                         echo "<td>" . $row['models'] . "</td>";
                         echo "</tr>";
-                    	echo "<h3>Alternates</h3>"
+                    	echo "<h3>Alternates</h3>";
                         echo "<tr>";
                         echo "<td>" . $row['alternates'] . "</td>";
                         echo "</tr>";
