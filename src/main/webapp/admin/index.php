@@ -125,12 +125,10 @@
                     </div>
                 </form>
                 <select class="form-control">
-
                 <?php
                     $result = $dao->getFilterQuery();
                     $row = mysql_fetch_assoc($result);
                    	$makes = preg_split('/[,]/', $row['makes']);
-                    echo "<select \"form-control\" onchange=\"index.php?make=value\">";
                     foreach($makes as $make) {
                     	echo "<option value=" . $make . " selected>" . $make . "</option>";  
                     }
