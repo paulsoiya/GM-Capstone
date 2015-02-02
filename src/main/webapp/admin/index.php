@@ -3,16 +3,8 @@
 <html lang="en">
 <?php
     require_once('adminDao.php');
-    if (isset($_GET['sethashtags'])) {
-        $dao = new adminDao('filterquery');
-        // test data
-        // $makes = 'chevy';
-        // $models = 'cruze';
-        // $years = '2001';
-        // $alternates= 'caddy';
-        // //
-        // $dao->setFilterQuery($makes, $models, $years, $alternates);
-    }
+    
+    $dao = new adminDao('filterquery');
 ?>
     <head>
         <meta charset="utf-8">
@@ -142,20 +134,15 @@
                     foreach($makes as $make) {
                     	echo "<option value=" . $make . ">" . $make . "</option>";  
                     }
-                    echo "</select>";
-                    echo "<table>";
+                    echo "</select class=\"form-control\">";
+                    
                     mysql_data_seek($result, 0);
                     while($row = mysql_fetch_assoc($result)) {
                         echo "<h3>Models</h3>";
-                        echo "<tr>";
-                        echo "<td>" . $row['models'] . "</td>";
-                        echo "</tr>";
+                        echo $row['models'];
                     	echo "<h3>Alternates</h3>";
-                        echo "<tr>";
-                        echo "<td>" . $row['alternates'] . "</td>";
-                        echo "</tr>";
+                        echo $row['alternates'];
                     }
-                    echo "</table>";
                 ?>
             </div>
         </div>
