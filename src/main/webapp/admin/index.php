@@ -146,7 +146,7 @@
                     echo "<table>";
                     mysql_data_seek($result, 0);
                     while($row = mysql_fetch_assoc($result)) {
-                        echo "<h3>Models</h3>"
+                        echo "<h3>Models</h3>";
                         echo "<tr>";
                         echo "<td>" . $row['models'] . "</td>";
                         echo "</tr>";
