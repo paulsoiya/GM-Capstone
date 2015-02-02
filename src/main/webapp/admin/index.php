@@ -124,6 +124,8 @@
                         <button type="submit" class="btn btn-primary">Add Make</button>
                     </div>
                 </form>
+                <select class="form-control">
+
                 <?php
                     $result = $dao->getFilterQuery();
                     $row = mysql_fetch_assoc($result);
@@ -132,7 +134,9 @@
                     foreach($makes as $make) {
                     	echo "<option value=" . $make . " selected>" . $make . "</option>";  
                     }
-                    echo "</select>";
+                ?>
+                </select>
+                <?php
                     
                     mysql_data_seek($result, 0);
                     while($row = mysql_fetch_assoc($result)) {
