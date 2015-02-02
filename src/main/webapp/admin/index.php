@@ -4,10 +4,14 @@
 <?php
     require_once('adminDao.php');
     
+    $newMake = "";
+
     $dao = new adminDao('filterquery');
     if(isset($_GET['newMake'])) {
     	$newMake = $_GET['newMake']);
     }
+
+    echo $newMake;
 
 
 
@@ -167,7 +171,7 @@
     </body>
     <script>
     	function newMakeSelected(val) {
-    		window.location.href='index.php?newMake=' + val
+    		window.location.href='index.php?newMake=' + val;
     	}
     </script>
 </html>
