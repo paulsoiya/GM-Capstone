@@ -5,6 +5,13 @@
     require_once('adminDao.php');
     
     $dao = new adminDao('filterquery');
+    if(isset($_GET['newMake'])) {
+    	$newMake = $_GET['newMake']);
+    }
+
+
+
+
 ?>
     <head>
         <meta charset="utf-8">
@@ -124,7 +131,7 @@
                         <button type="submit" class="btn btn-primary">Add Make</button>
                     </div>
                 </form>
-                <select class="form-control">
+                <select class="form-control" onchange="newMakeSelected(this.value)">
                 <?php
                     $result = $dao->getFilterQuery();
                     $row = mysql_fetch_assoc($result);
@@ -158,4 +165,9 @@
 
        
     </body>
+    <script>
+    	function newMakeSelected(val) {
+    		window.location.href='index.php?newMake=' + val
+    	}
+    </script>
 </html>
