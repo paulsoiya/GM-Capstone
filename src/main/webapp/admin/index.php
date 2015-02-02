@@ -140,21 +140,17 @@
                    	$makes = preg_split('/[,]/', $row['makes']);
                     echo "<select>";
                     foreach($makes as $make) {
-                    	echo "<option value=" . $$make . ">" . $make . "</option>";  
+                    	echo "<option value=" . $make . ">" . $make . "</option>";  
                     }
                     echo "</select>";
                     echo "<table>";
                     mysql_data_seek($result, 0);
                     while($row = mysql_fetch_assoc($result)) {
-                        echo "<tr>";
-                        echo "<td>" . $row['makes'] . "</td>";
-                        echo "</tr>";
+                        echo "<h3>Models</h3>"
                         echo "<tr>";
                         echo "<td>" . $row['models'] . "</td>";
                         echo "</tr>";
-                        echo "<tr>";
-                        echo "<td>" . $row['years'] . "</td>";
-                        echo "</tr>";
+                    	echo "<h3>Alternates</h3>"
                         echo "<tr>";
                         echo "<td>" . $row['alternates'] . "</td>";
                         echo "</tr>";
