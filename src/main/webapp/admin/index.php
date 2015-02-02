@@ -128,11 +128,11 @@
                     $result = $dao->getFilterQuery();
                     $row = mysql_fetch_assoc($result);
                    	$makes = preg_split('/[,]/', $row['makes']);
-                    echo "<select>";
+                    echo "<select \"form-control\">";
                     foreach($makes as $make) {
                     	echo "<option value=" . $make . " selected>" . $make . "</option>";  
                     }
-                    echo "</select class=\"form-control\">";
+                    echo "</select>";
                     
                     mysql_data_seek($result, 0);
                     while($row = mysql_fetch_assoc($result)) {
