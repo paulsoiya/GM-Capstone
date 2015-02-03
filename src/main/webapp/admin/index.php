@@ -141,7 +141,7 @@
                     $row = mysql_fetch_assoc($result);
                    	$makes = preg_split('/[,]/', $row['makes']);
                     foreach($makes as $make) {
-                    	echo "<option value=" . $make . " selected>" . $make . "</option>";  
+                    	echo "<option value=" . $make . " " . ($make == $newMake ? "selected>" : ">") . $make . "</option>";  
                     }
                 ?>
                 </select>
