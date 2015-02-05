@@ -149,7 +149,7 @@
                     
                     mysql_data_seek($result, 0);
                     while($row = mysql_fetch_assoc($result)) {
-                        echo "<h3>Models</h3>";
+                        echo "<h3>Models</h3><input type=\"button\">Add Model</input>";
                         echo $row['models'];
                     	echo "<h3>Alternates</h3>";
                         echo $row['alternates'];
