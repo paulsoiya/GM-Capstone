@@ -4,12 +4,12 @@
 <?php
     require_once('adminDao.php');
     
-    $newMake = "";
+    // $newMake = "";
 
-    $dao = new adminDao('filterquery');
-    if(isset($_GET['newMake'])) {
-    	$newMake = $_GET['newMake'];
-    }
+    // $dao = new adminDao('filterquery');
+    // if(isset($_GET['newMake'])) {
+    // 	$newMake = $_GET['newMake'];
+    // }
    //  else {
    //  	$newMake = "chevrolet";
    //  }
