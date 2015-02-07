@@ -148,14 +148,14 @@
                     }
                 ?>
                 </select>
-                <h3>Models<button class="btn btn-primary" type="button" onClick="newMakeSelected('" <?php echo $newMake; ?>"'')">Add Model</button><input type="text" name="newModel"></input></h3>
                 <?php
+                	echo '<h3>Models<button class="btn btn-primary" type="button" onClick="newMakeSelected(' . $newMake . ')">Add Model</button><input type="text" name="newModel"></input></h3>'
+                
                     while($row = mysql_fetch_assoc($models)) {
                         echo $row['models'];
                     }
-                ?>
-                <h3>Alternates<button class="btn btn-primary" type="button" onClick="newMakeSelected('"<?php echo $newMake; ?>"')">Add Alternate</button><input type="text" name="newAlternate"></input></h3>
-                <?php
+                	echo '<h3>Alternates<button class="btn btn-primary" type="button" onClick="newMakeSelected(' . $newMake . ')">Add Alternate</button><input type="text" name="newAlternate"></input></h3>'
+               
                 	while($row = mysql_fetch_assoc($alternates)) {
                         echo $row['alternates'];
                     }
