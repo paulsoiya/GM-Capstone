@@ -14,9 +14,9 @@
     	$newMake = "chevrolet";
     }
 
-   //  $result = $dao->getMakeFilterQuery();
-  	// $models = $dao->getModelsFilterQuery($newMake);
-  	// $alternates = $dao->getAlternatesFilterQuery($newMake);
+    $result = $dao->getMakeFilterQuery();
+  	$models = $dao->getModelsFilterQuery($newMake);
+  	$alternates = $dao->getAlternatesFilterQuery($newMake);
 
 ?>
     <head>
