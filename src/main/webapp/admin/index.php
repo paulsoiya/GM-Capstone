@@ -16,7 +16,7 @@
 
     $result = $dao->getMakeFilterQuery();
   	$models = $dao->getModelsFilterQuery($newMake);
-  	$alternates = $dao->getAlternatesFilterQuery($model);
+  	$alternates = $dao->getAlternatesFilterQuery($newMake);
 
 ?>
     <head>
@@ -148,11 +148,11 @@
                 </select>
                 <h3>Models<input type="button" value="Add Model"></input></h3>
                 <?php
-                    while($row = mysql_fetch_assoc($model)) {
+                    while($row = mysql_fetch_assoc($models)) {
                         echo $row['models'];
                     }
                 ?>
-                <h3>Models<input type="button" value="Add Model"></input></h3>
+                <h3>Alternates<input type="button" value="Add Alternate"></input></h3>
                 <?php
                 	while($row = mysql_fetch_assoc($alternates)) {
                         echo $row['alternates'];

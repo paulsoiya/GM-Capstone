@@ -43,8 +43,8 @@ class adminDao
 		return $query;
 	}
 
-	public function getAlternatesFilterQuery($model) {
-		$query = "select * from filterqueryalternates where model=" . $model;
+	public function getAlternatesFilterQuery($make) {
+		$query = "select * from filterqueryalternates where make=" . $make;
 		return $query;
 	}
 
