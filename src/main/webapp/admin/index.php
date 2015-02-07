@@ -13,11 +13,6 @@
     else {
     	$newMake = "chevrolet";
     }
-
-    $result = $dao->getMakeFilterQuery();
-  	$models = $dao->getModelsFilterQuery($newMake);
-  	$alternates = $dao->getAlternatesFilterQuery($newMake);
-
 ?>
     <head>
         <meta charset="utf-8">
@@ -138,6 +133,7 @@
                 </form>
                 <select class="form-control" onchange="newMakeSelected(this.value)">
                 <?php
+               		$result = $dao->getMakeFilterQuery();
                     $row = mysql_fetch_assoc($result);
                    	$makes = preg_split('/[,]/', $row['makes']);
                     foreach($makes as $make) {
@@ -147,12 +143,14 @@
                 </select>
                 <h3>Models<input type="button" value="Add Model"></input></h3>
                 <?php
+  					$models = $dao->getModelsFilterQuery($newMake);
                     while($row = mysql_fetch_assoc($models)) {
                         echo $row['models'];
                     }
                 ?>
                 <h3>Alternates<input type="button" value="Add Alternate"></input></h3>
                 <?php
+                	$alternates = $dao->getAlternatesFilterQuery($newMake);
                 	while($row = mysql_fetch_assoc($alternates)) {
                         echo $row['alternates'];
                     }
