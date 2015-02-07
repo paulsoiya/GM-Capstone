@@ -39,7 +39,7 @@ class adminDao
 	}
 
 	public function getModelsFilterQuery($make) {
-		$query = "select * from filterquerymodels where make=" . $make;
+		$query = "select * from filterquerymodels where make='" . $make . "'";
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{ 
 			print( "Could not execute query! <br />" ); 
@@ -49,7 +49,7 @@ class adminDao
 	}
 
 	public function getAlternatesFilterQuery($make) {
-		$query = "select * from filterqueryalternates where make=" . $make;
+		$query = "select * from filterqueryalternates where make='" . $make "'";
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{ 
 			print( "Could not execute query! <br />" ); 
