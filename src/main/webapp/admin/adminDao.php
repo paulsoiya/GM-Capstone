@@ -26,7 +26,7 @@ class adminDao
 		}
 	}
 
-	public function getMakeFilterQUery($make)
+	public function getMakeFilterQuery($make)
 	{
 		$query = "select * from filterquerymakes where make=" . $make;
 

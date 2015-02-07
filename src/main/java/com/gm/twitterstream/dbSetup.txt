@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS filterqueryalternates;
 
 CREATE TABLE filterquerymakes(
 	filterid INT NOT NULL,
-	makes varchar(128),
+	make varchar(128),
 	PRIMARY KEY(filterid)
 );
 
