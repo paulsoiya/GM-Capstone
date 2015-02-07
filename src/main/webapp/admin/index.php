@@ -11,7 +11,7 @@
     	$newMake = $_GET['newMake'];
     }
     else {
-    	$newMake = "generalmotors";
+    	$newMake = "chevrolet";
     }
 
     $result = $dao->getMakeFilterQuery();
