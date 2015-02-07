@@ -49,7 +49,7 @@ class adminDao
 	}
 
 	public function getAlternatesFilterQuery($make) {
-		$query = "select * from filterqueryalternates where make=\"" . $make "\"";
+		$query = "select * from filterqueryalternates where make='" . $make . "'";
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{ 
 			print( "Could not execute query! <br />" ); 
