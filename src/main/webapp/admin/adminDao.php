@@ -55,7 +55,7 @@ class adminDao
 			print( "Could not execute query! <br />" ); 
 			die( mysql_error() . "</body></html>" ); 
 		} 
-		return $query;
+		return $result;
 	}
 
 	// assumes that the paramaters passed are well formed csv
