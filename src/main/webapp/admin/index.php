@@ -18,8 +18,8 @@
 	$models = $dao->getModelsFilterQuery($newMake);
     $alternates = $dao->getAlternatesFilterQuery($newMake);
 
-    $models .= $_POST('newModel');
-    $alternates .= $_POST('newAlternate');
+    $models .= $_POST['newModel'];
+    $alternates .= $_POST['newAlternate'];
 
 ?>
     <head>
@@ -149,13 +149,11 @@
                 ?>
                 </select>
                 <?php
-                	echo '<h3>Models<button class="btn btn-primary" type="button" onClick="newMakeSelected(' . $newMake . ')">Add Model</button><input type="text" name="newModel"></input></h3>'
-                
+                	echo '<h3>Models<button class="btn btn-primary" type="button" onClick="newMakeSelected(' . $newMake . ')">Add Model</button><input type="text" name="newModel"></input></h3>';
                     while($row = mysql_fetch_assoc($models)) {
                         echo $row['models'];
                     }
-                	echo '<h3>Alternates<button class="btn btn-primary" type="button" onClick="newMakeSelected(' . $newMake . ')">Add Alternate</button><input type="text" name="newAlternate"></input></h3>'
-               
+                	echo '<h3>Alternates<button class="btn btn-primary" type="button" onClick="newMakeSelected(' . $newMake . ')">Add Alternate</button><input type="text" name="newAlternate"></input></h3>';
                 	while($row = mysql_fetch_assoc($alternates)) {
                         echo $row['alternates'];
                     }
