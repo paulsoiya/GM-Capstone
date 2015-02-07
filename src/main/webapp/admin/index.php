@@ -13,6 +13,14 @@
     else {
     	$newMake = "chevrolet";
     }
+
+    $result = $dao->getMakeFilterQuery();
+	$models = $dao->getModelsFilterQuery($newMake);
+    $alternates = $dao->getAlternatesFilterQuery($newMake);
+
+    $models .= $_POST('newModel');
+    $alternates .= $_POST('newAlternate');
+
 ?>
     <head>
         <meta charset="utf-8">
@@ -133,7 +141,6 @@
                 </form>
                 <select class="form-control" onchange="newMakeSelected(this.value)">
                 <?php
-               		$result = $dao->getMakeFilterQuery();
                     $row = mysql_fetch_assoc($result);
                    	$makes = preg_split('/[,]/', $row['makes']);
                     foreach($makes as $make) {
@@ -143,14 +150,12 @@
                 </select>
                 <h3>Models<button class="btn btn-primary" type="button" onclick="newMakeSelected("<?php echo $newMake ?>")">Add Model</button><input type="text" name="newModel"></input></h3>
                 <?php
-  					$models = $dao->getModelsFilterQuery($newMake);
                     while($row = mysql_fetch_assoc($models)) {
                         echo $row['models'];
                     }
                 ?>
                 <h3>Alternates<button class="btn btn-primary" type="button" onclick="newMakeSelected("<?php echo $newMake ?>")">Add Alternate</button><input type="text" name="newAlternate"></input></h3>
                 <?php
-                	$alternates = $dao->getAlternatesFilterQuery($newMake);
                 	while($row = mysql_fetch_assoc($alternates)) {
                         echo $row['alternates'];
                     }
