@@ -26,9 +26,9 @@ class adminDao
 		}
 	}
 
-	public function getFilterQUery()
+	public function getMakeFilterQUery($make)
 	{
-		$query = "select * from " . $this->objectName;
+		$query = "select * from filterquerymakes where make=" . $make;
 
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{ 
@@ -36,6 +36,16 @@ class adminDao
 			die( mysql_error() . "</body></html>" ); 
 		} 
 		return $result;
+	}
+
+	public function getModelsFilterQuery($make) {
+		$query = "select * from filterquerymodels where make=" . $make;
+		return $query;
+	}
+
+	public function getAlternatesFilterQuery($model) {
+		$query = "select * from filterqueryalternates where model=" . $model;
+		return $query;
 	}
 
 	// assumes that the paramaters passed are well formed csv
