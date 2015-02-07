@@ -8,22 +8,22 @@ class adminDao
 	public function __construct($objName)
 	{
 		$this->objectName = strtolower($objName);
-		// Connect to MySQL 
-		$properties = parse_ini_file("properties.ini");
+		// // Connect to MySQL 
+		// $properties = parse_ini_file("properties.ini");
 
-		//Do not instantiate multiple connections to database
-		if ( $this->database == null)
-		{
-			if ( !( $this->database = mysql_connect( $properties["dbUrl"], $properties["username"], $properties["password"] ) ) ) 
-			{
-				echo "<p> Be sure to fill out information in the properties.ini file </p>";
-				die( "Could not connect to database </body></html>" ); 
-			} 
+		// //Do not instantiate multiple connections to database
+		// if ( $this->database == null)
+		// {
+		// 	if ( !( $this->database = mysql_connect( $properties["dbUrl"], $properties["username"], $properties["password"] ) ) ) 
+		// 	{
+		// 		echo "<p> Be sure to fill out information in the properties.ini file </p>";
+		// 		die( "Could not connect to database </body></html>" ); 
+		// 	} 
 
-			// open our database 
-			if ( !mysql_select_db( $properties["dbName"], $this->database ) ) 
-				die( "Could not open the database </body></html>" ); 
-		}
+		// 	// open our database 
+		// 	if ( !mysql_select_db( $properties["dbName"], $this->database ) ) 
+		// 		die( "Could not open the database </body></html>" ); 
+		// }
 	}
 
 	// public function getMakeFilterQuery()
