@@ -4,17 +4,17 @@
 <?php
     require_once('adminDao.php');
     
-    // $newMake = "";
+    $newMake = "";
 
-    // $dao = new adminDao('filterquery');
-    // if(isset($_GET['newMake'])) {
-    // 	$newMake = $_GET['newMake'];
-    // }
-   //  else {
-   //  	$newMake = "chevrolet";
-   //  }
+    $dao = new adminDao('filterquery');
+    if(isset($_GET['newMake'])) {
+    	$newMake = $_GET['newMake'];
+    }
+    else {
+    	$newMake = "chevrolet";
+    }
 
-   //  $result = $dao->getMakeFilterQuery();
+    $result = $dao->getMakeFilterQuery();
   	// $models = $dao->getModelsFilterQuery($newMake);
   	// $alternates = $dao->getAlternatesFilterQuery($newMake);
 
