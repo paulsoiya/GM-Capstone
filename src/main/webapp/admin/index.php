@@ -14,9 +14,9 @@
     	$newMake = "chevrolet";
     }
 
-    $result = $dao->getMakeFilterQuery();
-  	$models = $dao->getModelsFilterQuery($newMake);
-  	$alternates = $dao->getAlternatesFilterQuery($newMake);
+   //  $result = $dao->getMakeFilterQuery();
+  	// $models = $dao->getModelsFilterQuery($newMake);
+  	// $alternates = $dao->getAlternatesFilterQuery($newMake);
 
 ?>
     <head>
@@ -76,7 +76,6 @@
 
     <!-- Begin page content -->
     <div class="container">
-     
         <div class="row">
             <div class="col-lg-5 grayBoxArea">
                 <h3>Data Pull Frequency</h3>
@@ -160,8 +159,6 @@
                 ?>
             </div>
         </div>
-        
-        
     </div>
 
     <footer class="footer">

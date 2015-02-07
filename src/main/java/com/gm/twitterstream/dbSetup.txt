@@ -19,7 +19,7 @@ CREATE TABLE filterquerymodels(
 CREATE TABLE filterqueryalternates(
 	make varchar(128) NOT NULL,
 	alternates varchar(128),
-	PRIMARY KEY(model)	
+	PRIMARY KEY(make)	
 );
 
 insert into filterquerymakes values(0, 'generalmotors,chevrolet,gmc,buick,cadillac');
