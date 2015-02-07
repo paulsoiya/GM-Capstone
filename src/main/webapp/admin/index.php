@@ -145,7 +145,7 @@
                     }
                 ?>
                 </select>
-                <h3>Models<input type="button">Add Model</input></h3>
+                <h3>Models<input type="button" value="Add Model"></input></h3>
 
                 <?php
                     
