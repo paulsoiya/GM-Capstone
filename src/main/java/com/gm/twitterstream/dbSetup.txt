@@ -24,4 +24,4 @@ CREATE TABLE filterqueryalternates(
 
 insert into filterquerymakes values(0, 'generalmotors,chevrolet,gmc,buick,cadillac');
 insert into filterquerymodels values('chevrolet', 'equinox,cruze,camero,corvette,malibu,silverado,sierra,acadia,yukon,lacrosse,verano,escalade');
-insert into filterqueryalternates values ('corvette', 'vette,chevy');
+insert into filterqueryalternates values ('chevrolet', 'vette,chevy');
