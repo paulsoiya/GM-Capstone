@@ -40,11 +40,21 @@ class adminDao
 
 	public function getModelsFilterQuery($make) {
 		$query = "select * from filterquerymodels where make=" . $make;
-		return $query;
+		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+		{ 
+			print( "Could not execute query! <br />" ); 
+			die( mysql_error() . "</body></html>" ); 
+		} 
+		return $result;
 	}
 
 	public function getAlternatesFilterQuery($make) {
 		$query = "select * from filterqueryalternates where make=" . $make;
+		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+		{ 
+			print( "Could not execute query! <br />" ); 
+			die( mysql_error() . "</body></html>" ); 
+		} 
 		return $query;
 	}
 
