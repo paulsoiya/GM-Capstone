@@ -141,14 +141,14 @@
                     }
                 ?>
                 </select>
-                <h3>Models<input type="button" value="Add Model"></input></h3>
+                <h3>Models<button class="btn btn-primary" type="button" value="Add Model"></button><input type="text" name="newModel"></input></h3>
                 <?php
   					$models = $dao->getModelsFilterQuery($newMake);
                     while($row = mysql_fetch_assoc($models)) {
                         echo $row['models'];
                     }
                 ?>
-                <h3>Alternates<input type="button" value="Add Alternate"></input></h3>
+                <h3>Alternates<button class="btn btn-primary" type="button" value="Add Alternate" onclick="newMakeSelected("<?php echo $newMake ?>")"></button><input type="text" name="newAlternate"></input></h3>
                 <?php
                 	$alternates = $dao->getAlternatesFilterQuery($newMake);
                 	while($row = mysql_fetch_assoc($alternates)) {
