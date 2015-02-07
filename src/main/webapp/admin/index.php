@@ -15,8 +15,8 @@
     }
 
     $result = $dao->getMakeFilterQuery();
-  	// $models = $dao->getModelsFilterQuery($newMake);
-  	// $alternates = $dao->getAlternatesFilterQuery($newMake);
+  	$models = $dao->getModelsFilterQuery($newMake);
+  	$alternates = $dao->getAlternatesFilterQuery($newMake);
 
 ?>
     <head>

@@ -26,36 +26,36 @@ class adminDao
 		}
 	}
 
-	public function getMakeFilterQuery()
-	{
-		$query = "select * from filterquerymakes";
+	// public function getMakeFilterQuery()
+	// {
+	// 	$query = "select * from filterquerymakes";
 
-		if(!($result = mysql_query( $query, $this->database))) 
-		{ 
-			print( "Could not execute query! <br />" ); 
-			die( mysql_error() . "</body></html>" ); 
-		} 
-		return $result;
-	}
+	// 	if(!($result = mysql_query( $query, $this->database))) 
+	// 	{ 
+	// 		print( "Could not execute query! <br />" ); 
+	// 		die( mysql_error() . "</body></html>" ); 
+	// 	} 
+	// 	return $result;
+	// }
 
-	public function getModelsFilterQuery($make) {
-		$query = "select * from filterquerymodels where make=\"" . $make . "\"";
-		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
-		{ 
-			print( "Could not execute query! <br />" ); 
-			die( mysql_error() . "</body></html>" ); 
-		} 
-		return $result;
-	}
+	// public function getModelsFilterQuery($make) {
+	// 	$query = "select * from filterquerymodels where make=\"". $make ."\"";
+	// 	if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+	// 	{ 
+	// 		print( "Could not execute query! <br />" ); 
+	// 		die( mysql_error() . "</body></html>" ); 
+	// 	} 
+	// 	return $result;
+	// }
 
-	public function getAlternatesFilterQuery($make) {
-		$query = "select * from filterqueryalternates where make=\"" . $make "\"";
-		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
-		{ 
-			print( "Could not execute query! <br />" ); 
-			die( mysql_error() . "</body></html>" ); 
-		} 
-		return $result;
+	// public function getAlternatesFilterQuery($make) {
+	// 	$query = "select * from filterqueryalternates where make=\"" . $make "\"";
+	// 	if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+	// 	{ 
+	// 		print( "Could not execute query! <br />" ); 
+	// 		die( mysql_error() . "</body></html>" ); 
+	// 	} 
+	// 	return $result;
 	// }
 
 	// // assumes that the paramaters passed are well formed csv
