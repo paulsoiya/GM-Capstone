@@ -14,8 +14,8 @@
     	$newMake = "generalmotors";
     }
 
-    $result = $dao->getMakeFilterQuery($newMake);
-  	$models = $dao->getModelsFilterQuery($result);
+    $result = $dao->getMakeFilterQuery();
+  	$models = $dao->getModelsFilterQuery($newMake);
   	$alternates = $dao->getAlternatesFilterQuery($model);
 
 ?>

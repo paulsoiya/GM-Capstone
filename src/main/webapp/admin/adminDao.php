@@ -26,9 +26,9 @@ class adminDao
 		}
 	}
 
-	public function getMakeFilterQuery($make)
+	public function getMakeFilterQuery()
 	{
-		$query = "select * from filterquerymakes where make=" . $make;
+		$query = "select * from filterquerymakes";
 
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{ 
