@@ -22,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 import com.gm.user.PendingUser;
+import com.gm.message.ReturnMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -46,7 +47,8 @@ public class PendingUserResource {
    
     @POST 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void createUser(@FormParam("first_name") String firstName,
+    @Produces("application/json")
+    public ReturnMessage createUser(@FormParam("first_name") String firstName,
                            @FormParam("last_name") String lastName,
                            @FormParam("email") String email,
                            @FormParam("password") String password,
@@ -58,6 +60,16 @@ public class PendingUserResource {
        PendingUser p = new PendingUser(firstName, lastName, email,
                                         password, salt, position, reason);
        em.persist(p);
+       
+       ReturnMessage rm = new ReturnMessage();
+       //check if object was persisted and return json of result message
+       if(em.contains(p)){
+           rm.setResult("success");
+       }else{
+           rm.setResult("fail");
+       }
+       
+       return rm;
     }
 
     @DELETE @Path("/{id}")
@@ -65,9 +77,5 @@ public class PendingUserResource {
         em.remove(em.find(PendingUser.class, id));
     }
     
-    @PUT @Path("/{id}")
-    public void updateUser(@PathParam("id") long id){
-        
-    }
     
 }

@@ -18,7 +18,16 @@ $( "#registerForm" ).submit(function( event ) {
             cache: false,  
             url: "api/pending-users",   
             success: function(data){
-                console.log("SUCCESS");                      
+                
+                console.log(data);
+                if(data.result === "success"){
+                    $("#success-message").html("Your request was submitted successfully.");
+                    $("#failure").hide();
+                    $("#success").show();
+                }else{
+                    $("#failure-message").html("There was a problem submitting your request. Please Try again.");
+                    $("#failure").show();
+                }
             }   
         });   
         
