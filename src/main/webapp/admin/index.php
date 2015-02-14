@@ -168,7 +168,7 @@
                 <?php
                     echo $modelString;
                 ?>
-               	<h3>Alternates<button class="btn btn-primary" type="button" onclick="newModelSelected(this.value)">Add Alternate</button><input type="text" name="newAlternate"></input></h3>;
+               	<h3>Alternates<button class="btn btn-primary" type="button" onclick="newAlternateSelected(this.value)">Add Alternate</button><input type="text" name="newAlternate"></input></h3>;
                 <?php
                     echo $alternateString;  
                 ?>
