@@ -171,14 +171,12 @@
                 <?php
                     echo $modelString;
                 ?>
-<<<<<<< HEAD
+
                	<h3>Alternates<button class="btn btn-primary" type="button" onclick="newAlternateSelected(this.value)">Add Alternate</button><input type="text" name="newAlternate"></input></h3>;
-                <?php
-=======
-               	<h3>Alternates<button class="btn btn-primary" type="button" onclick="newModelSelected(this.value)">Add Alternate</button><input type="text" name="newAlternate"></input></h3>;
+          
                 <div id="alt"></div>
                     <?php
->>>>>>> c6637fdcf54297835f9de62bbf0782c8e2e2c275
+
                     echo $alternateString;  
                 ?>
             </div>
