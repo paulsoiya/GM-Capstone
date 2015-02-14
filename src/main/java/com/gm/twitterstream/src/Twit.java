@@ -14,16 +14,33 @@ public class Twit {
 
   		Connection dbConn = null;
 
-  		Statement statement = null;
-  		ResultSet resultSet = null;
+  		Statement statementMakes = null;
+  		Statement statementModels = null;
+  		Statement statementAlternates = null;
+
+  		ResultSet resultSetMakes = null;
+  		ResultSet resultSetModels = null;
+  		ResultSet resultSetAlternates = null;
+
+  		int iterationCount = 0;
+  		final int ITERATION_CAP = 5000;
+
   		
   		try { 
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
    			dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "digiocean2@");
-   			statement = dbConn.createStatement();
-   			resultSet = statement.executeQuery("SELECT * FROM filterquery WHERE filterid = 0");
    			
-   			resultSet.next();
+   			statementMakes = dbConn.createStatement();
+   			resultSetMakes = statementMakes.executeQuery("SELECT * FROM filterquerymakes WHERE filterid = 0");
+   			resultSetMakes.next();
+
+   			statementModels = dbConn.createStatement();
+   			resultSetModels = statementModels.executeQuery("SELECT * FROM filterquerymodels");
+   			resultSetModels.next();
+
+   			statementAlternates = dbConn.createStatement();
+   			resultSetAlternates = statementAlternates.executeQuery("SELECT * FROM filterqueryalternates");
+			resultSetAlternates.next();	
   		}
   		catch(Exception e) {
   			e.printStackTrace();
@@ -38,8 +55,48 @@ public class Twit {
 		    	int count = 0;
 		    	
 		    	public void onStatus(Status status) {
-		    		System.out.println("#: " + ++count + " @" + status.getUser().getScreenName() + ": " +
-		    			status.getText());
+		    		// System.out.println("#: " + ++count + " @" + status.getUser().getScreenName() + ": " +
+		    		// 	status.getText());
+		    		// NNED TO PARSE STUFF HERE
+		    		// DONT KEEP IF:
+		    		// beings with "http://" or "www"
+
+		    		// removes start with "@"
+		    		// remove all non-letter characters
+		    		JSONObject injectObj = new JSONObject();
+
+		    		boolean hasLocation = false;
+		    		String location = "";
+
+		    		if(status.getGeoLocation() != null)
+		    		{
+		    			location = status.getGeoLocation().toString();
+		    			hasLocation = true;
+		    		}
+		    		String time = status.getCreatedAt().toString();
+		    		String numFaves = String.valueOf(status.getFavoriteCount());
+		    		String numRetweets = String.valueOf(status.getRetweetCount());
+		    		String length = String.valueOf(status.getText().length());
+
+		    		String text = status.getText();
+
+		    		try {
+		    			injectObj.put("text", text);
+		    			if(hasLocation) {
+		    				injectObj.put("location", location);
+		    			}
+			    		injectObj.put("time", time);
+			    		injectObj.put("numFaves", numFaves);
+			    		injectObj.put("numRetweets", numRetweets);
+			    		injectObj.put("length", length);
+		    		}
+		    		catch(JSONException je) {
+		    			je.printStackTrace();
+		    		}
+		    		
+
+		    		System.out.print("OBJECT: " + injectObj.toString());
+
 		    	}
 
 		    	public void onStallWarning(StallWarning warning) {
@@ -68,9 +125,9 @@ public class Twit {
 			// Filter
 		    FilterQuery filter = new FilterQuery();
 		    ArrayList<String> paramsAsList = new ArrayList<String>();
-		    String[] makes = resultSet.getString(2).split(",");
-		    String[] models = resultSet.getString(3).split(",");
-		    String[] alternates = resultSet.getString(5).split(",");
+		    String[] makes = resultSetMakes.getString(1).split(",");
+		    String[] models = resultSetModels.getString(1).split(",");
+		    String[] alternates = resultSetAlternates.getString(1).split(",");
 
 		    for(String make : makes) {
 		    	paramsAsList.add(make);
