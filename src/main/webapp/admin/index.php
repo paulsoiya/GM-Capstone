@@ -51,6 +51,8 @@
         <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
         <link rel="stylesheet" type="text/css" href="../css/inside.css">
+        
+        <script type="text/javascript" src="scripts/manage-data.js"></script>
 
        
     </head>
@@ -165,11 +167,13 @@
                 </select>
                 
                 <h3>Models<button class="btn btn-primary" type="button" onclick="newModelSelected(this.value)">Add Model</button><input type="text" name="newModel"></input></h3>;
+                <div id="models"></div>               
                 <?php
                     echo $modelString;
                 ?>
                	<h3>Alternates<button class="btn btn-primary" type="button" onclick="newModelSelected(this.value)">Add Alternate</button><input type="text" name="newAlternate"></input></h3>;
-                <?php
+                <div id="alt"></div>
+                    <?php
                     echo $alternateString;  
                 ?>
             </div>
