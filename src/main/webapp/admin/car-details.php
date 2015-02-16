@@ -29,9 +29,9 @@
     }
    $row = mysql_fetch_assoc($result);
                    	$makes = preg_split('/[,]/', $row['makes']);
-                    foreach($makes as $make) {
+                   /* foreach($makes as $make) {
                     	echo "<option value=" . $make . " " . ($make == $newMake ? "selected>" : ">") . $make . "</option>";  
-                    }
+                    }*/
 $arr = array("models" => $modelString,
              "alt" => $alternateString);
 echo json_encode($arr);
