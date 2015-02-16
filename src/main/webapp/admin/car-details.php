@@ -34,5 +34,7 @@
                     }
 $arr = array("models" => $modelString,
              "alt" => $alternateString);
-echo json_encode($array);
+echo json_encode($arr);
+
+
 ?>
