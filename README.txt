@@ -16,3 +16,11 @@ GM-Capstone/
 │   	│	├── com/
 │   	│		├── gm/ (The java files will be here in separate packages)
 │ 	├── webapp (HTML/CSS/Javascript files will be here)
+
+
+Java application to stream Twitter - Package: twitterstream
+1) database setup script must have been run on machine with a mysql install. Currently, dbname = testGM
+2) Uses "ant" to build, simply use the following commands in the root directory:
+	ant compile
+	ant execute
+3) TODO: extract db credentials to properties file
