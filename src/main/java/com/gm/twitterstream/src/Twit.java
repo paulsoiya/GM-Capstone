@@ -7,6 +7,9 @@ import java.io.BufferedWriter;
 import java.sql.*;
 
 public class Twit {
+	public static final String HOST = "104.131.150.198:5984";
+	public static final String DB_NAME = "104.131.150.198:5984";
+
 	public static void main(String[] args) {		
   		Twitter twitter = null;
   		Query query = null;
@@ -24,10 +27,6 @@ public class Twit {
 
   		int iterationCount = 0;
   		final int ITERATION_CAP = 5000;
-
-  		public static final String HOST = "104.131.150.198:5984";
-  		public static final String DB_NAME = "104.131.150.198:5984";
-
   		
   		try { 
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -99,9 +98,9 @@ public class Twit {
 		    		
 
 		    		System.out.print("OBJECT: " + injectObj.toString());
-		    		CouchConnection cc = new CouchConnection(HOST, 
-		    		cc.
-
+		    		// CouchConnection cc = new CouchConnection(HOST, 
+		    		// cc.
+		    		// NEED COUCH CONNECTION AND INJECTION HERE BEFORE WE CAN GO ANY FURTHER!!
 		    	}
 
 		    	public void onStallWarning(StallWarning warning) {
