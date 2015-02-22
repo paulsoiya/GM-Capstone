@@ -59,11 +59,35 @@ class adminDao
 	}
 
 	// assumes that the paramaters passed are well formed csv
-	public function setFilterQuery($makes, $models, $years, $alternates) {
-		$query = "insert into filterquery values(0, '" . $makes . "', '" . $models . "', '" . $years . "', '" . $alternates . "')";
+	public function setFilterQueryMakes($makes) {
+		$query = "insert into filterquerymakes values(0, '" . $makes . "')";
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{
-			$query = "UPDATE filterquery SET makes='" . $makes ."', models='" . $models . "', years='" . $years . "', alternates='" . $alternates . "' WHERE filterid=0"; 
+			$query = "UPDATE filterquery SET makes='" . $makes . "'WHERE filterid=0"; 
+			if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+			{
+				print( "Could not execute query! <br />" ); 
+				die( mysql_error() . "</body></html>" ); 
+			}
+		}
+	}
+	public function setFilterQueryModels ($make, $models) {
+		$query = "insert into filterquerymodels values('" . $make . "', '" . $models . "')";
+		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+		{
+			$query = "UPDATE filterquerymodels SET models='" . $models ."' WHERE make='" . $make . "'"; 
+			if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+			{
+				print( "Could not execute query! <br />" ); 
+				die( mysql_error() . "</body></html>" ); 
+			}
+		}
+	}
+	public function setFilterQueryAlternates($make, $alternates) {
+		$query = "insert into filterqueryalternates values('" . $make . "', '" . $alternates . "')";
+		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
+		{
+			$query = "UPDATE filterqueryalternates SET alternates='" . $alternates ."' WHERE make='" . $make . "'";  
 			if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 			{
 				print( "Could not execute query! <br />" ); 
@@ -108,6 +132,23 @@ class adminDao
 		return $result;
 	}
 
+	public function getModelString($make) {
+		$models = $this->getModelsFilterQuery($make);
+		$modelRow = mysql_fetch_assoc($models);
+		$modelString = '';
+		$modelString .= $modelRow['models'];
+		return $modelString;
+
+	}
+
+	public function getAlternateString($make) {
+		$alternates = $this->getAlternatesFilterQuery($make);
+		$alternateRow = mysql_fetch_assoc($alternates);
+	    $alternateString = '';
+	    $alternateString .= $alternateRow['alternates'];
+	    return $alternateString;
+
+	}
 
 }
 	

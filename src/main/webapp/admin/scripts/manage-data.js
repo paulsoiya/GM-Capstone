@@ -13,7 +13,6 @@ function request() {
 
 }
 
-
 function add() {
 
     //do another ajax call here with the form data you want posted

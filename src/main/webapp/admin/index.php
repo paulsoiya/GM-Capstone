@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    require_once('adminDao.php');
-    
+    require_once('adminDao.php'); 
+    require_once('update.php'); 
     $newMake = "";
-
     $dao = new adminDao('filterquery');
+
     if(isset($_GET['newMake'])) {
     	$newMake = $_GET['newMake'];
     }
@@ -14,28 +14,10 @@
     	$newMake = "chevrolet";
     }
 
-    $result = $dao->getMakeFilterQuery();
-	$models = $dao->getModelsFilterQuery($newMake);
-    $alternates = $dao->getAlternatesFilterQuery($newMake);
+    $allMakes = $dao->getMakeFilterQuery();
 
-    $modelRow = mysql_fetch_assoc($models);
-    $alternateRow = mysql_fetch_assoc($alternates);
-
-    $modelString = '';
-    $alternateString = '' ;
-
-    $modelString .= $modelRow['models'];
-    if(isset($_GET['newModel'])) {
-    	$modelString .= ",";
-    	$modelString .= $_GET['newModel'];
-    }
-    
-    $alternateString .= $alternateRow['alternates'];
-    if(isset($_GET['newAlternate'])) {
-		$alternateString .= ",";
-    	$alternateString .= $_GET['newAlternate'];
-    }
-
+    $modelString = $dao->getModelString($newMake);
+    $alternateString = $dao->getAlternateString($newMake);
 ?>
     <head>
         <meta charset="utf-8">
@@ -51,10 +33,10 @@
         <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
 
         <link rel="stylesheet" type="text/css" href="../css/inside.css">
-        
+        <!-- 
         <script type="text/javascript" src="scripts/manage-data.js"></script>
 
-       
+        -->
     </head>
    
     <body>
@@ -158,7 +140,7 @@
                 </form>
                 <select class="form-control" onchange="newMakeSelected(this.value)">
                 <?php
-                    $row = mysql_fetch_assoc($result);
+                    $row = mysql_fetch_assoc($allMakes);
                    	$makes = preg_split('/[,]/', $row['makes']);
                     foreach($makes as $make) {
                     	echo "<option value=" . $make . " " . ($make == $newMake ? "selected>" : ">") . $make . "</option>";  
@@ -166,13 +148,17 @@
                 ?>
                 </select>
                 
-                <h3>Models<button class="btn btn-primary" type="button" onclick="newModelSelected(this.value)">Add Model</button><input type="text" name="newModel"></input></h3>;
+                <h3>Models   <form method="post" name="update" action="update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newModel" placeholder="New Model"></input>
+                	<input class="btn btn-primary" type="submit" value="Add Model" action=""></input>
+                </form></h3>
                 <div id="models"></div>               
                 <?php
                     echo $modelString;
                 ?>
 
-               	<h3>Alternates<button class="btn btn-primary" type="button" onclick="newAlternateSelected(this.value)">Add Alternate</button><input type="text" name="newAlternate"></input></h3>;
+               	<h3>Alternates <form method="post" name="update" action="update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newAlternate" placeholder="New Alternate"></input>
+                	<input class="btn btn-primary" type="submit" value="Add Alternate" action=""></input>
+                </form></h3>
           
                 <div id="alt"></div>
                     <?php

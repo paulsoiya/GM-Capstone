@@ -6,19 +6,19 @@ DROP TABLE IF EXISTS filterqueryalternates;
 
 CREATE TABLE filterquerymakes(
 	filterid INT NOT NULL,
-	makes varchar(128),
+	makes varchar(2048),
 	PRIMARY KEY(filterid)
 );
 
 CREATE TABLE filterquerymodels(
 	make varchar(128) NOT NULL,
-	models varchar(128),
+	models varchar(2048),
 	PRIMARY KEY(make)
 );
 
 CREATE TABLE filterqueryalternates(
 	make varchar(128) NOT NULL,
-	alternates varchar(128),
+	alternates varchar(2048),
 	PRIMARY KEY(make)	
 );
 
