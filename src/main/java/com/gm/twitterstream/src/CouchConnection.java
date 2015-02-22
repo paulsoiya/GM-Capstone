@@ -6,10 +6,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import twitter4j.*;
+// ^ umm ok. Needed this import for JSON objects instead of "org.json..." very weird
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+// import org.json.JSONArray;
+// import org.json.JSONException;
+// import org.json.JSONObject;
 
 
 public class CouchConnection {
