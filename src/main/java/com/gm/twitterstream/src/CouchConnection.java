@@ -8,10 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import twitter4j.*;
 // ^ umm ok. Needed this import for JSON objects instead of "org.json..." very weird
-
-// import org.json.JSONArray;
-// import org.json.JSONException;
-// import org.json.JSONObject;
+// Looks like twitter4j already had jsons included and there was a conflict on which json class to use
 
 
 public class CouchConnection {
@@ -31,7 +28,7 @@ public class CouchConnection {
 	//_design/tweets/_view/buick	
 	public String queryDB(String view){
 		HttpURLConnection request;
-		BufferedReader instream;
+		BufferedReader instream = null;
 		String response = null;
 		try{
 			request = (HttpURLConnection)new URL(host+database+view).openConnection();
@@ -42,18 +39,22 @@ public class CouchConnection {
 				result.append(line);
 			}
 			response = result.toString();
-			instream.close();
 		}catch(IOException e){
 			e.printStackTrace();
+		}finally{
+			if (instream != null)
+				try {
+					instream.close();
+				} catch (IOException e) {}
 		}
 		return response;
 	}
 	
-	public JSONObject updateDocument(String id, JSONObject json) throws JSONException{
+	public String updateDocument(String id, JSONObject json){
 		HttpURLConnection request;
 		BufferedWriter outstream = null;
-		BufferedReader instream;
-		JSONObject response = null;
+		String response = null;
+		BufferedReader instream = null;
 		try{
 			request = (HttpURLConnection)new URL(host+database+id).openConnection();
 			request.setRequestProperty("Accept", "application/json");
@@ -66,7 +67,6 @@ public class CouchConnection {
 			outstream = new BufferedWriter(new OutputStreamWriter(request.getOutputStream()));
 			outstream.write(json.toString());
 			outstream.flush();
-			outstream.close();
 	        
 			instream = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			StringBuffer result = new StringBuffer();
@@ -74,18 +74,26 @@ public class CouchConnection {
 			while ((line = instream.readLine()) != null) {
 				result.append(line);
 			}
-			response = new JSONObject(result.toString());
-			instream.close();
+			response = result.toString();
 		}catch(IOException e){
 			e.printStackTrace();
-		}		
+		}finally{
+			if (instream != null)
+				try {
+					instream.close();
+				} catch (IOException e) {}
+			if (outstream != null)
+				try {
+					outstream.close();
+				} catch (IOException e) {}
+		}
 		return response;
 	}
 	
 	public String createDocuments(JSONObject json, boolean isBulkInsert){
 		HttpURLConnection request;
 		BufferedWriter outstream = null;
-		BufferedReader instream;
+		BufferedReader instream = null;
 		String response = null;
 		try{
 			if(isBulkInsert) request = (HttpURLConnection)new URL(host+database+"_bulk_docs").openConnection();
@@ -96,11 +104,10 @@ public class CouchConnection {
 			request.setRequestMethod("POST");
 			request.setDoOutput(true);
 			request.setDoInput(true);
-	        
+
 			outstream = new BufferedWriter(new OutputStreamWriter(request.getOutputStream()));
 			outstream.write(json.toString());
 			outstream.flush();
-			outstream.close();
 	        
 			instream = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			StringBuffer result = new StringBuffer();
@@ -109,16 +116,24 @@ public class CouchConnection {
 				result.append(line);
 			}
 			response = result.toString();
-			instream.close();
 		}catch(IOException e){
 			e.printStackTrace();
+		}finally{
+			if (instream != null)
+				try {
+					instream.close();
+				} catch (IOException e) {}
+			if (outstream != null)
+				try {
+					outstream.close();
+				} catch (IOException e) {}
 		}
 		return response;
 	}
 	
 	public String deleteDocuments(String id, String rev){
 		HttpURLConnection request;
-		BufferedReader instream;
+		BufferedReader instream = null;
 		String response = null;
 		try{
 			request = (HttpURLConnection)new URL(host+database+id+"?rev="+rev).openConnection();
@@ -131,14 +146,16 @@ public class CouchConnection {
 				result.append(line);
 			}
 			response = result.toString();
-			instream.close();
 		}catch(IOException e){
 			e.printStackTrace();
+		}finally{
+			if (instream != null)
+				try {
+					instream.close();
+				} catch (IOException e) {}
 		}
 		return response;
 	}	
-	
-	
 
 	public static void main(String[] args) {
 		try {
@@ -150,18 +167,31 @@ public class CouchConnection {
 			
 			doc0.put("make", "Buick");
 			doc0.put("year", "2015");
-			/*
-			for(int i = 0; i < 100000; ++i){
+			doc0.put("varname", "2015");
+			
+			for(int i = 0; i < 100; ++i){
 	        	docs.put(doc0);
 	        	//couch.createDocuments(doc0, false);
 	        }
 			bulk.put("docs", docs);
 			
+			JSONObject viewDocument = new JSONObject(couch.queryDB("_design/tweets"));
+			String viewName = "varname";
+			couch.createDocuments(bulk, true);
 			
+			JSONObject view = new JSONObject();
+			view.put("map", "function(doc) { if (doc."+viewName+" == '2015') { emit(doc._id, doc.make); } }");
+			viewDocument.getJSONObject("views").put(viewName, view);
+			//couch.updateDocument("_design/tweets", viewDocument);
+			
+			//JSONObject test = viewDocument.getJSONObject("views").put(viewName, );
+			//viewDocument.put("views", test);
+			
+			//System.out.println(couch.updateDocument("_design/tweets", viewDocument));
 			
 			couch.createDocuments(bulk, true);
 			
-			*/
+			
 			
 			
 			//JSONObject r1 = new JSONObject();
