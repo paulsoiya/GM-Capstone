@@ -1,4 +1,4 @@
-USE testGM
+USE testGM;
 
 DROP TABLE IF EXISTS filterquerymakes;
 DROP TABLE IF EXISTS filterquerymodels;
