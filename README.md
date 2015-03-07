@@ -43,8 +43,17 @@ GM-Capstone/
 │......├── build.xml  
 │......├── dbSetub.txt  
 
- 1. database setup script must have been run on machine with a mysql install. Currently, dbname = testGM
- 2. Uses "ant" to build, simply use the following commands in the twitterstream directory:  
-- ant compile  
-- ant execute
- 3. TODO: extract db credentials to properties file
+ 1. Database setup script must have been run on machine with a MySQL install. In MySQL Workbench: 
+  - File > New Query Tab
+  - Type "CREATE DATABASE dbname;"                    
+  -- # NOTE: Currently, dbname = testGM
+  - Query > execute                                   
+  -- # OR, click the lightning bolt
+  - File > Open SQL Script... > dbSetup.txt
+  - Query > execute                                   # OR, click the lightning bolt
+ 2. Ensure your SQL root password is correct:
+  - TODO: extract db credentials to properties file
+  - For now: In Twit.java, ~ line 38, change dbConn root password to your password
+ 3. Uses "ant" to build, simply use the following commands in the twitterstream directory:  
+  - ant compile  
+  - ant execute
