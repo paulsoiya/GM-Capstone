@@ -1,0 +1,84 @@
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  color:#fff;
+  background-color:#222222;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color:#656572;
+  color:#fff;
+  padding-top:18px;
+}
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.paddingTop{
+    padding-top:1em;
+}
+
+.alignRight{
+    text-align: right;
+}
+
+.white a, a:hover{
+    color:#fff;;
+    text-decoration: none;
+}
+
+.secondNavBar{
+    background:#000054;
+    height:150px;
+    width:100%;
+    padding-top:60px;
+    padding-left:5em;
+}
+
+.grayBoxArea{
+    background-color: #656572;
+    padding:5px;
+    min-height: 300px;
+}
+
+h3{
+    color:#fff;
+    background-color: #333333;
+    text-align: center;
+    font-size:16px;
+    padding:8px;
+    margin-top:4px;
+}
+
+.pillMarigin{
+    margin-top: 20px;
+}
+
+.nav>li>a:hover {
+background-color:#204d74;
+}
+
+option{
+  color: black;
+}
+
+>>>>>>> acquisition
