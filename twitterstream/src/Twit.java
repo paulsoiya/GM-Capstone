@@ -54,6 +54,12 @@ public class Twit {
 			MYSQLUSER = properties.getProperty("mysql-user");
 			MYSQLPASSWORD = properties.getProperty("mysql-password");
 			
+			System.out.println(STANBOL);
+			System.out.println(COUCHDB);
+			System.out.println(MYSQL);
+			System.out.println(MYSQLUSER);
+			System.out.println(MYSQLPASSWORD);
+			
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
 			dbConn = DriverManager.getConnection(MYSQL, MYSQLUSER, MYSQLPASSWORD);
    			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
