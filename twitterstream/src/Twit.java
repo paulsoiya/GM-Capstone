@@ -8,13 +8,28 @@ import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.util.Properties;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.FileInputStream;
+
 public class Twit {
-	public static final String HOST = "104.131.150.198:5984";
-	public static final String DB_NAME = "104.131.150.198:5984";
-	public static final String STANBOL = "http://swent1linux.asu.edu:8080/enhancer";
-	public static final String COUCHDB = "http://swent1linux.asu.edu:5984/";
+	//public static final String HOST = "104.131.150.198:5984";
+	//public static final String DB_NAME = "104.131.150.198:5984";
+	//public static final String STANBOL = "http://swent1linux.asu.edu:8080/enhancer";
+	//public static final String COUCHDB = "http://swent1linux.asu.edu:5984/";
+	
+	private static String STANBOL;
+	private static String COUCHDB;
+	private static String MYSQL;
+	private static String MYSQLUSER;
+	private static String MYSQLPASSWORD;
 	
 	public static void main(String[] args) {		
+	
+		Properties properties = new Properties();
+		InputStream is = null;
+	
   		Twitter twitter = null;
   		Query query = null;
   		QueryResult result = null;
@@ -29,12 +44,19 @@ public class Twit {
   		ResultSet resultSetModels = null;
   		ResultSet resultSetAlternates = null;
 
-  		int iterationCount = 0;
-  		final int ITERATION_CAP = 5000;
-
   		try { 
+			is = new FileInputStream("build.properties");
+			properties.load(is);
+			
+			STANBOL = properties.getProperty("stanbol");
+			COUCHDB = properties.getProperty("couchdb");
+			MYSQL = properties.getProperty("mysql");
+			MYSQLUSER = properties.getProperty("mysql-user");
+			MYSQLPASSWORD = properties.getProperty("mysql-password");
+			
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
-   			dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
+			dbConn = DriverManager.getConnection(MYSQL, MYSQLUSER, MYSQLPASSWORD);
+   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
    			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "digiocean2@");
 			
    			statementMakes = dbConn.createStatement();
@@ -49,6 +71,16 @@ public class Twit {
   		catch(Exception e) {
   			e.printStackTrace();
   		}
+		finally {
+			if(is != null){
+				try {
+					is.close();
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
  
   		List<Status> tweets = new ArrayList<Status>();
 
