@@ -94,7 +94,56 @@ public class Twit {
 
 		try {
 			// MongoClient mongoClient = new MongoClient("localhost", 27017);
-		    TwitterStream stream = new TwitterStreamFactory().getInstance();
+		    // Filter
+		    FilterQuery filter = new FilterQuery();
+		    ArrayList<String> paramsAsList = new ArrayList<String>();
+
+		    // Add makes to filter list
+		    ArrayList<String> makes = new ArrayList<String>();
+		    while(resultSetMakes.next()) {
+		    	String[] splitMakes = resultSetMakes.getString("makes").split(",");
+				for(int i = 0; i < splitMakes.length; i++) {
+					makes.add(splitMakes[i]);
+				}
+		    } 
+
+		    // Add models to filter list
+		    ArrayList<String> models = new ArrayList<String>();
+			while(resultSetModels.next()) {
+		    	String[] splitModels = resultSetModels.getString("models").split(",");
+				for(int i = 0; i < splitModels.length; i++) {
+					models.add(splitModels[i]);
+				}
+		    } 
+
+		    // Add altenates to filter list
+		    ArrayList<String> alternates = new ArrayList<String>();
+			while(resultSetAlternates.next()) {
+				String[] splitAlternates = resultSetAlternates.getString("alternates").split(",");
+				for(int i = 0; i < splitAlternates.length; i++) {
+			    	alternates.add(splitAlternates[i]);
+				}
+		    } 
+
+		    for(String make : makes) {
+		    	paramsAsList.add(make);
+		    }
+
+		    for(String model : models) {
+		    	paramsAsList.add(model);
+		    }
+		    for(String alternate : alternates) {
+		    	paramsAsList.add(alternate);
+		    }
+		    
+		    String[] filterTags = paramsAsList.toArray(new String[paramsAsList.size()]);
+		    for(String tag : filterTags) {
+		    	System.out.println(tag);
+		    }
+			
+			
+			
+			TwitterStream stream = new TwitterStreamFactory().getInstance();
 		    StatusListener listener = new StatusListener() {
 		    	int count = 0;
 		    	
@@ -110,7 +159,7 @@ public class Twit {
 					String regexAtUser = "@\\w+";
 					String regexBreakLines = "[(\\r)(\\n)]";
 					String regexLink = "(\\S+\\.(\\w+)(\\/\\S+)?)";
-					String regexRemaining = "[^a-zA-Z0-9.,!\\s]";
+					String regexRemaining = "[^a-zA-Z.,!\\s]";
 					boolean ignoreTweet = false;
 		    		// removes start with "@" sean: regex covers this
 		    		// remove all non-letter characters sean: regex covers this
@@ -125,8 +174,6 @@ public class Twit {
 					text = m.replaceAll("");
 					p = Pattern.compile(regexLink);
 					if( !text.equals(m.replaceAll("")) ) ignoreTweet = true;
-					
-					
 					m = p.matcher(text); 
 					text = m.replaceAll("");
 					p = Pattern.compile(regexRemaining);
@@ -186,12 +233,18 @@ public class Twit {
 							injectObj.put("sentiment", sentiment);
 							//sean: it's only injecting one at time right now, will change this later
 							CouchConnection cc = new CouchConnection(COUCHDB, "gm/");						
-							cc.createDocuments(injectObj, false);    		
+							cc.createDocuments(injectObj, false);    
+							
+							for(String tag : filterTags) {
+								if(text.contains(tag)){
+									CouchConnection couch = new CouchConnection(COUCHDB, tag+"/");	
+									couch.createDocuments(injectObj, false);    
+								}
+							}
 							
 							count++;
 							
-						if(count == 50) System.exit(0);
-						}
+
 						catch(JSONException je) {
 							je.printStackTrace();
 						}
@@ -226,52 +279,7 @@ public class Twit {
 		    //listener.filter("#chevy OR #generalmotors OR #gmc OR #buick");
 		    stream.addListener(listener);
 
-			// Filter
-		    FilterQuery filter = new FilterQuery();
-		    ArrayList<String> paramsAsList = new ArrayList<String>();
-
-		    // Add makes to filter list
-		    ArrayList<String> makes = new ArrayList<String>();
-		    while(resultSetMakes.next()) {
-		    	String[] splitMakes = resultSetMakes.getString("makes").split(",");
-				for(int i = 0; i < splitMakes.length; i++) {
-					makes.add(splitMakes[i]);
-				}
-		    } 
-
-		    // Add models to filter list
-		    ArrayList<String> models = new ArrayList<String>();
-			while(resultSetModels.next()) {
-		    	String[] splitModels = resultSetModels.getString("models").split(",");
-				for(int i = 0; i < splitModels.length; i++) {
-					models.add(splitModels[i]);
-				}
-		    } 
-
-		    // Add altenates to filter list
-		    ArrayList<String> alternates = new ArrayList<String>();
-			while(resultSetAlternates.next()) {
-				String[] splitAlternates = resultSetAlternates.getString("alternates").split(",");
-				for(int i = 0; i < splitAlternates.length; i++) {
-			    	alternates.add(splitAlternates[i]);
-				}
-		    } 
-
-		    for(String make : makes) {
-		    	paramsAsList.add(make);
-		    }
-
-		    for(String model : models) {
-		    	paramsAsList.add(model);
-		    }
-		    for(String alternate : alternates) {
-		    	paramsAsList.add(alternate);
-		    }
-		    
-		    String[] filterTags = paramsAsList.toArray(new String[paramsAsList.size()]);
-		    for(String tag : filterTags) {
-		    	System.out.println(tag);
-		    }
+			
 		    filter.track(filterTags);
 		    stream.filter(filter);
 		}

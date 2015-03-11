@@ -223,7 +223,7 @@ public class CouchConnection {
 			String viewName = "oldTweets";
 			
 			viewType.put("map", "function(doc) {if((Date.now() - doc.timeLong) >"
-					+ " 1000*60*60*"+hours+"*"+days+"*"+months+"){emit(doc._id, doc._rev);}}");
+					+ " 1000*60*60*"+hours+"*"+days+"*"+months+"){emit(doc._id, doc);}}");
 			view.put("oldTweets", viewType);
 			viewDocument.put("views", view);
 			
