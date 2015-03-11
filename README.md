@@ -50,7 +50,8 @@ GM-Capstone/
   - Query > execute                                   
   -- # OR, click the lightning bolt
   - File > Open SQL Script... > dbSetup.txt
-  - Query > execute                                   # OR, click the lightning bolt
+  - Query > execute
+  -- # OR, click the lightning bolt
  2. Ensure your SQL root password is correct:
   - TODO: extract db credentials to properties file
   - For now: In Twit.java, ~ line 38, change dbConn root password to your password
