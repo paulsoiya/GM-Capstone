@@ -23,7 +23,7 @@ public class StanbolConnection {
 		BufferedWriter outstream = null;
 		BufferedReader instream;
 		String response = null;
-		double sentiment = 0;
+		double sentiment = 404;
 		try{
 			request = (HttpURLConnection)new URL(host).openConnection();
 			request.setRequestProperty("Accept", "application/json");

@@ -12,6 +12,8 @@ import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.FileInputStream;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Twit {
 	//public static final String HOST = "104.131.150.198:5984";
@@ -98,8 +100,7 @@ public class Twit {
 		    	
 		    	public void onStatus(Status status) {
 		    		// TODO
-		    		System.out.println("#: " + ++count + " @" + status.getUser().getScreenName() + ": " +
-		    			status.getText());
+		    		System.out.println("#: " + ++count + " @" + status.getUser().getScreenName() + ": " + status.getText());
 		    		// NNED TO PARSE STUFF HERE
 		    		// DONT KEEP IF:
 		    		// beings with "http://" or "www" sean: regex is only removing them from text right now
@@ -109,8 +110,8 @@ public class Twit {
 					String regexAtUser = "@\\w+";
 					String regexBreakLines = "[(\\r)(\\n)]";
 					String regexLink = "(\\S+\\.(\\w+)(\\/\\S+)?)";
-					String regexRemaining = "[^a-zA-Z.,!\\s]";
-					
+					String regexRemaining = "[^a-zA-Z0-9.,!\\s]";
+					boolean ignoreTweet = false;
 		    		// removes start with "@" sean: regex covers this
 		    		// remove all non-letter characters sean: regex covers this
 					
@@ -123,11 +124,26 @@ public class Twit {
 					m = p.matcher(text); 
 					text = m.replaceAll("");
 					p = Pattern.compile(regexLink);
+					if( !text.equals(m.replaceAll("")) ) ignoreTweet = true;
+					
+					
 					m = p.matcher(text); 
 					text = m.replaceAll("");
 					p = Pattern.compile(regexRemaining);
 					m = p.matcher(text); 
 					text = m.replaceAll("");
+					
+					
+					String[] textArray = text.split(" ");
+					Map<String, Integer> wordCount = new HashMap<>();
+					for (String word: textArray) {
+						if (wordCount.containsKey(word)) {
+							wordCount.put(word, wordCount.get(word) + 1);
+						} else {
+							wordCount.put(word, 1);
+						}
+					}
+					
 					
 					
 		    		JSONObject injectObj = new JSONObject();
@@ -141,35 +157,47 @@ public class Twit {
 		    			hasLocation = true;
 		    		}
 		    		String time = status.getCreatedAt().toString();
+					Long timeLong = status.getCreatedAt().getTime();
 		    		String numFaves = String.valueOf(status.getFavoriteCount());
 		    		String numRetweets = String.valueOf(status.getRetweetCount());
 		    		String length = String.valueOf(status.getText().length());
 					String language = String.valueOf(status.getLang());
+					StanbolConnection sc = new StanbolConnection(STANBOL);
+					double sentiment = sc.singleSentiment(text);
 					
-					if("en".equals(language)){
+					if(sentiment == 404) ignoreTweet = true;
+					
+					if("en".equals(language) && !ignoreTweet){
 						try {
+							//injectObj.put("source", String.valueOf(status.getSource()));
 							injectObj.put("text", text);
 							if(hasLocation) {
 								injectObj.put("location", location);
 							}
 							injectObj.put("time", time);
-							injectObj.put("numFaves", numFaves);
-							injectObj.put("numRetweets", numRetweets);
-							injectObj.put("length", length);
+							injectObj.put("timeLong", timeLong);
+							//injectObj.put("numFaves", numFaves);
+							//injectObj.put("numRetweets", numRetweets);
+							//injectObj.put("length", length);
+							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) {
+								injectObj.put(entry.getKey(), entry.getValue());
+							}  
 							
-							StanbolConnection sc = new StanbolConnection(STANBOL);
-							injectObj.put("sentiment", sc.singleSentiment(injectObj.getString("text")));
+							injectObj.put("sentiment", sentiment);
 							//sean: it's only injecting one at time right now, will change this later
 							CouchConnection cc = new CouchConnection(COUCHDB, "gm/");						
 							cc.createDocuments(injectObj, false);    		
 							
+							count++;
+							
+						if(count == 50) System.exit(0);
 						}
 						catch(JSONException je) {
 							je.printStackTrace();
 						}
-						
-						
+						for(int i = 0; i < 30; ++i)System.out.println("");
 						System.out.print("OBJECT: " + injectObj.toString());
+						for(int i = 0; i < 30; ++i)System.out.println("");
 					}
 					
 					
