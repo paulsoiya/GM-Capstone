@@ -4,6 +4,7 @@
  * 
  * @author Paul Soiya II psoiya@asu.edu
  * @version 1/18/2015
+ *          3/11/2015 - Modified by Vance Anderson
  */
 package com.gm.setting;
 
@@ -30,6 +31,9 @@ public class AnalyticSetting implements Serializable {
     @Column(name = "top_words")
     private int topWords;
 
+    @Column(name = "explicit_words")
+    private int explicitWords;
+
     public Long getId() {
         return id;
     }
@@ -52,6 +56,14 @@ public class AnalyticSetting implements Serializable {
 
     public void setTopWords(int topWords) {
         this.topWords = topWords;
+    }
+
+    public int getExplicitWords() {
+        return explicitWords;
+    }
+
+    public void setExplicitWords(int explicitWords) {
+        this.explicitWords = explicitWords;
     }
 
     @Override
