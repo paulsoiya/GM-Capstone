@@ -1,59 +1,74 @@
-<div class="container">
+<div class="queryPage">
 
-    <div class="row">
-        <div class="col-md-8 grayBoxArea">
-            <h3>#generalmotors</h3>
-
-            <form class="form-horizontal">
-
-            <div class="form-group">
-                <label for="inputLocation" class="col-sm-1 control-label">Location</label>
-                <div class="col-sm-4">
-                    <select>
-                        <option value="alaska">Alaska</option>
-                        <option value="arizona">Arizona</option>
-                    </select>
-                </div>
+  <div class="col-md-3 query-form">
+    <div class="panel panel-default">
+      <div class="panel-heading">#generalmotors</div>
+      <div class="panel-body">
+        <form>
+          <!-- Locations dropdown -->
+          <div class="form-group">
+            <label for="selectLocation">Location</label>
+            <select class="form-control">
+                <option id="selectLocation" ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+              </select>
+          </div>
+          <!-- startDate datepicker -->
+          <div class="form-group">
+            <label for="selectStart">From</label>
+            <div class="input-group" id="selectStart">
+              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="startDate" is-open="startOpened" 
+                     min-date="'{{aMonthAgo}}'" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+                     ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event, 'start')"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
             </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-3 control-label">Last name</label>
-                <div class="col-sm-5">
-                    <input type="email" 
-                           class="form-control"
-                           id="inputEmail3">
-                </div>
+          </div>
+          <!-- endDate datepicker -->
+          <div class="form-group">
+            <label for="selectEnd">to</label>
+            <div class="input-group" id="selectEnd">
+              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="endDate" is-open="endOpened" 
+                     min-date="startDate" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+                     ng-required="true" close-text="Close" />
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event, 'end')"><i class="glyphicon glyphicon-calendar"></i></button>
+              </div>
             </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-3 control-label">Email</label>
-                <div class="col-sm-9">
-                    <input type="email" 
-                           class="form-control"
-                           id="inputEmail3">
-                </div>
-            </div>
-            <div class="form-group">
-            <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
-                <div class="col-sm-9">
-                    <input type="password" 
-                           class="form-control" 
-                           id="inputPassword3">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-8 col-sm-10">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </div>
-            </div>
-            </form>
-
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-3 grayBoxArea">
-            <h3>Saved and Compare</h3>
-
-        </div>
+          </div>
+          <!-- makes dropdown -->
+          <div class="form-group">
+            <label for="selectMake">Make</label>
+            <select id="selectMake" class="form-control">
+              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            </select>
+          </div>
+          <!-- models dropdown -->
+          <div class="form-group">
+            <label for="selectMake">Model</label>
+            <select id="selectModel" class="form-control">
+              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            </select>
+          </div>
+          <!-- years dropdown -->
+          <div class="form-group">
+            <label for="selectMake">Year</label>
+            <select id="selectYear" class="form-control">
+              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            </select>
+          </div>
+        </form>
+      </div>
     </div>
-
-
+  </div>
+  
+  <div class="col-md-4 query-form">
+    <div class="panel panel-default">
+      <div class="panel-heading">Compare and Save</div>
+      <div class="panel-body">
+        Panel content
+      </div>
+    </div>
+  </div>
+  
 </div>

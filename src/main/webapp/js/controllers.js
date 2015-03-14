@@ -66,8 +66,37 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
   
 }]);
 
-controllers.controller('QueryCtrl',['$scope', function($scope){
+controllers.controller('QueryCtrl',['$scope', '$filter', function($scope, $filter){
   
+  $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
+                      'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 
+                      'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 
+                      'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 
+                      'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 
+                      'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 
+                      'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
+                      'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+                      'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 
+                      'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 
+                      'West Virginia', 'Wisconsin', 'Wyoming'];
+  
+   $scope.open = function($event, dateType) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    if(dateType === "start"){
+      $scope.startOpened = true;
+    }else if(dateType === "end"){
+      $scope.endOpened = true;
+    }
+  };
+  
+  
+  // TODO: Would like to add a day to today because of rounding but it messes up format
+  $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
+  $scope.endDate = $scope.today;
+  $scope.aMonthAgo = $filter('date')(new Date() - 2592000000, 'yyyy-MM-dd');
+  $scope.startDate = $scope.aMonthAgo;
+
 }]);
 
 controllers.controller('CompareCtrl',['$scope', function($scope){

@@ -8,7 +8,8 @@ var socialGMApp = angular.module('socialGMApp', [
   'controllers',
   'filters',
   'services',
-  'directives'
+  'directives',
+  'ui.bootstrap'
 ]);
 
 socialGMApp.config(function($stateProvider, $urlRouterProvider){
