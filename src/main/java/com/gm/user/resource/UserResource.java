@@ -2,7 +2,7 @@
  * JAX-RS RESTful implementation for the User Entity
  * 
  * @author Paul Soiya II
- * @version 1/18/2015
+ * @version 3/7/2015
  */
 package com.gm.user.resource;
 
@@ -23,6 +23,8 @@ import com.gm.user.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import com.gm.message.AuthenticateResponse;
+import com.gm.security.SecurityHelper;
 
 @Stateless
 @LocalBean
@@ -38,7 +40,6 @@ public class UserResource {
         Query query = em.createQuery("SELECT u from User u", User.class);
         
         return query.getResultList();
-        
     }
    
     @POST @Produces("application/json")
@@ -47,20 +48,49 @@ public class UserResource {
                            @QueryParam("first_name") String firstName,
                            @QueryParam("last_name") String lastName){
         
-        
-       String salt = ""; // this will be replaced by the hashing function
-       User user = new User(email, password, salt, false, firstName, lastName); 
+       User user = new User(email, password, "", false, firstName, lastName); 
         
        em.persist(user);
     }
     
     @POST
-    @Path("/authenticate")
-    public void login(@FormParam("email") String email, @FormParam("password") 
-            String password){
+    @Path("/authenticate") 
+    @Produces("application/json")
+    public AuthenticateResponse login(@FormParam("email") String email,
+                                     @FormParam("password") String password){
         
+        SecurityHelper sh = new SecurityHelper();
         
+        String md5Password = sh.md5(password);
         
+        Query q = em.createNamedQuery("findUserWithEmail").setParameter("email",
+                    email);
+        
+        Boolean result = false;
+        User user = null;
+      
+        List<User> users = q.getResultList();
+        //check if the user exists
+        if(!users.isEmpty()){
+            user = (User) users.get(0);
+            
+            //check if the user entered the correct email address and password
+            if ( (user.getEmail()).equalsIgnoreCase(email) &&
+                      (user.getPassword()).equals(md5Password)) { 
+                result = true;
+            }
+            
+        }
+   
+        AuthenticateResponse response;
+        if(result){
+            response = new AuthenticateResponse(result,
+                                                user.getId(), user.isAdmin());
+        }else{
+            response = new AuthenticateResponse(result);
+        }
+        
+        return response;
     }
     
     @DELETE @Path("/{id}")
@@ -70,7 +100,8 @@ public class UserResource {
     
     @PUT @Path("/{id}")
     public void updateUser(@PathParam("id") long id){
-        
+        User u = em.find(User.class, id);
+       
     }
     
 }
