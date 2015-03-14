@@ -24,6 +24,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import com.gm.message.AuthenticateResponse;
+import com.gm.security.SecurityHelper;
 
 @Stateless
 @LocalBean
@@ -39,7 +40,6 @@ public class UserResource {
         Query query = em.createQuery("SELECT u from User u", User.class);
         
         return query.getResultList();
-        
     }
    
     @POST @Produces("application/json")
@@ -59,6 +59,10 @@ public class UserResource {
     public AuthenticateResponse login(@FormParam("email") String email,
                                      @FormParam("password") String password){
         
+        SecurityHelper sh = new SecurityHelper();
+        
+        String md5Password = sh.md5(password);
+        
         Query q = em.createNamedQuery("findUserWithEmail").setParameter("email",
                     email);
         
@@ -72,7 +76,7 @@ public class UserResource {
             
             //check if the user entered the correct email address and password
             if ( (user.getEmail()).equalsIgnoreCase(email) &&
-                      (user.getPassword()).equals(password)) { 
+                      (user.getPassword()).equals(md5Password)) { 
                 result = true;
             }
             
