@@ -90,6 +90,67 @@ controllers.controller('QueryCtrl',['$scope', '$filter', function($scope, $filte
     }
   };
   
+  var testWords = [['foo', 30], ['bar', 6], ['cat', 1], ['rat', 9], ['poo', 5], ['pop', 4],
+                   ['car', 11], ['app', 10], ['ban', 2], ['tan', 10], ['fuck', 10], ['slit', 3],
+                   ['tap', 13], ['him', 9], ['can', 3], ['que', 7], ['duck', 7], ['crap', 1],
+                   ['top', 14], ['she', 8], ['man', 4], ['pee', 5], ['shit', 8], ['slap', 2],
+                  ];
+  WordCloud(document.getElementById('wordCloud_canvas'), 
+            { list: testWords, 
+             color: 'random-dark',
+             shape: 'square',
+             rotateRatio: 0.0,
+             weightFactor: 2
+            });
+  
+  var testPieData = [
+    {
+        value: 300,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Red"
+    },
+    {
+        value: 50,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Green"
+    },
+    {
+        value: 100,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Yellow"
+    }
+  ]
+  
+  var testBarData = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,0.8)",
+            highlightFill: "rgba(220,220,220,0.75)",
+            highlightStroke: "rgba(220,220,220,1)",
+            data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+            label: "My Second dataset",
+            fillColor: "rgba(151,187,205,0.5)",
+            strokeColor: "rgba(151,187,205,0.8)",
+            highlightFill: "rgba(151,187,205,0.75)",
+            highlightStroke: "rgba(151,187,205,1)",
+            data: [28, 48, 40, 19, 86, 27, 90]
+        }
+    ]
+  };
+  
+  var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
+  var pieChart = new Chart(pieCtx).Pie(testPieData);
+  
+  var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
+  var barChart = new Chart(barCtx).Bar(testBarData);
   
   // TODO: Would like to add a day to today because of rounding but it messes up format
   $scope.today = $filter('date')(new Date(), 'yyyy-MM-dd');
