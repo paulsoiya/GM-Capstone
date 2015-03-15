@@ -1,0 +1,67 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-5 grayBoxArea">
+            <h3>Data Pull Frequency</h3>
+            <form class="form-inline" id="dataAccessForm">
+            <div class="form-group">
+
+                <select class="form-control"
+                        name="accessFrequency" 
+                        style="width:200px">
+                    <option>24 Hours</option>
+                </select>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Update
+                </button>
+            </div>
+            </form>
+            <h3>Data Retention</h3>
+            <form class="form-inline" id="dataRetentionForm">
+            <div class="form-group">
+
+                <select class="form-control"
+                        name="top-words" 
+                        style="width:200px">
+                    <option value="6">6 Months</option>
+                </select>
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Update
+                </button>
+            </div>
+            </form>
+            <h3>Data Statistics</h3>
+
+            <table class="table-condensed">
+                <tr>
+                    <td><b>Total Number of Tweets:</b></td>
+                    <td><span id="totalNumTweets">243500</span></td>
+                </tr>
+                <tr>
+                    <td><b>Total Data Storage:</b></td>
+                    <td><span id="totalDataStorage">29.3 TB</span></td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-5 grayBoxArea">
+            <h3>Hash Tags</h3>
+            <form class="form-inline" id="hashtagForm">
+                <div class="form-group">
+                    <input type="text"
+                           name="hashtag" 
+                           class="form-control"
+                           placeholder="Enter hashtag">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
