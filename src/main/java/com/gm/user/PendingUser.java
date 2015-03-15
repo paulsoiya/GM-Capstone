@@ -74,8 +74,6 @@ public class PendingUser implements Serializable {
         this.lastName = lastName;
     }
     
-    
-    
     public Long getId() {
         return id;
     }
