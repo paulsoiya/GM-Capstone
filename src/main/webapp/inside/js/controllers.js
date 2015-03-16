@@ -90,10 +90,10 @@ controllers.controller('QueryCtrl',['$scope', '$filter', function($scope, $filte
     }
   };
   
-  var testWords = [['foo', 30], ['bar', 6], ['cat', 1], ['rat', 9], ['poo', 5], ['pop', 4],
-                   ['car', 11], ['app', 10], ['ban', 2], ['tan', 10], ['fuck', 10], ['slit', 3],
-                   ['tap', 13], ['him', 9], ['can', 3], ['que', 7], ['duck', 7], ['crap', 1],
-                   ['top', 14], ['she', 8], ['man', 4], ['pee', 5], ['shit', 8], ['slap', 2],
+  var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car', 5], ['new', 4],
+                   ['love', 11], ['like', 10], ['awesome', 2], ['cool', 10], ['Caddy', 10], ['Chevrolet', 3],
+                   ['wow', 13], ['fantastic', 9], ['yowza', 3], ['the', 7], ['true', 7], ['stuff', 1],
+                   ['can', 14], ['say', 8], ['shiny', 4], ['red', 5], ['truck', 8], ['man', 2],
                   ];
   WordCloud(document.getElementById('wordCloud_canvas'), 
             { list: testWords, 
@@ -106,26 +106,20 @@ controllers.controller('QueryCtrl',['$scope', '$filter', function($scope, $filte
   var testPieData = [
     {
         value: 300,
-        color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Red"
+        color:"#000080",
+        highlight: "#00004c",
+        label: "Positive"
     },
     {
         value: 50,
-        color: "#46BFBD",
-        highlight: "#5AD3D1",
-        label: "Green"
-    },
-    {
-        value: 100,
-        color: "#FDB45C",
-        highlight: "#FFC870",
-        label: "Yellow"
+        color: "#7f7fff",
+        highlight: "#6666ff",
+        label: "Negative"
     }
   ]
   
   var testBarData = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: ["Chevy", "Chevrolet", "Cadillac", "Caddy"],
     datasets: [
         {
             label: "My First dataset",
@@ -133,15 +127,7 @@ controllers.controller('QueryCtrl',['$scope', '$filter', function($scope, $filte
             strokeColor: "rgba(220,220,220,0.8)",
             highlightFill: "rgba(220,220,220,0.75)",
             highlightStroke: "rgba(220,220,220,1)",
-            data: [65, 59, 80, 81, 56, 55, 40]
-        },
-        {
-            label: "My Second dataset",
-            fillColor: "rgba(151,187,205,0.5)",
-            strokeColor: "rgba(151,187,205,0.8)",
-            highlightFill: "rgba(151,187,205,0.75)",
-            highlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86, 27, 90]
+            data: [10, 8, 5, 3]
         }
     ]
   };
