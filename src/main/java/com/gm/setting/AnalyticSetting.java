@@ -32,7 +32,11 @@ public class AnalyticSetting implements Serializable {
     private int topWords;
 
     @Column(name = "explicit_words")
-    private int explicitWords;
+    private String explicitWords;
+
+    public AnalyticSetting(String explicitWords) {
+        this.explicitWords = explicitWords;
+    }
 
     public Long getId() {
         return id;
@@ -58,11 +62,11 @@ public class AnalyticSetting implements Serializable {
         this.topWords = topWords;
     }
 
-    public int getExplicitWords() {
+    public String getExplicitWords() {
         return explicitWords;
     }
 
-    public void setExplicitWords(int explicitWords) {
+    public void setExplicitWords(String explicitWords) {
         this.explicitWords = explicitWords;
     }
 

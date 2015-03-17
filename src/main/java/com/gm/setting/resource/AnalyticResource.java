@@ -5,7 +5,7 @@
  * @author Vance Anderson
  * @version 3/11/2015
  */
-package com.gm.user.resource;
+package com.gm.setting;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
