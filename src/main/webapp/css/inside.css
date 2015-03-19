@@ -28,9 +28,11 @@ body > .container {
     margin: 20px 0;
 }
 .queryPage {
+    padding-top: 15px;
     color: black;
 }
 .comparePage {
+    padding-top: 15px;
     color: black;
 }
 
