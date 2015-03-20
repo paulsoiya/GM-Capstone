@@ -65,6 +65,9 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 
 }]);
 
+
+
+
 controllers.controller('NavbarCtrl', ['$scope', '$state',
   function ($scope, $state){
     
@@ -79,7 +82,20 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
   
 }]);
 
-controllers.controller('QueryCtrl',['$scope', '$filter', function($scope, $filter){
+/*
+controllers.controller('QueryCouch', ['$scope', '$http', function ($scope, $http){
+
+  console.log($scope.location);
+  console.log($scope.startDate);
+  console.log($scope.endDate);
+  console.log($scope.make);
+  console.log($scope.model);
+  console.log($scope.year);
+
+}]);
+*/
+
+controllers.controller('QueryCtrl',['$scope', '$filter', '$http', function($scope, $filter, $http){
   
   // Location dropdown
   $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
@@ -130,6 +146,22 @@ controllers.controller('QueryCtrl',['$scope', '$filter', function($scope, $filte
               weightFactor: 2
           }
   );
+  
+  //POST 
+  $scope.queryPost = function() {
+    $http.post('http://localhost:7001/GMProject/api/query', 
+	    {location: $scope.location,
+		endDate: $scope.endDate,
+		startDate: $scope.startDate,
+		make: $scope.make,
+		model: $scope.model,
+		year: $scope.year
+		},
+		{headers: {'Content-Type': 'application/json'} }
+	    ).success(function(data){
+		console.log("yay");
+    });
+  }
   
 }]);
 
