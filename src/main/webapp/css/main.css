@@ -1,10 +1,10 @@
 body{
-    background-image:url('images/rsz_bgimg.jpg');
+    background-image:url('../images/rsz_bgimg.jpg');
     color:#fff;
 }
 
 .middleDiv{
-    background:url('images/midtile.png') repeat;
+    background:url('../images/midtile.png') repeat;
     border-radius: 12px;
     padding:30px;
 }
@@ -25,7 +25,7 @@ body{
 }
 
 .mainSplashPicture{
-    background: url('images/carimg.jpg') no-repeat;
+    background: url('../images/carimg.jpg') no-repeat;
     height:387px;
     width:980px;
 }

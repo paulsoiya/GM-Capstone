@@ -1,36 +1,44 @@
 
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
-  color:#fff;
-  background-color:#222222;
+    margin-bottom: 60px;
+    color:#fff;
+    background-color:#222222;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color:#656572;
-  color:#fff;
-  padding-top:18px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color:#656572;
+    color:#fff;
+    padding-top:18px;
 }
 
 body > .container {
-  padding: 60px 15px 0;
+    padding: 60px 15px 0;
 }
 .container .text-muted {
-  margin: 20px 0;
+    margin: 20px 0;
+}
+.queryPage {
+    padding-top: 15px;
+    color: black;
+}
+.comparePage {
+    padding-top: 15px;
+    color: black;
 }
 
 .footer > .container {
-  padding-right: 15px;
-  padding-left: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .paddingTop{
@@ -56,8 +64,14 @@ body > .container {
 
 .grayBoxArea{
     background-color: #656572;
-    padding:5px;
+    padding:25px;
     min-height: 300px;
+}
+
+.formRow{
+    width: 33%;
+    float: left;
+    margin-bottom:8px;
 }
 
 h3{
@@ -74,7 +88,7 @@ h3{
 }
 
 .nav>li>a:hover {
-background-color:#204d74;
+    background-color:#204d74;
 }
 
 option{
