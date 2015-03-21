@@ -49,7 +49,7 @@ public class StanbolConnection {
 			//System.out.println(response);
 			JSONObject responseJSON = new JSONObject(response);
 			
-			if(responseJSON.getJSONArray("@graph") != null){
+			if(responseJSON.has("@graph")){
 				JSONArray graphJSON = responseJSON.getJSONArray("@graph");
 				
 				//look for sentiment of whole document

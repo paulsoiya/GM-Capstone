@@ -148,21 +148,15 @@ public class Twit {
 		    	int count = 0;
 		    	
 		    	public void onStatus(Status status) {
-		    		// TODO
+
 		    		System.out.println("#: " + ++count + " @" + status.getUser().getScreenName() + ": " + status.getText());
-		    		// NNED TO PARSE STUFF HERE
-		    		// DONT KEEP IF:
-		    		// beings with "http://" or "www" sean: regex is only removing them from text right now
-					
-					
-					// sean: I'm not very good with regular expressions so someone might want to fix this mess
-					String regexAtUser = "@\\w+";
-					String regexBreakLines = "[(\\r)(\\n)]";
-					String regexLink = "(\\S+\\.(\\w+)(\\/\\S+)?)";
-					String regexRemaining = "[^a-zA-Z.,!\\s]";
+		    		// NEED TO PARSE STUFF HERE
+		    		// DONT KEEP IF:		
+					String regexAtUser = "@\\w+"; // removes start with "@"
+					String regexBreakLines = "[(\\r)(\\n)]"; // removes break lines in the tweet
+					String regexLink = "(\\S+\\.(\\w+)(\\/\\S+)?)"; // removes all links
+					String regexRemaining = "[^a-zA-Z.,!\\s]"; // removes all non-letter characters
 					boolean ignoreTweet = false;
-		    		// removes start with "@" sean: regex covers this
-		    		// remove all non-letter characters sean: regex covers this
 					
 					String text = status.getText();
 					
@@ -181,13 +175,17 @@ public class Twit {
 					text = m.replaceAll("");
 					
 					
-					String[] textArray = text.split(" ");
+					//Puts all the words in the tweet into a hashmap
+					String lowerCaseText = text.toLowerCase();
+					String[] textArray = lowerCaseText.split(" ");
 					Map<String, Integer> wordCount = new HashMap<>();
 					for (String word: textArray) {
-						if (wordCount.containsKey(word)) {
-							wordCount.put(word, wordCount.get(word) + 1);
-						} else {
-							wordCount.put(word, 1);
+						if(!word.equals("")){
+							if (wordCount.containsKey(word)) {
+								wordCount.put(word, wordCount.get(word) + 1);
+							} else {
+								wordCount.put(word, 1);
+							}
 						}
 					}
 					
@@ -204,35 +202,48 @@ public class Twit {
 		    			hasLocation = true;
 		    		}
 		    		String time = status.getCreatedAt().toString();
+					//TODO change this to round to the day
 					Long timeLong = status.getCreatedAt().getTime();
 		    		String numFaves = String.valueOf(status.getFavoriteCount());
 		    		String numRetweets = String.valueOf(status.getRetweetCount());
 		    		String length = String.valueOf(status.getText().length());
 					String language = String.valueOf(status.getLang());
 					StanbolConnection sc = new StanbolConnection(STANBOL);
+					System.out.println(text);
 					double sentiment = sc.singleSentiment(text);
 					
 					if(sentiment == 404) ignoreTweet = true;
 					
 					if("en".equals(language) && !ignoreTweet){
 						try {
+							
+						
 							//injectObj.put("source", String.valueOf(status.getSource()));
-							injectObj.put("text", text);
+							injectObj.put("tweettext", text);
 							if(hasLocation) {
-								injectObj.put("location", location);
+								injectObj.put("tweetlocation", location);
 							}
-							injectObj.put("time", time);
-							injectObj.put("timeLong", timeLong);
+							injectObj.put("tweettime", timeLong);
 							//injectObj.put("numFaves", numFaves);
 							//injectObj.put("numRetweets", numRetweets);
 							//injectObj.put("length", length);
-							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) {
-								injectObj.put(entry.getKey(), entry.getValue());
-							}  
 							
-							injectObj.put("sentiment", sentiment);
-							//sean: it's only injecting one at time right now, will change this later
-							CouchConnection cc = new CouchConnection(COUCHDB, "gm/");						
+							
+							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) {
+								//JSONObject wordDocument = new JSONObject();
+								//wordDocument.put("_id", entry.getKey());
+								//wordDocument.put("_frequency", entry.getValue());
+								
+								//JSONObject currentWordDocument = new JSONObject( cc.queryDB(entry.getKey()) ); 
+								injectObj.put(entry.getKey(), entry.getValue());	
+							}
+							
+							
+							
+							
+							injectObj.put("tweetsentiment", sentiment);
+
+							CouchConnection cc = new CouchConnection(COUCHDB, "gm/");	
 							cc.createDocuments(injectObj, false);    
 							
 							for(String tag : filterTags) {
@@ -244,13 +255,10 @@ public class Twit {
 							
 							count++;
 							
-
+						}
 						catch(JSONException je) {
 							je.printStackTrace();
 						}
-						for(int i = 0; i < 30; ++i)System.out.println("");
-						System.out.print("OBJECT: " + injectObj.toString());
-						for(int i = 0; i < 30; ++i)System.out.println("");
 					}
 					
 					
