@@ -16,9 +16,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
- 
-@Entity @XmlRootElement
+
+
+@NamedQueries({
+@NamedQuery(
+    name="findUserWithEmail",
+    query="SELECT u FROM User u WHERE u.email = :email") 
+})
+@Entity 
+@XmlRootElement
 public class User implements Serializable{
     
     private static final long serialVersionUID = 1L;

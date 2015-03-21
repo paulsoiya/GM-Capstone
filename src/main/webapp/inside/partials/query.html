@@ -1,0 +1,96 @@
+<div class="queryPage">
+
+  <div class="col-md-3 query-form">
+    <div class="panel panel-default">
+      <div class="panel-heading">#generalmotors</div>
+      <div class="panel-body">
+        <form>
+          <!-- Locations dropdown -->
+          <div class="form-group">
+            <label for="selectLocation">Location</label>
+            <select class="form-control">
+                <option id="selectLocation" ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+              </select>
+          </div>
+          <!-- startDate datepicker -->
+          <div class="form-group">
+            <label for="selectStart">From</label>
+            <div class="input-group" id="selectStart">
+              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="startDate" is-open="startOpened" 
+                     min-date="'{{aMonthAgo}}'" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+                     ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event, 'start')"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </div>
+          </div>
+          <!-- endDate datepicker -->
+          <div class="form-group">
+            <label for="selectEnd">to</label>
+            <div class="input-group" id="selectEnd">
+              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="endDate" is-open="endOpened" 
+                     min-date="startDate" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+                     ng-required="true" close-text="Close" />
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event, 'end')"><i class="glyphicon glyphicon-calendar"></i></button>
+              </div>
+            </div>
+          </div>
+          <!-- makes dropdown -->
+          <div class="form-group">
+            <label for="selectMake">Make</label>
+            <select id="selectMake" class="form-control">
+              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            </select>
+          </div>
+          <!-- models dropdown -->
+          <div class="form-group">
+            <label for="selectMake">Model</label>
+            <select id="selectModel" class="form-control">
+              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            </select>
+          </div>
+          <!-- years dropdown -->
+          <div class="form-group">
+            <label for="selectMake">Year</label>
+            <select id="selectYear" class="form-control">
+              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">Grade</div>
+      <div class="panel-body">
+        <span>
+        <canvas class="col-md-12" id="pieGraph_canvas"></canvas>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Most Frequent Words</div>
+      <div class="panel-body">
+        <canvas class="col-md-12" id="barGraph_canvas"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">Compare & Save</div>
+      <div class="panel-body">
+        
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Word Cloud</div>
+      <div class="panel-body">
+        <canvas id="wordCloud_canvas" class="wordcloud col-md-12"></canvas>
+      </div>
+    </div>
+  </div>
+  
+</div>
