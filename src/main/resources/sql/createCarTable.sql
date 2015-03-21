@@ -6,7 +6,8 @@ DROP TABLE IF EXISTS filterqueryalternates;
 
 CREATE TABLE filterquerymakes(
 	filterid INT NOT NULL,
-	makes varchar(2048),
+	name varchar(128),
+    models varchar(128),
 	PRIMARY KEY(filterid)
 );
 
