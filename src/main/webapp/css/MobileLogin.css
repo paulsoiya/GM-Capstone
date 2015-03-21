@@ -1,0 +1,27 @@
+@media screen and (max-width: 768px)
+{
+    div.row.mainRow.blkRow, .row.mainRow.mainSplashPicture {
+        display: none;
+    }
+    form#loginForm.navbar-form.navbar-right {
+
+
+    }
+    .collapse {
+        display: block;
+    }
+    div.middleDiv {
+        height: 150px;
+        margin-top: 180px;
+    }
+    .navbar-inverse {
+        background-color: transparent ;
+        border: none;
+    }
+    .navbar-form {
+        border: none;
+        width: 90%;
+        margin-left: 3px;
+        margin-top: 240px;
+    }
+}
