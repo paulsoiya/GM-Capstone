@@ -5,6 +5,7 @@
     <jta-data-source>jdbc/mysql_ds</jta-data-source>
     <class>com.gm.user.User</class>
     <class>com.gm.user.PendingUser</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>com.gm.setting.AnalyticSetting</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
   </persistence-unit>
 </persistence>

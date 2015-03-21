@@ -19,8 +19,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.FormParam;
 import java.util.List;
+import com.gm.message.ReturnMessage;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.Consumes;
 
-import com.gm.user.User;
+
+
+import com.gm.setting.AnalyticSetting;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -34,19 +39,31 @@ public class AnalyticResource {
     EntityManager em;
     
     @GET @Produces("application/json")
-    public List<User> getAll(){
+    public List<AnalyticSetting> getAll(){
        
-        Query query = em.createQuery("SELECT s from Analytic_Setting s", AnalyticSetting.class);
+        Query query = em.createQuery("SELECT s from analytic_aetting s", AnalyticSetting.class);
         
         return query.getResultList();
         
     }
    
-    @POST @Produces("application/json")
-    public void createExplicitLit(@QueryParam("explicit_words") String explicitWords){
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    public ReturnMessage createExplicitList(@QueryParam("explicit_words") String explicitWords){
        AnalyticSetting setting = new AnalyticSetting(explicitWords); 
         
        em.persist(setting);
+
+       ReturnMessage rm = new ReturnMessage();
+        //check if object was persisted and return json of result message
+        if (em.contains(setting)) {
+            rm.setResult("success");
+        } else {
+            rm.setResult("fail");
+        }
+
+        return rm;
     }
     
     @DELETE @Path("/{id}")

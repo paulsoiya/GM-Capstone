@@ -25,11 +25,11 @@ public class AnalyticSetting implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(name = "data_access")
-    private int dataAccess;
+    // @Column(name = "data_access")
+    // private int dataAccess;
     
-    @Column(name = "top_words")
-    private int topWords;
+    // @Column(name = "top_words")
+    // private int topWords;
 
     @Column(name = "explicit_words")
     private String explicitWords;
@@ -46,21 +46,21 @@ public class AnalyticSetting implements Serializable {
         this.id = id;
     }
 
-    public int getDataAccess() {
-        return dataAccess;
-    }
+    // public int getDataAccess() {
+    //     return dataAccess;
+    // }
 
-    public void setDataAccess(int dataAccess) {
-        this.dataAccess = dataAccess;
-    }
+    // public void setDataAccess(int dataAccess) {
+    //     this.dataAccess = dataAccess;
+    // }
 
-    public int getTopWords() {
-        return topWords;
-    }
+    // public int getTopWords() {
+    //     return topWords;
+    // }
 
-    public void setTopWords(int topWords) {
-        this.topWords = topWords;
-    }
+    // public void setTopWords(int topWords) {
+    //     this.topWords = topWords;
+    // }
 
     public String getExplicitWords() {
         return explicitWords;
