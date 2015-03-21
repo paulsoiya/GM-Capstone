@@ -157,7 +157,7 @@ controllers.controller('QueryCtrl',['$scope', '$filter', '$http', function($scop
 		model: $scope.model,
 		year: $scope.year
 		},
-		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
+		{headers: {'Content-Type': 'application/json'} }
 	    ).success(function(data){
 		console.log("yay");
     });
