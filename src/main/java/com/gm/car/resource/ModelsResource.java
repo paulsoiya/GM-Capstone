@@ -1,5 +1,5 @@
 /**
- * JAX-RS RESTful implementation for the Makes Entity
+ * JAX-RS RESTful implementation for the Models Entity
  * 
  * @author Becca Little
  * @version 3/21/2015
@@ -19,7 +19,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.FormParam;
 import java.util.List;
 
-import com.gm.car.Makes;
+import com.gm.car.Models;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -28,16 +28,16 @@ import com.gm.security.SecurityHelper;
 
 @Stateless
 @LocalBean
-@Path("/makes")
-public class MakesResource {
+@Path("/models")
+public class ModelsResource {
     
     @PersistenceContext(unitName="mydb")
     EntityManager em;
     
     @GET @Produces("application/json")
-    public List<Makes> getAll(){
+    public List<Models> getAll(){
        
-        Query query = em.createQuery("SELECT m from Makes m", Makes.class);
+        Query query = em.createQuery("SELECT m from Models m", Models.class);
         
         return query.getResultList();
     }

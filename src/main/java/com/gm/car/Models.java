@@ -1,6 +1,6 @@
 /**
- * Class Makes utilizes TOPLINK's java's persistence API
- * to map the Makes table to the Makes class 
+ * Class Models utilizes TOPLINK's java's persistence API
+ * to map the Models table to the Models class 
  * 
  * @author Becca Little
  * @version 3/21/2015
@@ -23,29 +23,42 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Entity @XmlRootElement 
-@Table(name="makes")
-public class Makes implements Serializable{
+@Table(name="models")
+public class Models implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    @Column(name="make_id")
+    @Column(name="model_id")
     @Id @GeneratedValue
+    private int modelId;    
+  
+    @Column(name="make_id")
     private int makeId;
     
-    @Column(name="make_name")
-    private String makeName;
+    @Column(name="model_name")
+    private String modelName;
 
-    public Makes() { }
+    public Models() { }
    
-    public Makes(int makeId, String makeName) {
+    public Models(int modelId, int makeId, String modelName) {
+        this.modelId = modelId;
         this.makeId = makeId;
-        this.makeName = makeName;
+        this.modelName = modelName;
     }
   
-  public Makes(String makeName) {
-        this.makeName = makeName;
+    public Models(int makeId, String modelName) {
+        this.makeId = makeId;
+        this.modelName = modelName;
     }
     
+    public int getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(int modelId) {
+        this.modelId = modelId;
+    }
+  
     public int getMakeId() {
         return makeId;
     }
@@ -54,12 +67,12 @@ public class Makes implements Serializable{
         this.makeId = makeId;
     }
 
-    public String getMakeName() {
-        return makeName;
+    public String getModelName() {
+        return modelName;
     }
 
-    public void setMakeName(String makeName) {
-        this.makeName = makeName;
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
     
 }

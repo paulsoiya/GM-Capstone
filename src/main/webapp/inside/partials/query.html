@@ -8,8 +8,8 @@
           <!-- Locations dropdown -->
           <div class="form-group">
             <label for="selectLocation">Location</label>
-            <select class="form-control">
-                <option id="selectLocation" ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            <select id="selectLocation" class="form-control">
+                <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
               </select>
           </div>
           <!-- startDate datepicker -->
@@ -37,24 +37,24 @@
             </div>
           </div>
           <!-- makes dropdown -->
-          <div class="form-group">
+          <div class="form-group nullable">
             <label for="selectMake">Make</label>
-            <select id="selectMake" class="form-control">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            <select id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes">
+              <option value="All Makes">All Makes</option> 
             </select>
           </div>
           <!-- models dropdown -->
-          <div class="form-group">
-            <label for="selectMake">Model</label>
-            <select id="selectModel" class="form-control">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+          <div class="form-group nullable">
+            <label for="selectModel">Model</label>
+            <select id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}">
+              <option value="All Models">All Models</option> 
             </select>
           </div>
           <!-- years dropdown -->
-          <div class="form-group">
-            <label for="selectMake">Year</label>
-            <select id="selectYear" class="form-control">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+          <div class="form-group nullable">
+            <label for="selectYear">Year</label>
+            <select id="selectYear" class="form-control" ng-model="selectYear" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}">
+              <option value="All Years">All Years</option>
             </select>
           </div>
           <button type="button" class="btn btn-primary btn-lg">Submit</button>
