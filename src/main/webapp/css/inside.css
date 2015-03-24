@@ -95,4 +95,10 @@ option{
   color: black;
 }
 
+table{
+	color:black;
+	border: 1px solid #d0d0d0;
+	border-radius: 6px;
+}
+
 >>>>>>> acquisition
