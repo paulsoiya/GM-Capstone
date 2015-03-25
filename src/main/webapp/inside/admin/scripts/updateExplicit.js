@@ -16,9 +16,10 @@ $( "#explicitForm" ).submit(function( event ) {
 
    $.ajax({   
             type: "POST",
+            dataType: 'JSONP',
             data: postFields,
             cache: false,  
-            url: "../../api/analytics",   
+            url: "api/analytics",   
             success: function(data){
                 
                 if(data.result === "success"){

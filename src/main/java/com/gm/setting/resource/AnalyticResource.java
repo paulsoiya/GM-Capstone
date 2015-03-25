@@ -41,7 +41,7 @@ public class AnalyticResource {
     @GET @Produces("application/json")
     public List<AnalyticSetting> getAll(){
        
-        Query query = em.createQuery("SELECT s from analytic_aetting s", AnalyticSetting.class);
+        Query query = em.createQuery("SELECT s from AnalyticSetting s", AnalyticSetting.class);
         
         return query.getResultList();
         
@@ -50,7 +50,7 @@ public class AnalyticResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createExplicitList(@QueryParam("explicit_words") String explicitWords){
+    public ReturnMessage createAnalytic(@FormParam("explicit_words") String explicitWords){
        AnalyticSetting setting = new AnalyticSetting(explicitWords); 
         
        em.persist(setting);
