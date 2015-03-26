@@ -74,16 +74,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `analytic_setting`
+-- Table `explicit_content`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `analytic_setting` ;
 
 CREATE TABLE IF NOT EXISTS `analytic_setting` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `data_access` INT NOT NULL,
-  `top_words` INT NOT NULL,
+  `explicit_words` VARCHAR(256) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `filterquery`
@@ -93,21 +93,21 @@ DROP TABLE IF EXISTS `filterquerymodels`;
 DROP TABLE IF EXISTS `filterqueryalternates`;
 
 CREATE TABLE filterquerymakes(
-  `filterid` INT NOT NULL,
-  `makes` varchar(2048),
-  PRIMARY KEY(filterid)
+	`filterid` INT NOT NULL,
+	`makes` varchar(2048),
+	PRIMARY KEY(filterid)
 )
 ENGINE = InnoDB;
 CREATE TABLE filterquerymodels(
-  `make` varchar(128) NOT NULL,
-  `model` varchar(2048),
-  PRIMARY KEY(make)
+	`make` varchar(128) NOT NULL,
+	`model` varchar(2048),
+	PRIMARY KEY(make)
 )
 ENGINE = InnoDB;
 CREATE TABLE filterqueryalternates(
-  `make` varchar(128) NOT NULL,
-  `alternates` varchar(2048),
-  PRIMARY KEY(make) 
+	`make` varchar(128) NOT NULL,
+	`alternates` varchar(2048),
+	PRIMARY KEY(make)	
 )
 ENGINE = InnoDB;
 
@@ -137,5 +137,10 @@ insert into filterquerymodels values('cadillac', 'cts,xts,ats,cts-v,srx,escalade
 insert into filterquerymodels values('gmc', 'terrain,acadia,yukon,sierra');
 
 insert into filterqueryalternates values ('chevrolet', 'vette,chevy');
+
+INSERT INTO analytic_setting (`explicit_words`) VALUES ('fuck');
+INSERT INTO analytic_setting (`explicit_words`) VALUES ('shit');
+INSERT INTO analytic_setting (`explicit_words`) VALUES ('bitch');
+
 COMMIT;
 
