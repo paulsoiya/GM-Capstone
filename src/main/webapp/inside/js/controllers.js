@@ -43,6 +43,22 @@ controllers.controller('AdminCtrl', ['$scope',
     $scope.isAdmin = true;
   }]);
 
+controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scope, $http) {
+  $scope.explicitWords = [];
+  $scope.newWord = '';
+  $scope.removeSelected = '';
+  $scope.add = function() {
+    if ($scope.newWord) {
+      $scope.explicitWords.push(this.newWord);
+      $scope.newWord = '';
+    }
+  };
+  $scope.delete = function() {
+    var index = $scope.explicitWords.indexOf($scope.removeSelected);
+    $scope.explicitWords.splice(index, 1);
+  };
+}]);
+
 controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, $http){
 
   $http.get('http://localhost:7001/GMProject/api/pending-users').success(function(data) {

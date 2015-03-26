@@ -1,4 +1,47 @@
-<script src="../js/analyticsController.js" defer></script>
+<div class="comparePage">
+
+  
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">New</div>
+      <div class="panel-body">
+        
+        <form ng-submit="add()">
+          <div class="form-group">
+            <label for="addWord">New explicit content to be filtered in displays</label>
+            <input id="addWord" class="form-control" type="text" ng-model="newWord" name="text" placeholder="New explicit word or phrase"/>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="submitAdd" class="btn btn-primary">Add Word</button> Note: enter one word or phrase at a time
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+    
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Existing</div>
+      <div class="panel-body">
+        <form ng-submit="delete()">
+          <div class="form-group">
+            <label for="selectRemove">Existing explicit content filtered in displays</label>
+            <select class="form-control" id="selectRemove" ng-model="removeSelected">
+              <option ng-repeat="explicitWord in explicitWords" value={{explicitWord}}>{{explicitWord}}</input>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="submitRemoval" class="btn btn-primary">Remove Word</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<!--
+<script src="admin/scripts/controller.js" defer></script>
 <div class="container">
     <div class="row">
         
@@ -44,4 +87,6 @@
     
 </div>
 
-    <script src="scripts/updateExplicit.js"></script>
+    <script src="admin/scripts/updateExplicit.js"></script>
+
+-->
