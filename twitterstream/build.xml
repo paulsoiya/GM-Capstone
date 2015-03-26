@@ -14,7 +14,7 @@
   <target name="compile" description="Compile source code" >
     <antcall target="clean"/>
     <antcall target="build"/>
-    <javac srcdir="${src}" destdir="${build}" includeantruntime="false" failonerror="true">
+    <javac srcdir="${src}" destdir="${build}" includeantruntime="false" failonerror="true" debug="true" debuglevel="lines,vars,source">
     	<classpath>
         	<pathelement path="lib/twitter4j-core-4.0.2.jar"/>
           <pathelement path="lib/twitter4j-stream-4.0.2.jar"/>

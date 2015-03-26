@@ -58,3 +58,37 @@ GM-Capstone/
  3. Uses "ant" to build, simply use the following commands in the twitterstream directory:  
   - ant compile  
   - ant execute
+  
+  
+  
+#### Apache Stanbol Installation  
+1.  
+ - export MAVEN_OPTS="-Xmx1024M -XX:MaxPermSize=256M"
+ - svn co http://svn.apache.org/repos/asf/stanbol/trunk stanbol
+ - cd stanbol
+ - mvn clean install
+ - cd launchers
+ - java -Xmx1g -jar stable/target/org.apache.stanbol.launchers.stable-1.0.0-SNAPSHOT.jar
+
+2. In a new terminal, go to the following directory in your stanbol directory:
+ - cd stanbol/data/sentiment/sentiwordnet
+ - mvn install -DskipTests -PinstallBundle -Dsling=http://localhost:8080/system/console
+ -- This needs to be done each time the instance of stanbol is launched.
+
+3. Add sentiment-wordclassifier and sentiment-summarization to the engines in the default chain
+ - Go here: http://localhost:8080/enhancer/chain
+ - Click the configure link next to default, default credentials admin/admin
+ - Set the engine chain to this order:
+ -	langdetect
+ - 	opennlp-sentence
+ -	opennlp-token
+ -	opennlp-pos
+ -	opennlp-ner
+ -	sentiment-wordclassifier
+ -	sentiment-summarization
+
+4. Stanbol's endpoint example
+ - curl -X POST -H "Accept:  application/json" -H "Content-type: text/plain" --data "This is a positive sentence because I like sentences. This is a negative sentence because I hate sentences.  I like animals.  I hate hats." http://localhost:8080/enhancer
+
+
+

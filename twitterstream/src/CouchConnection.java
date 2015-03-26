@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import twitter4j.*;
 // ^ umm ok. Needed this import for JSON objects instead of "org.json..." very weird
 // Looks like twitter4j already had jsons included and there was a conflict on which json class to use
@@ -45,7 +46,9 @@ public class CouchConnection {
 			if (instream != null)
 				try {
 					instream.close();
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 		return response;
 	}
@@ -85,7 +88,9 @@ public class CouchConnection {
 			if (outstream != null)
 				try {
 					outstream.close();
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 		return response;
 	}
@@ -122,11 +127,15 @@ public class CouchConnection {
 			if (instream != null)
 				try {
 					instream.close();
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			if (outstream != null)
 				try {
 					outstream.close();
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 		return response;
 	}
@@ -152,11 +161,19 @@ public class CouchConnection {
 			if (instream != null)
 				try {
 					instream.close();
-				} catch (IOException e) {}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 		return response;
 	}	
 
+
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 		try {
 			CouchConnection couch = new CouchConnection("http://localhost:5984/","gm/");
@@ -175,13 +192,15 @@ public class CouchConnection {
 	        }
 			bulk.put("docs", docs);
 			
-			JSONObject viewDocument = new JSONObject(couch.queryDB("_design/tweets"));
-			String viewName = "varname";
-			couch.createDocuments(bulk, true);
+//			JSONObject viewDocument = new JSONObject(couch.queryDB("_design/tweets"));
+//			String viewName = "varname";
+//			couch.createDocuments(bulk, true);
 			
-			JSONObject view = new JSONObject();
-			view.put("map", "function(doc) { if (doc."+viewName+" == '2015') { emit(doc._id, doc.make); } }");
-			viewDocument.getJSONObject("views").put(viewName, view);
+			
+//			JSONObject view = new JSONObject();
+//			view.put("map", "function(doc) { if (doc."+viewName+" == '2015') { emit(doc._id, doc.make); } }");
+//			viewDocument.getJSONObject("views").put(viewName, view);
+			
 			//couch.updateDocument("_design/tweets", viewDocument);
 			
 			//JSONObject test = viewDocument.getJSONObject("views").put(viewName, );
@@ -189,8 +208,32 @@ public class CouchConnection {
 			
 			//System.out.println(couch.updateDocument("_design/tweets", viewDocument));
 			
-			couch.createDocuments(bulk, true);
+			//couch.createDocuments(bulk, true);
 			
+			
+			JSONObject viewDocument = new JSONObject();
+			viewDocument.put("_id", "_design/old");
+			viewDocument.put("language", "javascript");
+			int hours = 4;
+			int days = 1;
+			int months = 1;
+			JSONObject view = new JSONObject();
+			JSONObject viewType = new JSONObject();
+
+			String viewName = "oldTweets";
+			
+			viewType.put("map", "function(doc) {if((Date.now() - doc.timeLong) >"
+					+ " 1000*60*60*"+hours+"*"+days+"*"+months+"){emit(doc._id, doc);}}");
+			view.put("oldTweets", viewType);
+			viewDocument.put("views", view);
+			
+//			couch.createDocuments(viewDocument, false);
+			JSONObject oldTweets = new JSONObject(couch.queryDB("_design/old/_view/oldTweets"));
+	
+			JSONArray ja = (JSONArray) oldTweets.get("rows");
+			for(int i = 0; ja.length() > i; ++i){
+				couch.deleteDocuments(ja.getJSONObject(i).getString("id"),ja.getJSONObject(i).getString("value"));
+			}
 			
 			
 			

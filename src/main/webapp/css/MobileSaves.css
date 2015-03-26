@@ -1,0 +1,25 @@
+@media screen and (max-width: 768px)
+{
+
+    a#switch{
+     display: none;
+    }
+     
+    div.secondNavBar {
+        display: none;
+    }
+
+    div#Profile{
+        display: none;
+    }
+
+    div#Saved{
+      background-color: #656572;
+      padding: 5px;
+  		min-height: 300px;
+  		margin-top: 150px;
+  		margin-left: 50px;
+  		width: 500px;
+
+    }
+}

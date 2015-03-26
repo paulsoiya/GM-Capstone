@@ -47,21 +47,21 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 
   $http.get('http://localhost:7001/GMProject/api/pending-users').success(function(data) {
         $scope.pusers = data.pendingUser;
-    });
+  });
     
-    //fill the users table
-    $http.get('http://localhost:7001/GMProject/api/users').success(function(data) {
-        
-        //change boolean value for admin to 
-        //textual representation of user role
-        for(var i = 0; i < data.user.length; i++){
-            if(data.user[i].admin == "true")
-                data.user[i].admin = "Admin";
-            else
-                data.user[i].admin = "User";
-        }
-        $scope.users = data.user;
-    });
+  //fill the users table
+  $http.get('http://localhost:7001/GMProject/api/users').success(function(data) {
+
+      //change boolean value for admin to 
+      //textual representation of user role
+      for(var i = 0; i < data.user.length; i++){
+          if(data.user[i].admin == "true")
+              data.user[i].admin = "Admin";
+          else
+              data.user[i].admin = "User";
+      }
+      $scope.users = data.user;
+  });
 
 }]);
 
@@ -82,6 +82,7 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
   
 }]);
 
+
 /*
 controllers.controller('QueryCouch', ['$scope', '$http', function ($scope, $http){
 
@@ -95,7 +96,8 @@ controllers.controller('QueryCouch', ['$scope', '$http', function ($scope, $http
 }]);
 */
 
-controllers.controller('QueryCtrl',['$scope', '$filter', '$http', function($scope, $filter, $http){
+controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
+
   
   // Location dropdown
   $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
@@ -126,7 +128,18 @@ controllers.controller('QueryCtrl',['$scope', '$filter', '$http', function($scop
   $scope.startDate = $scope.aMonthAgo;
   
   // Make, model, year
-  // TODO
+  // makes
+  $http.get('http://localhost:7001/GMProject/api/makes').success(function(data) {
+      $scope.makes = data.makes;
+  });
+  // models
+  $http.get('http://localhost:7001/GMProject/api/models').success(function(data) {
+      $scope.models = data.models;
+  });
+  // years
+  $http.get('http://localhost:7001/GMProject/api/model-years').success(function(data) {
+      $scope.years = data.modelYears;
+  });
   
   // Pie Graph
   var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
