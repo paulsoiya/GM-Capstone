@@ -8,8 +8,8 @@
           <!-- Locations dropdown -->
           <div class="form-group">
             <label for="selectLocation">Location</label>
-            <select class="form-control">
-                <option id="selectLocation" ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            <select id="selectLocation" class="form-control">
+                <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
               </select>
           </div>
           <!-- startDate datepicker -->
@@ -37,26 +37,27 @@
             </div>
           </div>
           <!-- makes dropdown -->
-          <div class="form-group">
+          <div class="form-group nullable">
             <label for="selectMake">Make</label>
-            <select id="selectMake" class="form-control">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+            <select id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes">
+              <option value="All Makes">All Makes</option> 
             </select>
           </div>
           <!-- models dropdown -->
-          <div class="form-group">
-            <label for="selectMake">Model</label>
-            <select id="selectModel" class="form-control">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+          <div class="form-group nullable">
+            <label for="selectModel">Model</label>
+            <select id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}">
+              <option value="All Models">All Models</option> 
             </select>
           </div>
           <!-- years dropdown -->
-          <div class="form-group">
-            <label for="selectMake">Year</label>
-            <select id="selectYear" class="form-control">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
+          <div class="form-group nullable">
+            <label for="selectYear">Year</label>
+            <select id="selectYear" class="form-control" ng-model="selectYear" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}">
+              <option value="All Years">All Years</option>
             </select>
           </div>
+          <button type="button" class="btn btn-primary btn-lg">Submit</button>
         </form>
       </div>
     </div>
@@ -66,8 +67,12 @@
     <div class="panel panel-default">
       <div class="panel-heading">Grade</div>
       <div class="panel-body">
-        <span>
-        <canvas class="col-md-12" id="pieGraph_canvas"></canvas>
+        <div class="col-md-6">
+          <img src="../../images/grade.png" class="img-responsive" alt="Responsive image"/>
+        </div>
+        <div class="col-md-6">
+          <canvas class="col-md-12" id="pieGraph_canvas"></canvas>
+        </div>
       </div>
     </div>
     <div class="panel panel-default">
@@ -82,7 +87,21 @@
     <div class="panel panel-default">
       <div class="panel-heading">Compare & Save</div>
       <div class="panel-body">
-        
+        <!-- Compare should be saved locally, as cookie -->
+        <form>
+          <div class="form-inline form-group">
+            <input class="form-control" type="text" placeholder="Perform a search and click 'Add to Compare'" readonly>
+            <button type="button" class="btn btn-primary">Add to Compare</button>
+          </div>
+          <div class="form-inline form-group">
+            <input class="form-control" type="text" placeholder="Perform a search and click 'Add to Compare'" readonly>
+            <button type="button" class="btn btn-primary">Add to Compare</button>
+          </div>
+          <div class="form-inline form-group">
+            <input class="form-control" type="text" placeholder="Save As...">
+            <button type="button" class="btn btn-primary">Save</button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="panel panel-default">

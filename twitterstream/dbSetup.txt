@@ -22,7 +22,7 @@ CREATE TABLE filterqueryalternates(
 	PRIMARY KEY(make)	
 );
 
-insert into filterquerymakes values(0, 'generalmotors,chevrolet,gmc,buick,cadillac');
+insert into filterquerymakes values(0, '#generalmotors,#chevrolet,#gmc,#buick,#cadillac');
 
 insert into filterquerymodels values('chevrolet', 'cruze,sonic,spark,impala,malibu,camaro,corvette,ss,captiva,equinox,trax,traverse,tahoe,suburban,express,savana,avalanche,silverado,colorado');
 insert into filterquerymodels values('buick', 'verano,lacrosse,regal,encore,enclave');
