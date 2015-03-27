@@ -43,23 +43,78 @@ public class QueryCouch {
 	@FormParam("make") String make,
 	@FormParam("model") String model,
 	@FormParam("year") String year ){
-
-		
 			
+		//TODO: remove this tempUser and replaced it with an actual user
+		String tempUser = "tempUser";
+		
 		CouchConnection couch new CouchConnection("http://localhost:5984/",	make+"/");
 		
-		JSONObject viewDocument = new JSONObject(couch.queryDB("_design/"));
-		String viewName = "varname";
-		couch.createDocuments(bulk, true);
+		JSONObject viewDocument = new JSONObject(couch.queryDB("_design/"+tempUser));
+		if(viewDocument.has("error")){
 		
-		JSONObject view = new JSONObject();
-		view.put("map", "function(doc) { if (doc."+viewName+" == '2015') { emit(doc._id, doc.make); } }");
-		viewDocument.getJSONObject("views").put(viewName, view);
-		/ouch.updateDocument("_design/tweets", viewDocument);
-		
-		JSONObject test = viewDocument.getJSONObject("views").put(viewName, );
-		viewDocument.put("views", test);
-		*/
+		}
+		else{
+			JSONObject viewSentiment = new JSONObject();
+			
+			StringBuilder sb = new StringBuilder();
+            sb.append("function(doc) {");
+            sb.append("  emit(null, doc.sentiment)");
+            sb.append("}");
+			
+			viewSentiment.put("map", sb.toString());
+			
+			sb = new StringBuilder();
+            sb.append("function(keys, values, rereduce) {");
+            sb.append("  if (!rereduce){");
+            sb.append("    var length = values.length");
+            sb.append("    return [sum(values) / length, length]");
+            sb.append("  }else{");
+            sb.append("    var length = sum(values.map(function(v){return v[1]}))");
+            sb.append("    var avg = sum(values.map(function(v){");
+            sb.append("      return v[0] * (v[1] / length)");
+            sb.append("    }))");
+            sb.append("    return [avg, length]");
+            sb.append("  }");
+            sb.append("}");
+            	
+			viewSentiment.put("reduce", sb.toString());
+			
+			viewDocument.getJSONObject("views").put("sentiment", viewSentiment);
+			
+			
+			////////////////////////////////////////////////////////
+			
+			
+			JSONObject viewWordCount = new JSONObject();
+			
+			sb = new StringBuilder();
+            sb.append("function(doc) {");
+            sb.append("  emit(null, doc.sentiment)");
+            sb.append("}");
+			
+			viewWordCount.put("map", sb.toString());
+			
+			sb = new StringBuilder();
+            sb.append("function(keys, values, rereduce) {");
+            sb.append("  if (!rereduce){");
+            sb.append("    var length = values.length");
+            sb.append("    return length");
+            sb.append("  }else{");
+            sb.append("    var length = sum(values.map(function(v){return v}))");
+            sb.append("    return length");
+            sb.append("  }");
+            sb.append("}");
+
+			viewWordCount.put("reduce", sb.toString());
+			
+			viewDocument.getJSONObject("views").put("wordCount", view);
+			
+			
+			///////////////////////////////////////////////////////
+			
+			
+			couch.updateDocument("_design/tweets", viewDocument);
+		}
 		
 
         ReturnMessage rm = new ReturnMessage();
