@@ -35,15 +35,20 @@ public class QueryCouch {
 
 
     @POST
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createUser(JSONObject payload) {
+    public ReturnMessage createUser(@FormParam("location") String location,
+	@FormParam("endDate") String endDate,
+	@FormParam("startDate") String startDate,
+	@FormParam("make") String make,
+	@FormParam("model") String model,
+	@FormParam("year") String year ){
 
 		
-		/*	
+			
 		CouchConnection couch new CouchConnection("http://localhost:5984/",	make+"/");
 		
-		JSONObject viewDocument = new JSONObject(couch.queryDB("_design/tweets"));
+		JSONObject viewDocument = new JSONObject(couch.queryDB("_design/"));
 		String viewName = "varname";
 		couch.createDocuments(bulk, true);
 		
