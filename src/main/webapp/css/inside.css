@@ -62,10 +62,12 @@ body > .container {
     padding-left:5em;
 }
 
-.grayBoxArea{
-    background-color: #656572;
-    padding:25px;
-    min-height: 300px;
+#Profile{
+    margin-left: 200px;
+}
+
+#Saves{
+    margin-left: 200px;
 }
 
 .formRow{
