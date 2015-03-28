@@ -61,7 +61,11 @@ body > .container {
     padding-top:60px;
     padding-left:5em;
 }
-
+.grayBoxArea{
+    background-color: #656572;
+    padding:25px;
+    min-height: 300px;
+}
 .formRow{
     width: 33%;
     float: left;
