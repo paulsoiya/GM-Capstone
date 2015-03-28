@@ -23,7 +23,7 @@ public class StanbolConnection {
 		BufferedWriter outstream = null;
 		BufferedReader instream;
 		String response = null;
-		double sentiment = 0;
+		double sentiment = 404;
 		try{
 			request = (HttpURLConnection)new URL(host).openConnection();
 			request.setRequestProperty("Accept", "application/json");
@@ -49,7 +49,7 @@ public class StanbolConnection {
 			//System.out.println(response);
 			JSONObject responseJSON = new JSONObject(response);
 			
-			if(responseJSON.getJSONArray("@graph") != null){
+			if(responseJSON.has("@graph")){
 				JSONArray graphJSON = responseJSON.getJSONArray("@graph");
 				
 				//look for sentiment of whole document
