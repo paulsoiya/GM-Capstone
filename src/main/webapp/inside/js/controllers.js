@@ -69,10 +69,11 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
   $scope.getUsers();
   
   $scope.grantAdminAccess = function(id){
-	  console.log("HI");
-	  console.log("id",id);
-	  
-	  console.log($scope.users[id]);
+	  var uid = $scope.users[id].id;
+	  $http.put('http://localhost:7001/GMProject/api/users/' + uid + '/makeadmin').success(function (data, status) {
+          console.log(data);
+          $scope.getUsers();
+      });
   }
   
   /**
@@ -82,7 +83,6 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 	  var uid = $scope.users[id].id;
 	  $http.delete('http://localhost:7001/GMProject/api/users/' + uid).success(function (data, status) {
           console.log(data);
-          console.log("DELETED");
           $scope.getUsers();
       });
   }

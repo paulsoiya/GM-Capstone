@@ -8,6 +8,7 @@ package com.gm.user.resource;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -17,13 +18,19 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.core.MediaType;
+
 import java.util.List;
 
+import com.gm.user.PendingUser;
 import com.gm.user.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import com.gm.message.AuthenticateResponse;
+import com.gm.message.ReturnMessage;
 import com.gm.security.SecurityHelper;
 
 @Stateless
@@ -42,15 +49,31 @@ public class UserResource {
         return query.getResultList();
     }
    
-    @POST @Produces("application/json")
-    public void createUser(@QueryParam("email") String email,
-                           @QueryParam("password") String password,
-                           @QueryParam("first_name") String firstName,
-                           @QueryParam("last_name") String lastName){
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    public ReturnMessage createUser(@FormParam("email") String email,
+    								@FormParam("password") String password,
+    								@FormParam("first_name") String firstName,
+    								@FormParam("last_name") String lastName,
+    								@FormParam("puser_id") long id){
         
        User user = new User(email, password, "", false, firstName, lastName); 
-        
        em.persist(user);
+
+       ReturnMessage rm = new ReturnMessage();
+       //check if object was persisted and return
+       //appropriate result message
+       if (em.contains(user)) {
+           rm.setResult("success");
+       } else {
+           rm.setResult("fail");
+       }
+       
+       //remove the pending user record of the new user
+       em.remove( em.find(PendingUser.class, id));
+
+       return rm;
     }
     
     @POST
@@ -103,5 +126,19 @@ public class UserResource {
         User u = em.find(User.class, id);
        
     }
+
+	@PUT
+	@Produces("application/json")
+	@Path("/{id}/makeadmin")
+	public ReturnMessage makeAdmin(@PathParam("id") long id) {
+		User u = em.find(User.class, id);
+		u.setAdmin(true);
+		em.persist(u);
+
+		ReturnMessage rm = new ReturnMessage();
+
+		rm.setResult("success");
+		return rm;
+	}
     
 }

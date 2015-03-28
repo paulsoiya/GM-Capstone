@@ -2,7 +2,7 @@
 <br>
     <div class="row">
 
-        <div class="col-lg-6">
+        <div class="col-lg-14">
             <div class="panel panel-default">
                 <div class="panel-heading">Pending Requests</div>
                 <div class="panel-body">
@@ -25,8 +25,8 @@
                                     <td>{{puser.email}}</td>
                                     <td>{{puser.position}}</td>
                                     <td>{{puser.reason}}</td>
-                                    <td><button ng-click="grantAccess($index)">Grant Access</button> </td>
-                                    <td><button ng-click="deleteRequest($index)">Delete</button></td>
+                                    <td><button class="btn btn-primary" ng-click="grantAccess($index)">Grant Access</button> </td>
+                                    <td><button class="btn btn-danger" ng-click="deleteRequest($index)">Delete</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -36,8 +36,9 @@
             </div>
 
         </div>
-        <div class="col-lg-1"></div>
-        <div class="col-lg-6">
+        </div>
+        <div class="row">
+        <div class="col-lg-14">
             <div class="panel panel-default">
                 <div class="panel-heading">Existing Users</div>
                 <div class="panel-body">
@@ -58,8 +59,8 @@
                                     <td>{{user.admin}}</td>
                                     <td>{{user.firstName}} {{user.lastName}}</td>
                                     <td>{{user.email}}</td>
-                                    <td><button ng-click="grantAdminAccess($index)">Make Admin</button></td>
-                                    <td><button ng-click="removeAccess($index)">Remove Access</button></td>
+                                    <td><button class="btn btn-primary" ng-click="grantAdminAccess($index)">Make Admin</button></td>
+                                    <td><button class="btn btn-danger" ng-click="removeAccess($index)">Delete</button></td>
                                 </tr>
                             </tbody>
                         </table>
