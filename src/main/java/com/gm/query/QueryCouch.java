@@ -49,7 +49,10 @@ public class QueryCouch {
 		System.out.println(endDate);
 		System.out.println(startDate);
 		System.out.println(make);
-		System.out.println(model);
+		System.out.println(model );
+		System.out.println(make != "undefined");
+		System.out.println(model != "undefined");
+		
 		System.out.println(year);
 
 		
@@ -58,11 +61,12 @@ public class QueryCouch {
 		
 		CouchConnection couch = new CouchConnection("http://localhost:5984/", "gm/");
 		
-		if(make != "undefined"){
-			couch = new CouchConnection("http://localhost:5984/", make+"/");
+		
+		if(!make.equals("undefined")){
+			couch = new CouchConnection("http://localhost:5984/", make.toLowerCase()+"/");
 		}
-		if(model != "undefined"){
-			couch = new CouchConnection("http://localhost:5984/", model+"/");
+		if(!model.equals("undefined")){
+			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+"/");
 		}
 		
 		
@@ -87,15 +91,18 @@ public class QueryCouch {
 		
 		//String existingView = couch.queryDB("_design/"+user);
 		//if(existingView != null){
-		
-		JSONObject viewDocument = new JSONObject(couch.queryDB("_design/"+user));
-		couch.deleteDocuments("_design/"+user, (String)viewDocument.get("_rev"));
+		try{
+			JSONObject viewDocument = new JSONObject(couch.queryDB("_design/"+user));
+			couch.deleteDocuments("_design/"+user, (String)viewDocument.get("_rev"));
+		}
+		catch(Exception e){
+		}
 		
 		//Checks to see if this view already exists
 		// if it doesn't then make a new view
 		// else if it does then just return the view
 		//if(viewDocument == null){
-			viewDocument = new JSONObject();
+			JSONObject viewDocument = new JSONObject();
 			viewDocument.put("views", new JSONObject());
 			
 			JSONObject viewSentiment = new JSONObject();
@@ -110,7 +117,7 @@ public class QueryCouch {
 			*/
 			
 			//viewSentiment.put("map", sb.toString());
-			viewSentiment.put("map", "function(doc) { if(doc.tweettime > 0 && doc.tweettime < 1427535144069) { emit(null, doc.tweetsentiment); } }");
+			viewSentiment.put("map", "function(doc) { if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") { emit(null, doc.tweetsentiment); } }");
 			
 			/*
 			sb = new StringBuilder();
@@ -151,7 +158,7 @@ public class QueryCouch {
 			*/
 			
 			//viewWordCount.put("map", sb.toString());
-			viewWordCount.put("map", "function(doc){  if(doc.tweettime > 0 && doc.tweettime < 1427535144069){    for(var key in doc){      emit(key, doc[key]);    }  }}");
+			viewWordCount.put("map", "function(doc){  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+"){    for(var key in doc){      emit(key, doc[key]);    }  }}");
 			
 			/*
 			sb = new StringBuilder();

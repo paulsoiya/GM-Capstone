@@ -9,7 +9,7 @@
           <div class="form-group">
             <label for="selectLocation">Location</label>
 
-            <select id="selectLocation" class="form-control">
+            <select id="selectLocation" class="form-control" ng-model="selectLocation">
                 <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
               </select>
           </div>
@@ -40,30 +40,6 @@
           <!-- makes dropdown -->
           <div class="form-group nullable">
             <label for="selectMake">Make</label>
-<!--
-            <select id="selectMake" class="form-control" ng-model="make">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
-            </select>
-          </div>
-          <!-- models dropdown 
-          <div class="form-group">
-            <label for="selectMake">Model</label>
-            <select id="selectModel" class="form-control" ng-model="model">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
-            </select>
-          </div>
-          <!-- years dropdown 
-          <div class="form-group">
-            <label for="selectMake">Year</label>
-            <select id="selectYear" class="form-control" ng-model="year">
-              <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
-            </select>
-          </div>
-		  <!-- submit 
-          <div class="form-group">
-            <button type="submit" class="btn btn-default" ng-click="queryPost()">Submit</button>
-          </div>
--->
             <select id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes">
               <option value="All Makes">All Makes</option> 
             </select>
