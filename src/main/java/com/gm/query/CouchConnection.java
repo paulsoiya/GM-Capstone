@@ -1,6 +1,6 @@
 //http://docs.couchdb.org/en/latest/api/database/bulk-api.html
 
-package com.gm.query.couch;
+package com.gm.query;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -78,7 +78,9 @@ public class CouchConnection {
 			while ((line = instream.readLine()) != null) {
 				result.append(line);
 			}
+			
 			response = result.toString();
+			System.out.println(response);
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{
@@ -120,6 +122,7 @@ public class CouchConnection {
 				result.append(line);
 			}
 			response = result.toString();
+			System.out.println(response);
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{

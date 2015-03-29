@@ -163,17 +163,24 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   //POST 
   $scope.queryPost = function() {
     $http.post('http://localhost:7001/GMProject/api/query', 
-	    {location: $scope.location,
-		endDate: $scope.endDate,
-		startDate: $scope.startDate,
-		make: $scope.make,
-		model: $scope.model,
-		year: $scope.year
+	    {
+			//location: $scope.location,
+			//endDate: $scope.endDate,
+			//startDate: $scope.startDate,
+			//make: $scope.make,
+			//model: $scope.model,
+			//year: $scope.year
+			msg: "location="+$scope.location+"&"+
+			"endDate="+$scope.endDate+"&"+
+			"startDate="+$scope.startDate+"&"+
+			"make="+$scope.make+"&"+
+			"model="+$scope.model+"&"+
+			"year="+$scope.year
 		},
-		{headers: {'Content-Type': 'application/json'} }
+		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
 	    ).success(function(data){
-		console.log("yay");
-    });
+			console.log(JSON.parse(data.result));
+		});
   }
   
 }]);
