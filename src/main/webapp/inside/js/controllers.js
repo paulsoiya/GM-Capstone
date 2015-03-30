@@ -5,21 +5,22 @@
 var controllers = angular.module('controllers', []);
 
 // Test Data
-var testPieData = [
+/*
+var pieData = [
     {
-        value: 300,
+        value: 0,
         color:"#000080",
         highlight: "#00004c",
         label: "Positive"
     },
     {
-        value: 50,
+        value: 0,
         color: "#7f7fff",
         highlight: "#4c4cff",
         label: "Negative"
     }
   ]
-var testBarData = {
+var barData = {
     labels: ["Chevy", "Chevrolet", "Cadillac", "Caddy"],
     datasets: [
         {
@@ -37,7 +38,7 @@ var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car
                    ['wow', 13], ['fantastic', 9], ['yowza', 3], ['the', 7], ['true', 7], ['stuff', 1],
                    ['can', 14], ['say', 8], ['shiny', 4], ['red', 5], ['truck', 8], ['man', 2],
                   ];
-
+*/
 controllers.controller('AdminCtrl', ['$scope',
   function ($scope) {
     $scope.isAdmin = true;
@@ -142,14 +143,15 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   });
   
   // Pie Graph
-  var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
-  var pieChart = new Chart(pieCtx).Pie(testPieData);
+  //var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
+  //var pieChart = new Chart(pieCtx).Pie(testPieData);
   
   // Bar Graph
-  var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
-  var barChart = new Chart(barCtx).Bar(testBarData);
+  //var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
+  //var barChart = new Chart(barCtx).Bar(testBarData);
   
   // Word Cloud
+	/*
   WordCloud(document.getElementById('wordCloud_canvas'), 
           { 
               list: testWords, 
@@ -159,7 +161,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
               weightFactor: 2
           }
   );
-  
+  */
   //POST 
   $scope.queryPost = function() {
     $http.post('http://localhost:7001/GMProject/api/query', 
@@ -177,8 +179,8 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			var responseJSON = JSON.parse(data.result);
 			var wordCount = JSON.parse(responseJSON.wordCount);
 			var sentiment = JSON.parse(responseJSON.sentiment);
-			console.log(wordCount.rows);
-			console.log(sentiment.rows);
+			//console.log(wordCount.rows);
+			//console.log(sentiment.rows);
 			
 			var wordCountData = [];
 			
@@ -196,6 +198,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 				return ((current[1] > next[1]) ? -1 : ((current[1] === next[1]) ? 0 : 1));
 			});
 			
+			console.log("wordCountData");
 			console.log(wordCountData);
 			
 			if(wordCountData.length > 30){
@@ -216,7 +219,6 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 				}
 			);
 			
-			sentiment.rows[0].value[0]
 			var pieData = [
 				{
 					value: Math.abs(sentiment.rows[0].value[0] + 1),
@@ -231,8 +233,27 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 					label: "Negative"
 				}
 			  ]
+			
+/*
+			pieData[0].value = Math.abs(sentiment.rows[0].value[0] + 1);
+			pieData[1].value = Math.abs(sentiment.rows[0].value[0] - 1);
+
+			barData.labels[0] = wordCountData[0][0];
+			barData.labels[1] = wordCountData[1][0];
+			barData.labels[2] = wordCountData[2][0];
+			barData.labels[3] = wordCountData[3][0];
+
+			barData.datasets[0].data[0] = wordCountData[0][1];
+			barData.datasets[0].data[1] = wordCountData[1][1];
+			barData.datasets[0].data[2] = wordCountData[2][1];
+			barData.datasets[0].data[3] = wordCountData[3][1];
+*/
 			var barData = {
-				labels: [wordCountData[0].key, wordCountData[1].key, wordCountData[2].key, wordCountData[3].key],
+				labels: [wordCountData[0][0], 
+					wordCountData[1][0], 
+					wordCountData[2][0], 
+					wordCountData[3][0]
+				],
 				datasets: [
 					{
 						label: "My First dataset",
@@ -240,7 +261,11 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 						strokeColor: "rgba(220,220,220,0.8)",
 						highlightFill: "rgba(220,220,220,0.75)",
 						highlightStroke: "rgba(220,220,220,1)",
-						data: [wordCountData[0].value, wordCountData[1].value, wordCountData[2].value, wordCountData[3].value]
+						data: [wordCountData[0][1], 
+						wordCountData[1][1], 
+						wordCountData[2][1], 
+						wordCountData[3][1] 
+						]
 					}
 				]
 			  };
@@ -252,7 +277,9 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			// Bar Graph
 			var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
 			var barChart = new Chart(barCtx).Bar(barData);
-			
+
+		//barChart.update();
+		//pieChart.update();
 		});
   }
 
@@ -271,14 +298,15 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 controllers.controller('CompareCtrl',['$scope', function($scope){
   
   // First Pie Graph
-  var pieCtx = document.getElementById("first_pie_canvas").getContext("2d");
-  var pieChart = new Chart(pieCtx).Pie(testPieData);
+  //var pieCtx = document.getElementById("first_pie_canvas").getContext("2d");
+  //var pieChart = new Chart(pieCtx).Pie(testPieData);
   
   // First Bar Graph
-  var barCtx = document.getElementById("first_bar_canvas").getContext("2d");
-  var barChart = new Chart(barCtx).Bar(testBarData);
+  //var barCtx = document.getElementById("first_bar_canvas").getContext("2d");
+  //var barChart = new Chart(barCtx).Bar(testBarData);
   
   // First Word Cloud
+/*
   WordCloud(document.getElementById('first_cloud_canvas'), 
           { 
               list: testWords, 
@@ -288,17 +316,17 @@ controllers.controller('CompareCtrl',['$scope', function($scope){
               weightFactor: 2
           }
   );
-  
+  */
   // Second Pie Graph
-  var pieCtx = document.getElementById("second_pie_canvas").getContext("2d");
-  var pieChart = new Chart(pieCtx).Pie(testPieData);
+  //var pieCtx = document.getElementById("second_pie_canvas").getContext("2d");
+  //var pieChart = new Chart(pieCtx).Pie(testPieData);
   
   // Second Bar Graph
-  var barCtx = document.getElementById("second_bar_canvas").getContext("2d");
-  var barChart = new Chart(barCtx).Bar(testBarData);
+  //var barCtx = document.getElementById("second_bar_canvas").getContext("2d");
+  //var barChart = new Chart(barCtx).Bar(testBarData);
   
   // Second Word Cloud
-  WordCloud(document.getElementById('second_cloud_canvas'), 
+/*  WordCloud(document.getElementById('second_cloud_canvas'), 
           { 
               list: testWords, 
               color: 'random-dark',
@@ -308,5 +336,5 @@ controllers.controller('CompareCtrl',['$scope', function($scope){
           }
   );
   
-  
+  */
 }]);
