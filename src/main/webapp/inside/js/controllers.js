@@ -47,21 +47,21 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 
   $http.get('http://localhost:7001/GMProject/api/pending-users').success(function(data) {
         $scope.pusers = data.pendingUser;
-    });
+  });
     
-    //fill the users table
-    $http.get('http://localhost:7001/GMProject/api/users').success(function(data) {
-        
-        //change boolean value for admin to 
-        //textual representation of user role
-        for(var i = 0; i < data.user.length; i++){
-            if(data.user[i].admin == "true")
-                data.user[i].admin = "Admin";
-            else
-                data.user[i].admin = "User";
-        }
-        $scope.users = data.user;
-    });
+  //fill the users table
+  $http.get('http://localhost:7001/GMProject/api/users').success(function(data) {
+
+      //change boolean value for admin to 
+      //textual representation of user role
+      for(var i = 0; i < data.user.length; i++){
+          if(data.user[i].admin == "true")
+              data.user[i].admin = "Admin";
+          else
+              data.user[i].admin = "User";
+      }
+      $scope.users = data.user;
+  });
 
 }]);
 
@@ -82,6 +82,7 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
   
 }]);
 
+
 /*
 controllers.controller('QueryCouch', ['$scope', '$http', function ($scope, $http){
 
@@ -95,7 +96,8 @@ controllers.controller('QueryCouch', ['$scope', '$http', function ($scope, $http
 }]);
 */
 
-controllers.controller('QueryCtrl',['$scope', '$filter', '$http', function($scope, $filter, $http){
+controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
+
   
   // Location dropdown
   $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
@@ -126,7 +128,18 @@ controllers.controller('QueryCtrl',['$scope', '$filter', '$http', function($scop
   $scope.startDate = $scope.aMonthAgo;
   
   // Make, model, year
-  // TODO
+  // makes
+  $http.get('http://localhost:7001/GMProject/api/makes').success(function(data) {
+      $scope.makes = data.makes;
+  });
+  // models
+  $http.get('http://localhost:7001/GMProject/api/models').success(function(data) {
+      $scope.models = data.models;
+  });
+  // years
+  $http.get('http://localhost:7001/GMProject/api/model-years').success(function(data) {
+      $scope.years = data.modelYears;
+  });
   
   // Pie Graph
   var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
@@ -150,19 +163,109 @@ controllers.controller('QueryCtrl',['$scope', '$filter', '$http', function($scop
   //POST 
   $scope.queryPost = function() {
     $http.post('http://localhost:7001/GMProject/api/query', 
-	    {location: $scope.location,
-		endDate: $scope.endDate,
-		startDate: $scope.startDate,
-		make: $scope.make,
-		model: $scope.model,
-		year: $scope.year
+	    {
+			msg: "location="+$scope.selectLocation+"&"+
+			"endDate="+$scope.endDate+"&"+
+			"startDate="+$scope.startDate+"&"+
+			"make="+$scope.selectMake.makeName+"&"+
+			"model="+$scope.selectModel.modelName+"&"+
+			"year="+$scope.selectYear.yearName
 		},
 		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
 	    ).success(function(data){
-		console.log("yay");
-    });
+			console.log(JSON.parse(data.result));
+			var responseJSON = JSON.parse(data.result);
+			var wordCount = JSON.parse(responseJSON.wordCount);
+			var sentiment = JSON.parse(responseJSON.sentiment);
+			console.log(wordCount.rows);
+			console.log(sentiment.rows);
+			
+			var wordCountData = [];
+			
+			for(var i = 0; i < wordCount.rows.length; ++i){
+				if(wordCount.rows[i].key !== "_id" &&
+				wordCount.rows[i].key !== "_rev" &&
+				wordCount.rows[i].key !== "tweetsentiment" &&
+				wordCount.rows[i].key !== "tweettext" &&
+				wordCount.rows[i].key !== "tweettime"){
+					wordCountData.push([wordCount.rows[i].key, wordCount.rows[i].value]);
+				}
+			}
+			
+			wordCountData.sort(function(current, next) {
+				return ((current[1] > next[1]) ? -1 : ((current[1] === next[1]) ? 0 : 1));
+			});
+			
+			console.log(wordCountData);
+			
+			if(wordCountData.length > 30){
+				var tempData = [];
+				for(var i = 0; i < 30; ++i){
+					tempData[i] = wordCountData[i];
+				}
+				wordCountData = tempData;
+			}
+			//Word Cloud
+			WordCloud(document.getElementById('wordCloud_canvas'), 
+				{ 
+					list: wordCountData, 
+					color: 'random-dark',
+					shape: 'square',
+					rotateRatio: 0.0,
+					weightFactor: 2
+				}
+			);
+			
+			sentiment.rows[0].value[0]
+			var pieData = [
+				{
+					value: Math.abs(sentiment.rows[0].value[0] + 1),
+					color:"#000080",
+					highlight: "#00004c",
+					label: "Positive"
+				},
+				{
+					value: Math.abs(sentiment.rows[0].value[0] - 1),
+					color: "#7f7fff",
+					highlight: "#4c4cff",
+					label: "Negative"
+				}
+			  ]
+			var barData = {
+				labels: [wordCountData[0].key, wordCountData[1].key, wordCountData[2].key, wordCountData[3].key],
+				datasets: [
+					{
+						label: "My First dataset",
+						fillColor: "rgba(220,220,220,0.5)",
+						strokeColor: "rgba(220,220,220,0.8)",
+						highlightFill: "rgba(220,220,220,0.75)",
+						highlightStroke: "rgba(220,220,220,1)",
+						data: [wordCountData[0].value, wordCountData[1].value, wordCountData[2].value, wordCountData[3].value]
+					}
+				]
+			  };
+
+			// Pie Graph
+			var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
+			var pieChart = new Chart(pieCtx).Pie(pieData);
+
+			// Bar Graph
+			var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
+			var barChart = new Chart(barCtx).Bar(barData);
+			
+		});
   }
-  
+
+/*
+  $scope.queryPost2 = function() { 
+	console.log($scope.selectLocation);
+	console.log($scope.endDate);
+	console.log($scope.startDate);
+	console.log($scope.selectMake);
+	console.log($scope.selectModel);
+	console.log($scope.selectYear);
+  }
+*/
 }]);
 
 controllers.controller('CompareCtrl',['$scope', function($scope){
