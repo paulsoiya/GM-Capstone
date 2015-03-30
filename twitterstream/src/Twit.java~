@@ -63,11 +63,14 @@ public class Twit {
 			System.out.println(MYSQLPASSWORD);
 			
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
-
+<<<<<<< HEAD:twitterstream/src/Twit.java
 			dbConn = DriverManager.getConnection(MYSQL, MYSQLUSER, MYSQLPASSWORD);
    			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
    			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "digiocean2@");
-
+=======
+   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "password");
+   			dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "root");
+>>>>>>> master:twitterstream/src/Twit.java
 			
    			statementMakes = dbConn.createStatement();
    			resultSetMakes = statementMakes.executeQuery("SELECT * FROM filterquerymakes WHERE filterid = 0");
