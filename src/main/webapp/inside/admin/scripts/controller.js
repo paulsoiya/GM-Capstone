@@ -4,11 +4,12 @@ function populateExisting() {
         // container.innerHTML=;
         var htmlString = "<select id=\"removeSelector\" name=\"removeSelector\" multiple class=\"form-control\">"
         
-        if(data != null) {
-        	var setting = data.analyticSetting;
-        	for(var i = 0; i < setting.length; i++) {
-	        	console.log(setting[i].explicitWords + "");
-	        	htmlString += "<option id=\"" + setting[i].id + "\">" + setting[i].explicitWords + "</option>";
+        console.log(data);
+        if(data !== undefined) {
+        	// var setting = data[0].analyticSetting;
+        	for(var i = 0; i < data.length; i++) {
+	        	console.log(data[i].explicitWords + "");
+	        	htmlString += "<option id=\"" + data[i].id + "\">" + data[i].explicitWords + "</option>";
 	        }
         }
         
