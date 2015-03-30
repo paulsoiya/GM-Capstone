@@ -2,7 +2,7 @@
  * JAX-RS RESTful implementation for the PendingUser Entity
  *
  * @author Paul Soiya II
- * @version 1/18/2015
+ * @version 3/24/2015
  */
 package com.gm.user.resource;
 
@@ -58,6 +58,7 @@ public class PendingUserResource {
             @FormParam("position") String position,
             @FormParam("reason") String reason) {
 
+    	System.out.println("email = " + email);
         SecurityHelper sh = new SecurityHelper();
 
         String md5Password = sh.md5(password);
@@ -80,7 +81,7 @@ public class PendingUserResource {
     @DELETE
     @Path("/{id}")
     public void deleteUser(@PathParam("id") long id) {
-        em.remove(em.find(PendingUser.class, id));
+        em.remove( em.find(PendingUser.class, id) );
     }
 
 }
