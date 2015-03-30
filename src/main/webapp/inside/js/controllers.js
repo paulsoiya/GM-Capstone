@@ -47,21 +47,21 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 
   $scope.getPendingUsers = function () {
 	  $http.get('http://localhost:7001/GMProject/api/pending-users').success(function(data) {
-		  $scope.pusers = data.pendingUser;
+		  $scope.pusers = data;
 	  });
   }
     
   $scope.getUsers = function () {
 	  $http.get('http://localhost:7001/GMProject/api/users').success(function(data) {
-		  //change boolean string value for admin to 
+		  //change boolean value for admin to 
 		  //textual representation of user role
-		  for(var i = 0; i < data.user.length; i++){
-			  if(data.user[i].admin == "true")
-				  data.user[i].admin = "Admin";
+		  for(var i = 0; i < data.length; i++){
+			  if(data[i].admin)
+				  data[i].admin = "Admin";
 			  else
-				  data.user[i].admin = "User";
+				  data[i].admin = "User";
 		  }
-		  $scope.users = data.user;
+		  $scope.users = data;
 	  });
   }
   
