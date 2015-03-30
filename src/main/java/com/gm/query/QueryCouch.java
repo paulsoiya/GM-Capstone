@@ -55,6 +55,7 @@ public class QueryCouch {
 		
 		System.out.println(year);
 
+
 		
 		//TODO: remove this tempUser and replaced it with an actual user
 		String user = "tempUser";
