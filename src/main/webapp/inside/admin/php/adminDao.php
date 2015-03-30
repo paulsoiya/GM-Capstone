@@ -136,7 +136,7 @@ class adminDao
 		$models = $this->getModelsFilterQuery($make);
 		$modelRow = mysql_fetch_assoc($models);
 		$modelString = '';
-		$modelString .= $modelRow['models'];
+		$modelString .= $modelRow['model'];
 		return $modelString;
 
 	}

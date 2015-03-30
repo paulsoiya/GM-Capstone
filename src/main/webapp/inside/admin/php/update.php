@@ -24,3 +24,4 @@
 		$dao->setFilterQueryAlternates($currentMake, $currentAlternates);
 	}
 ?>
+	

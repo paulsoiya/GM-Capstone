@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-    require_once('adminDao.php'); 
-    require_once('update.php'); 
+    require_once('php/adminDao.php'); 
+    require_once('php/update.php'); 
     $newMake = "";
     $dao = new adminDao('filterquery');
 
@@ -27,27 +27,45 @@
         <title>Admin- Manage Data</title>
 
 
-        <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../plugins/bootstrap/dist/css/bootstrap.min.css">
 
-        <script src="../plugins/jquery/jquery-1.11.2.min.js"></script>
-        <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../../plugins/jquery/dist/jquery.min.js"></script>
+        <script src="../../plugins/bootstrap/dist/js/bootstrap.min.js"></script>
 
-        <link rel="stylesheet" type="text/css" href="../css/inside.css">
+        <link rel="stylesheet" type="text/css" href="../../css/inside.css">
         <!-- 
         <script type="text/javascript" src="scripts/manage-data.js"></script>
 
         -->
+        <script defer>
+            function removeModel() {
+                console.log("adfsf");
+                element = document.getElementById("removeModelSelector").value;
+                
+                if(element !== undefined){
+                    console.log(element);
+                }
+            }
+            function removeAlternate() {
+                console.log("adfsf");
+                element = document.getElementById("removeAlternateSelector").value;
+                
+                if(element !== undefined){
+                    console.log(element);
+                }
+            }
+        
+        </script>
     </head>
    
     <body>
-
     <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top white">
       <div class="container">
         <div class="navbar-header">
         
           <a class="navbar-brand" href="#">  
-              <img src="../images/primaryNavigationGMLogo.png" 
+              <img src="../../images/primaryNavigationGMLogo.png" 
                    style="margin-top:-10px;" alt="General Motors">
           </a>
         </div>
@@ -148,23 +166,34 @@
                 ?>
                 </select>
                 
-                <h3>Models   <form method="post" name="update" action="update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newModel" placeholder="New Model"></input>
+                <h3>Models   <form method="post" name="update" action="php/update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newModel" placeholder="New Model"></input>
                 	<input class="btn btn-primary" type="submit" value="Add Model" action=""></input>
                 </form></h3>
-                <div id="models"></div>               
+                <div id="models"></div>
+                <select id="removeModelSelector" multiple class="form-control">
                 <?php
-                    echo $modelString;
+                    $models = preg_split('/[,]/', $modelString);
+                    foreach($models as $model) {
+                        echo "<option>" . $model . "</option>";
+                    }
                 ?>
+                </select>
+                <button class="btn btn-primary" onclick="removeModel()">Remove</button>           
 
-               	<h3>Alternates <form method="post" name="update" action="update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newAlternate" placeholder="New Alternate"></input>
+               	<h3>Alternates <form method="post" name="update" action="php/update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newAlternate" placeholder="New Alternate"></input>
                 	<input class="btn btn-primary" type="submit" value="Add Alternate" action=""></input>
                 </form></h3>
           
                 <div id="alt"></div>
-                    <?php
-
-                    echo $alternateString;  
+                <select id="removeAlternateSelector" multiple class="form-control">
+                <?php
+                    $alternates = preg_split('/[,]/', $alternateString);
+                    foreach($alternates as $alternate) {
+                        echo "<option>" . $alternate . "</option>";
+                    } 
                 ?>
+                </select>
+                <button class="btn btn-primary" onclick="removeAlternate()">Remove</button> 
             </div>
         </div>
     </div>
