@@ -15,10 +15,12 @@ var socialGMApp = angular.module('socialGMApp', [
 socialGMApp.config(function($stateProvider, $urlRouterProvider){
   
   $urlRouterProvider.otherwise("/query");
+  $urlRouterProvider.when("", "/profile");
   // Now set up the states
   $stateProvider
     .state('user', {
       url: "",
+      abstract: true,
       templateUrl: "partials/user-navbar.html"
     })
     .state('user.profile', {
@@ -53,6 +55,8 @@ socialGMApp.config(function($stateProvider, $urlRouterProvider){
     .state('admin.manageAnalytics', {
       url: "/manageAnalytics",
       templateUrl: "partials/manage-analytics.html",
-      controller: "AdminCtrl"
+      controller: "ManageAnalyticsCtrl"
     })
+
+
 });

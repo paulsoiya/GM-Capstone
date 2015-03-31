@@ -3,7 +3,7 @@
  * to map the User table to the User class 
  * 
  * @author Paul Soiya II psoiya@asu.edu
- * @version 1/17/2015
+ * @version 3/24/2015
  */
 package com.gm.user;
 
@@ -32,7 +32,7 @@ public class User implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    @Id @GeneratedValue
+    @Id 
     private long id;
     
     private String email;
@@ -50,8 +50,9 @@ public class User implements Serializable{
     @Column(name = "lname")
     private String lastName;
     
-    @Column(name = "create_date")  @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    @Column(name = "CREATE_DATE", columnDefinition="DATETIME")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate = new Date();
 
     public User() { }
    

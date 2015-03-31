@@ -61,13 +61,11 @@ body > .container {
     padding-top:60px;
     padding-left:5em;
 }
-
 .grayBoxArea{
     background-color: #656572;
     padding:25px;
     min-height: 300px;
 }
-
 .formRow{
     width: 33%;
     float: left;
@@ -93,6 +91,12 @@ h3{
 
 option{
   color: black;
+}
+
+table{
+	color:black;
+	border: 1px solid #d0d0d0;
+	border-radius: 6px;
 }
 
 >>>>>>> acquisition

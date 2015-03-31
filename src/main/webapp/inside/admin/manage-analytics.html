@@ -9,17 +9,15 @@
         <title>Admin- Manage Analytics</title>
 
 
-        <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../plugins/bootstrap/dist/css/bootstrap.min.css">
+        <script src="../../plugins/jquery/dist/jquery.min.js"></script>
+        <script src="../../plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="scripts/controller.js" defer></script>
 
-        <script src="../plugins/jquery/jquery-1.11.2.min.js"></script>
-        <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
-
-        <link rel="stylesheet" type="text/css" href="../css/inside.css">
-
-       
+        <link rel="stylesheet" type="text/css" href="../../css/inside.css">     
     </head>
    
-    <body>
+    <body onload="populateExisting()">
 
         
     <!-- Fixed navbar -->
@@ -28,7 +26,7 @@
         <div class="navbar-header">
         
           <a class="navbar-brand" href="#">  
-              <img src="../images/primaryNavigationGMLogo.png" 
+              <img src="../../images/primaryNavigationGMLogo.png" 
                    style="margin-top:-10px;" alt="General Motors">
           </a>
         </div>
@@ -44,13 +42,13 @@
             <div class="col-md-4"> 
                 <ul class="nav nav-pills pillMarigin">
                     <li role="presentation">
-                        <a href="index.html">Manage Data</a>
+                        <a href="../../inside/#/admin/manageData">Manage Data</a>
                     </li>
                     <li role="presentation" class="active">
-                        <a href="manage-analytics.html">Manage Analytics</a>
+                        <a href="">Manage Analytics</a>
                     </li>
                     <li role="presentation">
-                        <a href="manage-users.html">Manage Users</a>
+                        <a href="../../inside/#/admin/manageUsers">Manage Users</a>
                     </li>
                 </ul>
             </div>
@@ -61,60 +59,43 @@
     <div class="container">
      
         <div class="row">
-            <div class="col-lg-5 grayBoxArea">
-              
-                <h3>User Data Access</h3>
-                <form class="form-inline" id="dataAccessForm">
-                <div class="form-group">
-              
-                    <select class="form-control"
-                            name="access-frequency" 
-                            style="width:200px">
-                        <option>6 Months</option>
-                    </select>
-                    
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
-                </form>
-                <h3>Number of Top Words</h3>
-                <form class="form-inline" id="topWordsForm">
-                <div class="form-group">
-              
-                    <select class="form-control"
-                            name="top-words" 
-                            style="width:200px">
-                        <option value="3">3</option>
-                    </select>
-                    
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
-                </form>
-                <h3>Query Statistics</h3>
-                <table class="table-condensed">
-                    <tr>
-                        <td><b>Total Number of Queries:</b></td>
-                        <td><span id="totalNumTweets">243500</span></td>
-                    </tr>
-                    <tr>
-                        <td><b>Total Saved Searches:</b></td>
-                        <td><span id="totalDataStorage">29.3 TB</span></td>
-                    </tr>
-                </table>
-               
-               
-            </div>
+            
             <div class="col-lg-1"></div>
+            <div id="failure" 
+                 class="alert alert-danger" 
+                 role="alert"
+                 style="display:none;">
+                <span class="glyphicon glyphicon-exclamation-sign" 
+                    aria-hidden="true">
+                </span>
+                 <span class="sr-only">Success:</span>
+                 <span id="failure-message"></span>
+            </div>
             <div class="col-lg-5 grayBoxArea">
                 <h3>Explicit Content</h3>
-                <h3>Makes, Models, Years</h3>
-                   
-              
+                <form id="explicitForm"
+                      class="form-inline" >
+                    <br>
+                    <input rows="4" cols="170" 
+                        class="form-control"
+                        placeholder="Enter explicit content you wish to be filtered in displays..."
+                        name="explicitWordsArea"
+                        id="explicitWordsArea"
+                        style="width:372px"
+                        value=""></input>
+                    <div class="form-group formPadding">
+                        <button type="submit"  id="submitExplicitForm"
+                                class="btn btn-primary">Add Word</button>
+                    </div>
+                </form>
+                <p>Note: Enter 1 word/set of words at a time</p>
+                <div class="col-md-6 ">
+                </div>
+                <br>
+            </div>
+            <div class="col-lg-5 grayBoxArea">
+                <h3>Existing Words</h3>
+                <form id="removeForm"></form>
             </div>
         </div>
         
@@ -126,7 +107,6 @@
           <p>Last Data Update: XXXX</p>
       </div>
     </footer>
-
-       
+    <script src="scripts/updateExplicit.js"></script>
     </body>
 </html>
