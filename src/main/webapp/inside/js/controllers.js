@@ -5,37 +5,7 @@
 var controllers = angular.module('controllers', []);
 
 // Default data
-var pieChart;
-var barChart;
-var pieData = [
-	{
-		value: Math.abs(1),
-		color:"#000080",
-		highlight: "#00004c",
-		label: "Positive"
-	},
-	{
-		value: Math.abs(1),
-		color: "#7f7fff",
-		highlight: "#4c4cff",
-		label: "Negative"
-	}
-];
 
-var barData = {
-	labels: ["GM"],
-	datasets: [
-		{
-			label: "My First dataset",
-			fillColor: "rgba(220,220,220,0.5)",
-			strokeColor: "rgba(220,220,220,0.8)",
-			highlightFill: "rgba(220,220,220,0.75)",
-			highlightStroke: "rgba(220,220,220,1)",
-			data: [1]
-		}
-	]
-};
-  
 
 
 
@@ -231,26 +201,6 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 	  console.log(data);
   });
   
-	// Pie Graph
-	var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
-	pieChart = new Chart(pieCtx).Pie(pieData);
-
-	// Bar Graph
-	var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
-	barChart = new Chart(barCtx).Bar(barData);
-
-	var wordMapData = [['GM', 40]];
-
-	// Word Cloud
-	WordCloud(document.getElementById('wordCloud_canvas'), 
-	  { 
-		  list: wordMapData, 
-		  color: 'random-dark',
-		  shape: 'square',
-		  rotateRatio: 0.0,
-		  weightFactor: 2
-	  }
-	);
 
   //POST, query response
   $scope.queryPost = function() {
@@ -307,23 +257,30 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 					weightFactor: 2
 				}
 			);
-			/*
+  			
+			console.log(sentiment.rows[0].value[0]);
+			console.log(Math.abs(sentiment.rows[0].value[0] + 1));
+			console.log(Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100));
+			
+			console.log(Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100);
+			console.log(Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100);
 			var pieData = [
 				{
-					value: Math.abs(sentiment.rows[0].value[0] + 1),
+					value: Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100,
 					color:"#000080",
 					highlight: "#00004c",
 					label: "Positive"
 				},
 				{
-					value: Math.abs(sentiment.rows[0].value[0] - 1),
+					value: Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100,
 					color: "#7f7fff",
 					highlight: "#4c4cff",
 					label: "Negative"
 				}
 			  ]
-			*/
 
+//TODO maybe?: chart isn't updating, it's just redrawing, might need to fix			  
+/*
 			pieChart[0].value = Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100;
 			pieChart[1].value = Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100;
 
@@ -336,7 +293,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			barChart.datasets[0].data[1] = wordCountData[1][1];
 			barChart.datasets[0].data[2] = wordCountData[2][1];
 			barChart.datasets[0].data[3] = wordCountData[3][1];
-/*
+*/
 			var barData = {
 				labels: [wordCountData[0][0], 
 					wordCountData[1][0], 
@@ -361,14 +318,16 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
 			// Pie Graph
 			var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
+			pieCtx.clearRect(0, 0, document.getElementById("pieGraph_canvas").width, document.getElementById("pieGraph_canvas").height);
 			var pieChart = new Chart(pieCtx).Pie(pieData);
 
 			// Bar Graph
 			var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
+			barCtx.clearRect(0, 0, document.getElementById("pieGraph_canvas").width, document.getElementById("pieGraph_canvas").height);
 			var barChart = new Chart(barCtx).Bar(barData);
-*/
-			barChart.update();
-			pieChart.update();
+
+			//barChart.update();
+			//pieChart.update();
 		});
   }
 
