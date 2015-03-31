@@ -229,14 +229,17 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   // makes
   $http.get('http://localhost:7001/GMProject/api/makes').success(function(data) {
       $scope.makes = data.makes;
+	  console.log($scope.makes);
   });
   // models
   $http.get('http://localhost:7001/GMProject/api/models').success(function(data) {
       $scope.models = data.models;
+	  console.log($scope.models);
   });
   // years
   $http.get('http://localhost:7001/GMProject/api/model-years').success(function(data) {
       $scope.years = data.modelYears;
+	  console.log($scope.years);
   });
   
   // Pie Graph
