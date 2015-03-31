@@ -228,18 +228,18 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   // Make, model, year
   // makes
   $http.get('http://localhost:7001/GMProject/api/makes').success(function(data) {
-      $scope.makes = data.makes;
-	  console.log($scope.makes);
+      $scope.makes = data;
+	  console.log(data);
   });
   // models
   $http.get('http://localhost:7001/GMProject/api/models').success(function(data) {
-      $scope.models = data.models;
-	  console.log($scope.models);
+	$scope.models = data;
+	console.log(data);
   });
   // years
   $http.get('http://localhost:7001/GMProject/api/model-years').success(function(data) {
-      $scope.years = data.modelYears;
-	  console.log($scope.years);
+      $scope.years = data;
+	  console.log(data);
   });
   
   // Pie Graph
