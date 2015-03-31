@@ -5,40 +5,39 @@
 var controllers = angular.module('controllers', []);
 
 // Test Data
-/*
+
 var pieData = [
-    {
-        value: 0,
-        color:"#000080",
-        highlight: "#00004c",
-        label: "Positive"
-    },
-    {
-        value: 0,
-        color: "#7f7fff",
-        highlight: "#4c4cff",
-        label: "Negative"
-    }
+    {},
+    {}
   ]
 var barData = {
-    labels: ["Chevy", "Chevrolet", "Cadillac", "Caddy"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [10, 8, 5, 3]
-        }
-    ]
+    labels: [],
+    datasets: []
   };
-var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car', 5], ['new', 4],
-                   ['love', 11], ['like', 10], ['awesome', 2], ['cool', 10], ['Caddy', 10], ['Chevrolet', 3],
-                   ['wow', 13], ['fantastic', 9], ['yowza', 3], ['the', 7], ['true', 7], ['stuff', 1],
-                   ['can', 14], ['say', 8], ['shiny', 4], ['red', 5], ['truck', 8], ['man', 2],
-                  ];
-*/
+  
+// Pie Graph
+var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
+var pieChart = new Chart(pieCtx).Pie(pieData);
+
+// Bar Graph
+var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
+var barChart = new Chart(barCtx).Bar(barData);
+
+var wordMapData = [];
+
+// Word Cloud
+WordCloud(document.getElementById('wordCloud_canvas'), 
+	  { 
+		  list: wordMapData, 
+		  color: 'random-dark',
+		  shape: 'square',
+		  rotateRatio: 0.0,
+		  weightFactor: 2
+	  }
+);
+
+
+
 controllers.controller('AdminCtrl', ['$scope',
   function ($scope) {
     $scope.isAdmin = true;
@@ -181,18 +180,7 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
 }]);
 
 
-/*
-controllers.controller('QueryCouch', ['$scope', '$http', function ($scope, $http){
 
-  console.log($scope.location);
-  console.log($scope.startDate);
-  console.log($scope.endDate);
-  console.log($scope.make);
-  console.log($scope.model);
-  console.log($scope.year);
-
-}]);
-*/
 
 controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 
@@ -262,7 +250,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
           }
   );
   */
-  //POST 
+  //POST, query response
   $scope.queryPost = function() {
     $http.post('http://localhost:7001/GMProject/api/query', 
 	    {
@@ -279,8 +267,6 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			var responseJSON = JSON.parse(data.result);
 			var wordCount = JSON.parse(responseJSON.wordCount);
 			var sentiment = JSON.parse(responseJSON.sentiment);
-			//console.log(wordCount.rows);
-			//console.log(sentiment.rows);
 			
 			var wordCountData = [];
 			
@@ -308,6 +294,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 				}
 				wordCountData = tempData;
 			}
+			
 			//Word Cloud
 			WordCloud(document.getElementById('wordCloud_canvas'), 
 				{ 
@@ -318,7 +305,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 					weightFactor: 2
 				}
 			);
-			
+			/*
 			var pieData = [
 				{
 					value: Math.abs(sentiment.rows[0].value[0] + 1),
@@ -333,8 +320,8 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 					label: "Negative"
 				}
 			  ]
-			
-/*
+			*/
+
 			pieData[0].value = Math.abs(sentiment.rows[0].value[0] + 1);
 			pieData[1].value = Math.abs(sentiment.rows[0].value[0] - 1);
 
@@ -347,7 +334,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			barData.datasets[0].data[1] = wordCountData[1][1];
 			barData.datasets[0].data[2] = wordCountData[2][1];
 			barData.datasets[0].data[3] = wordCountData[3][1];
-*/
+/*
 			var barData = {
 				labels: [wordCountData[0][0], 
 					wordCountData[1][0], 
@@ -377,22 +364,13 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			// Bar Graph
 			var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
 			var barChart = new Chart(barCtx).Bar(barData);
-
-		//barChart.update();
-		//pieChart.update();
+*/
+			barChart.update();
+			pieChart.update();
 		});
   }
 
-/*
-  $scope.queryPost2 = function() { 
-	console.log($scope.selectLocation);
-	console.log($scope.endDate);
-	console.log($scope.startDate);
-	console.log($scope.selectMake);
-	console.log($scope.selectModel);
-	console.log($scope.selectYear);
-  }
-*/
+
 }]);
 
 controllers.controller('CompareCtrl',['$scope', function($scope){

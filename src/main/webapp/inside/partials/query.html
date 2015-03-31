@@ -4,7 +4,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">#generalmotors</div>
       <div class="panel-body">
-        <form id="queryForm" ng-controller="QueryCtrl">
+        <form id="queryForm" ng-controller="QueryCtrl" ng-submit="queryPost()">
           <!-- Locations dropdown -->
           <div class="form-group">
             <label for="selectLocation">Location</label>
@@ -58,7 +58,7 @@
               <option value="All Years">All Years</option>
             </select>
           </div>
-          <button type="button" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>
         </form>
       </div>
     </div>

@@ -38,7 +38,7 @@ public class QueryCouch {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createUser(@FormParam("location") String location,
+    public ReturnMessage createView(@FormParam("location") String location,
 	@FormParam("endDate") String endDate,
 	@FormParam("startDate") String startDate,
 	@FormParam("make") String make,
@@ -108,19 +108,19 @@ public class QueryCouch {
 			
 			JSONObject viewSentiment = new JSONObject();
 			
-			/*
+			
 			StringBuilder sb = new StringBuilder();
             sb.append("function(doc) {");
-			sb.append("  if(doc.tweettime > 0 && doc.tweettime < 1427535144069) {");
+			sb.append("  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") {");
             sb.append("    emit(null, doc.tweetsentiment);");
 			sb.append("  }");
             sb.append("}");
-			*/
 			
-			//viewSentiment.put("map", sb.toString());
-			viewSentiment.put("map", "function(doc) { if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") { emit(null, doc.tweetsentiment); } }");
 			
-			/*
+			viewSentiment.put("map", sb.toString());
+			//viewSentiment.put("map", "function(doc) { if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") { emit(null, doc.tweetsentiment); } }");
+			
+			
 			sb = new StringBuilder();
             sb.append("function(keys, values, rereduce) {");
             sb.append("  if (!rereduce){");
@@ -134,10 +134,10 @@ public class QueryCouch {
             sb.append("    return [avg, length];");
             sb.append("  }");
             sb.append("}");
-            */	
+            
 				
-			//viewSentiment.put("reduce", sb.toString());
-			viewSentiment.put("reduce", "function(keys, values, rereduce) { if (!rereduce){ var length = values.length; return [sum(values) / length, length]; }else{ var length = sum(values.map(function(v){return v[1]})); var avg = sum(values.map(function(v){ return v[0] * (v[1] / length); })); return [avg, length]; } }");
+			viewSentiment.put("reduce", sb.toString());
+			//viewSentiment.put("reduce", "function(keys, values, rereduce) { if (!rereduce){ var length = values.length; return [sum(values) / length, length]; }else{ var length = sum(values.map(function(v){return v[1]})); var avg = sum(values.map(function(v){ return v[0] * (v[1] / length); })); return [avg, length]; } }");
 			
 			viewDocument.getJSONObject("views").put("sentiment", viewSentiment);
 			
@@ -147,21 +147,21 @@ public class QueryCouch {
 			
 			JSONObject viewWordCount = new JSONObject();
 			
-			/*
+			
 			sb = new StringBuilder();
             sb.append("function(doc) {");
-            sb.append("  if(doc.tweettime > 0 && doc.tweettime < 1427535144069) {");
+            sb.append("  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") {");
             sb.append("    for(var key in doc){");
             sb.append("      emit(key, doc[key]);");
             sb.append("    }");
             sb.append("  }");
             sb.append("}");
-			*/
 			
-			//viewWordCount.put("map", sb.toString());
-			viewWordCount.put("map", "function(doc){  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+"){    for(var key in doc){      emit(key, doc[key]);    }  }}");
 			
-			/*
+			viewWordCount.put("map", sb.toString());
+			//viewWordCount.put("map", "function(doc){  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+"){    for(var key in doc){      emit(key, doc[key]);    }  }}");
+			
+			
 			sb = new StringBuilder();
             sb.append("function(keys, values, rereduce){");
             sb.append("  if (!rereduce){");
@@ -172,10 +172,10 @@ public class QueryCouch {
             sb.append("    return length;");
             sb.append("  }");
             sb.append("}");
-			*/
 			
-			//viewWordCount.put("reduce", sb.toString());
-			viewWordCount.put("reduce", "function(keys, values, rereduce){  if (!rereduce){    var length = values.length;    return length;  }else{    var length = sum(values.map(function(v){return v}));    return length;  }}");
+			
+			viewWordCount.put("reduce", sb.toString());
+			//viewWordCount.put("reduce", "function(keys, values, rereduce){  if (!rereduce){    var length = values.length;    return length;  }else{    var length = sum(values.map(function(v){return v}));    return length;  }}");
 			
 			viewDocument.getJSONObject("views").put("wordCount", viewWordCount);
 			viewDocument.put("_id", "_design/"+user);
