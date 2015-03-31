@@ -143,7 +143,7 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
   }
 
   $http.get('http://localhost:7001/GMProject/api/pending-users').success(function(data) {
-        $scope.pusers = data.pendingUser;
+        $scope.pusers = data;
   });
     
   //fill the users table
@@ -151,7 +151,7 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 
       //change boolean value for admin to 
       //textual representation of user role
-      for(var i = 0; i < data.user.length; i++){
+      for(var i = 0; i < data.length; i++){
           if(data.user[i].admin == "true")
               data.user[i].admin = "Admin";
           else
