@@ -4,37 +4,38 @@
 
 var controllers = angular.module('controllers', []);
 
-// Test Data
-
+// Default data
+var pieChart;
+var barChart;
 var pieData = [
-    {},
-    {}
-  ]
+	{
+		value: Math.abs(1),
+		color:"#000080",
+		highlight: "#00004c",
+		label: "Positive"
+	},
+	{
+		value: Math.abs(1),
+		color: "#7f7fff",
+		highlight: "#4c4cff",
+		label: "Negative"
+	}
+];
+
 var barData = {
-    labels: [],
-    datasets: []
-  };
+	labels: ["GM"],
+	datasets: [
+		{
+			label: "My First dataset",
+			fillColor: "rgba(220,220,220,0.5)",
+			strokeColor: "rgba(220,220,220,0.8)",
+			highlightFill: "rgba(220,220,220,0.75)",
+			highlightStroke: "rgba(220,220,220,1)",
+			data: [1]
+		}
+	]
+};
   
-// Pie Graph
-var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
-var pieChart = new Chart(pieCtx).Pie(pieData);
-
-// Bar Graph
-var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
-var barChart = new Chart(barCtx).Bar(barData);
-
-var wordMapData = [];
-
-// Word Cloud
-WordCloud(document.getElementById('wordCloud_canvas'), 
-	  { 
-		  list: wordMapData, 
-		  color: 'random-dark',
-		  shape: 'square',
-		  rotateRatio: 0.0,
-		  weightFactor: 2
-	  }
-);
 
 
 
@@ -230,26 +231,27 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 	  console.log(data);
   });
   
-  // Pie Graph
-  //var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
-  //var pieChart = new Chart(pieCtx).Pie(testPieData);
-  
-  // Bar Graph
-  //var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
-  //var barChart = new Chart(barCtx).Bar(testBarData);
-  
-  // Word Cloud
-	/*
-  WordCloud(document.getElementById('wordCloud_canvas'), 
-          { 
-              list: testWords, 
-              color: 'random-dark',
-              shape: 'square',
-              rotateRatio: 0.0,
-              weightFactor: 2
-          }
-  );
-  */
+	// Pie Graph
+	var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
+	pieChart = new Chart(pieCtx).Pie(pieData);
+
+	// Bar Graph
+	var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
+	barChart = new Chart(barCtx).Bar(barData);
+
+	var wordMapData = [['GM', 40]];
+
+	// Word Cloud
+	WordCloud(document.getElementById('wordCloud_canvas'), 
+	  { 
+		  list: wordMapData, 
+		  color: 'random-dark',
+		  shape: 'square',
+		  rotateRatio: 0.0,
+		  weightFactor: 2
+	  }
+	);
+
   //POST, query response
   $scope.queryPost = function() {
     $http.post('http://localhost:7001/GMProject/api/query', 
@@ -322,18 +324,18 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			  ]
 			*/
 
-			pieData[0].value = Math.abs(sentiment.rows[0].value[0] + 1);
-			pieData[1].value = Math.abs(sentiment.rows[0].value[0] - 1);
+			pieChart[0].value = Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100;
+			pieChart[1].value = Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100;
 
 			barData.labels[0] = wordCountData[0][0];
 			barData.labels[1] = wordCountData[1][0];
 			barData.labels[2] = wordCountData[2][0];
 			barData.labels[3] = wordCountData[3][0];
 
-			barData.datasets[0].data[0] = wordCountData[0][1];
-			barData.datasets[0].data[1] = wordCountData[1][1];
-			barData.datasets[0].data[2] = wordCountData[2][1];
-			barData.datasets[0].data[3] = wordCountData[3][1];
+			barChart.datasets[0].data[0] = wordCountData[0][1];
+			barChart.datasets[0].data[1] = wordCountData[1][1];
+			barChart.datasets[0].data[2] = wordCountData[2][1];
+			barChart.datasets[0].data[3] = wordCountData[3][1];
 /*
 			var barData = {
 				labels: [wordCountData[0][0], 
