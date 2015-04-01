@@ -13,8 +13,7 @@
         display: none;
     }
 
-    div#Saved{
-      background-color: #656572;
+    div#Saves{
       padding: 5px;
   		min-height: 300px;
   		margin-top: 150px;

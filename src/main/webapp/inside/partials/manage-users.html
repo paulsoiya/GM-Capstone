@@ -1,63 +1,75 @@
 <div class="container">
-
+<br>
     <div class="row">
-        <div class="col-lg-5 grayBoxArea">
-            <h3>Pending Requests</h3>
-            <div class="table-responsive">
-                 <table class="table">
 
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Position</th>
-                            <th>Reason</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="puser in pusers">
-                            <td>{{puser.firstName}} {{puser.lastName}}</td>
-                            <td>{{puser.email}}</td>
-                            <td>{{puser.position}}</td>
-                            <td>{{puser.reason}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-lg-14">
+            <div class="panel panel-default">
+                <div class="panel-heading">Pending Requests</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Position</th>
+                                    <th>Reason</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="puser in pusers">
+                                    <td>{{puser.firstName}} {{puser.lastName}}</td>
+                                    <td>{{puser.email}}</td>
+                                    <td>{{puser.position}}</td>
+                                    <td>{{puser.reason}}</td>
+                                    <td><button class="btn btn-primary" ng-click="grantAccess($index)">Grant Access</button> </td>
+                                    <td><button class="btn btn-danger" ng-click="deleteRequest($index)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
             </div>
-            <div class="pull-right">
-                <button type="button" class="btn btn-success">Grant Access
-                </button>
-                <button type="button" class="btn btn-danger">Delete</button>
-            </div>
+
         </div>
-        <div class="col-lg-1"></div>
-        <div class="col-lg-5 grayBoxArea">
-            <h3>Existing Users</h3>
-               <div class="table-responsive">
-                <table class="table">
+        </div>
+        <div class="row">
+        <div class="col-lg-14">
+            <div class="panel panel-default">
+                <div class="panel-heading">Existing Users</div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped ">
 
-                    <thead>
-                        <tr>
-                            <th>Role</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="user in users">
-                            <td>{{user.admin}}</td>
-                            <td>{{user.firstName}} {{user.lastName}}</td>
-                            <td>{{user.email}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                            <thead>
+                                <tr>
+                                    <th>Role</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="user in users">
+                                    <td>{{user.admin}}</td>
+                                    <td>{{user.firstName}} {{user.lastName}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td><button class="btn btn-primary" ng-click="grantAdminAccess($index)">Make Admin</button></td>
+                                    <td><button class="btn btn-danger" ng-click="removeAccess($index)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="pull-right">
-                <button type="button" class="btn btn-success">Make Admin
-                </button>
-                <button type="button" class="btn btn-danger">Remove Access
-                </button>
-            </div>
+
+
+
         </div>
     </div>
 
