@@ -27,12 +27,12 @@
         <title>Admin- Manage Data</title>
 
 
-        <link rel="stylesheet" href="../../plugins/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../../plugins/bootstrap/dist/css/bootstrap.min.css">
 
-        <script src="../../plugins/jquery/dist/jquery.min.js"></script>
-        <script src="../../plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../../../plugins/jquery/dist/jquery.min.js"></script>
+        <script src="../../../plugins/bootstrap/dist/js/bootstrap.min.js"></script>
 
-        <link rel="stylesheet" type="text/css" href="../../css/inside.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/inside.css">
         <!-- 
         <script type="text/javascript" src="scripts/manage-data.js"></script>
 
@@ -65,7 +65,7 @@
         <div class="navbar-header">
         
           <a class="navbar-brand" href="#">  
-              <img src="../../images/primaryNavigationGMLogo.png" 
+              <img src="../../../images/primaryNavigationGMLogo.png" 
                    style="margin-top:-10px;" alt="General Motors">
           </a>
         </div>
@@ -166,33 +166,46 @@
                 ?>
                 </select>
                 
-                <h3>Models   <form method="post" name="update" action="php/update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newModel" placeholder="New Model"></input>
+                <h3>Models   
+                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                    <input type="text" name="newModel" placeholder="New Model"></input>
                 	<input class="btn btn-primary" type="submit" value="Add Model" action=""></input>
                 </form></h3>
                 <div id="models"></div>
-                <select id="removeModelSelector" multiple class="form-control">
-                <?php
-                    $models = preg_split('/[,]/', $modelString);
-                    foreach($models as $model) {
-                        echo "<option>" . $model . "</option>";
-                    }
-                ?>
-                </select>
-                <button class="btn btn-primary" onclick="removeModel()">Remove</button>           
+                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                    <select id="removeModelSelector" name="removeModelSelector" multiple class="form-control">
+                    <?php
+                        $models = preg_split('/[,]/', $modelString);
+                        foreach($models as $key=>$model) {
+                            if(strlen($model) > 0) {
+                                echo "<option id=\"" . $key . "\">" . $model . "</option>";
+                            }
+                        }
+                    ?>
+                    </select>
+                    <input class="btn btn-primary" type="submit" value="Remove" action=""></input>
+                </form>
+                           
 
-               	<h3>Alternates <form method="post" name="update" action="php/update.php?currentMake=<?php echo $newMake ?>"><input type="text" name="newAlternate" placeholder="New Alternate"></input>
+               	<h3>Alternates 
+                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                    <input type="text" name="newAlternate" placeholder="New Alternate"></input>
                 	<input class="btn btn-primary" type="submit" value="Add Alternate" action=""></input>
                 </form></h3>
           
                 <div id="alt"></div>
-                <select id="removeAlternateSelector" multiple class="form-control">
-                <?php
-                    $alternates = preg_split('/[,]/', $alternateString);
-                    foreach($alternates as $alternate) {
-                        echo "<option>" . $alternate . "</option>";
-                    } 
-                ?>
-                </select>
+                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                    <select id="removeAlternateSelector" name="removeAlternateSelector" multiple class="form-control">
+                    <?php
+                        $alternates = preg_split('/[,]/', $alternateString);
+                        foreach($alternates as $key=>$alternate) {
+                            if(strlen($alternate) > 0) {
+                                echo "<option id=\"" . $key . "\">" . $alternate . "</option>";
+                            }
+                        } 
+                    ?>
+                    </select>
+                <form>
                 <button class="btn btn-primary" onclick="removeAlternate()">Remove</button> 
             </div>
         </div>

@@ -23,5 +23,37 @@
 		$currentAlternates .= $newAlternate;
 		$dao->setFilterQueryAlternates($currentMake, $currentAlternates);
 	}
+
+	if(isset($_POST['removeModelSelector'])) {
+		$removeModel = $_POST['removeModelSelector'];
+		$currentModels = $dao->getModelString($currentMake);
+
+		// do stuff here
+		$temp = explode(",", $currentModels);
+		$newModelString = "";
+		foreach($temp as $item) {
+			if($item != $removeModel && strlen($item) > 0) {
+				$newModelString .= $item . ",";
+			}
+		}
+		//
+		$dao->setFilterQueryModels($currentMake, $newModelString);
+	}
+
+	if(isset($_POST['removeAlternateSelector'])) {
+		$removeAlternate = $_POST['removeAlternateSelector'];
+		$currentAlternates = $dao->getAlternateString($currentMake);
+		// do stuff here
+		$temp = explode(",", $currentAlternates);
+		$newAlternateString = "";
+		foreach($temp as $item) {
+			if($item != $removeAlternate && strlen($item) > 0) {
+				$newAlternateString .= $item . ",";
+			}
+		}
+		//
+		$dao->setFilterQueryAlternates($currentMake, $newAlternateString);
+		// die($newAlternateString);
+	}
 ?>
 	

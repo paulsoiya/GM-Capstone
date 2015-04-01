@@ -75,7 +75,7 @@ class adminDao
 		$query = "insert into filterquerymodels values('" . $make . "', '" . $models . "')";
 		if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 		{
-			$query = "UPDATE filterquerymodels SET models='" . $models ."' WHERE make='" . $make . "'"; 
+			$query = "UPDATE filterquerymodels SET model='" . $models ."' WHERE make='" . $make . "'"; 
 			if ( !( $result = mysql_query( $query, $this->database ) ) ) 
 			{
 				print( "Could not execute query! <br />" ); 
