@@ -4,7 +4,50 @@
 
 var controllers = angular.module('controllers', []);
 
+
+
+//this is the user id of the current logged in user
+var _uToken = $.cookie("utoken");
+
+
+
+
+// Test Data
+var testPieData = [
+    {
+        value: 300,
+        color:"#000080",
+        highlight: "#00004c",
+        label: "Positive"
+    },
+    {
+        value: 50,
+        color: "#7f7fff",
+        highlight: "#4c4cff",
+        label: "Negative"
+    }
+  ]
+var testBarData = {
+    labels: ["Chevy", "Chevrolet", "Cadillac", "Caddy"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,0.8)",
+            highlightFill: "rgba(220,220,220,0.75)",
+            highlightStroke: "rgba(220,220,220,1)",
+            data: [10, 8, 5, 3]
+        }
+    ]
+  };
+var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car', 5], ['new', 4],
+                   ['love', 11], ['like', 10], ['awesome', 2], ['cool', 10], ['Caddy', 10], ['Chevrolet', 3],
+                   ['wow', 13], ['fantastic', 9], ['yowza', 3], ['the', 7], ['true', 7], ['stuff', 1],
+                   ['can', 14], ['say', 8], ['shiny', 4], ['red', 5], ['truck', 8], ['man', 2],
+                  ];
+
 // Default data
+
 
 
 
@@ -122,12 +165,12 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
       //change boolean value for admin to 
       //textual representation of user role
       for(var i = 0; i < data.length; i++){
-          if(data.user[i].admin == "true")
-              data.user[i].admin = "Admin";
+          if(data[i].admin === true)
+              data[i].admin = "Admin";
           else
-              data.user[i].admin = "User";
+              data[i].admin = "User";
       }
-      $scope.users = data.user;
+      $scope.users = data;
   });
 
 
