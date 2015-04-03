@@ -28,9 +28,9 @@ $("#loginForm").submit(function(event) {
             if (data.result === true) {
             	$.cookie("utoken", data.id);
                 if(data.admin){
-                	window.open("http://localhost:7001/GMProject/inside/#/admin/manageUsers", "_self");
+                	window.open("inside/#/admin/manageUsers", "_self");
                 }else{
-                	window.open("http://localhost:7001/GMProject/inside/#/profile", "_self");
+                	window.open("inside/#/profile", "_self");
                 }
             } else {
                 console.log("failure");
