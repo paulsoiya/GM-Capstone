@@ -122,7 +122,7 @@ public class UserResource {
         em.remove(em.find(User.class, id));
     }
     
-    @PUT @Path("/{id}")
+    @PUT @Produces("application/json") @Path("/{id}")
     public ReturnMessage updateUser(@PathParam("id") long id,
     					   @FormParam("first_name") String firstName,
     					   @FormParam("last_name") String lastName,
