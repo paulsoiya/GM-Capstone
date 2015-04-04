@@ -99,12 +99,27 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
   $scope.getPendingUsers();
   $scope.getUsers();
   
-  $scope.grantAdminAccess = function(id){
+  $scope.changeRole = function(id, admin){
 	  var uid = $scope.users[id].id;
-	  $http.put('../api/users/' + uid + '/makeadmin').success(function (data, status) {
-          console.log(data);
+	  var payload;
+	  
+	  if ( admin ) { 
+		  payload = {role: true};
+	  } else {
+		  payload = {role: false};
+	  }
+	  
+	  
+	  $http({
+		    method: 'PUT',
+		    url: "../api/users/"+ uid + "/role",
+		    data: $.param(payload),
+		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+		  console.log(data);
           $scope.getUsers();
-      });
+	  });
+	 
   }
   
   /**
