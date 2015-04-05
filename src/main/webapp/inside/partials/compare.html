@@ -2,9 +2,16 @@
 
   
   <div class="col-md-6">
+    
     <div class="panel panel-default">
       <div class="panel-heading">Search 1</div>
       <div class="panel-body">
+	  <form id="queryForm" ng-controller="CompareCtrl" ng-submit="comparePost1()">
+	    <select id="selectSearch1" class="form-control" ng-model="searches" ng-options="for search in searches">
+          <option value="">select a saved search</option> 
+        </select>
+	    <button type="submit" class="btn btn-primary btn-lg" ng-click="comparePost1()">Submit</button>
+	  </form>
       </div>
     </div>
     <div class="panel panel-default">
@@ -32,6 +39,12 @@
     <div class="panel panel-default">
       <div class="panel-heading">Search 2</div>
       <div class="panel-body">
+	  <form id="queryForm" ng-controller="CompareCtrl" ng-submit="comparePost2()">
+	    <select id="selectSearch2" class="form-control" ng-model="searches" ng-options="for search in searches">
+          <option value="">select a saved search</option> 
+        </select>
+	    <button type="submit" class="btn btn-primary btn-lg" ng-click="comparePost2()">Submit</button>
+	  </form>
       </div>
     </div>
     <div class="panel panel-default">

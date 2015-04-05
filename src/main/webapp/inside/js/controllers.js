@@ -254,7 +254,8 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			"startDate="+$scope.startDate+"&"+
 			"make="+$scope.selectMake.makeName+"&"+
 			"model="+$scope.selectModel.modelName+"&"+
-			"year="+$scope.selectYear.yearName
+			"year="+$scope.selectYear.yearName+"&"+
+			"user="+_uToken
 		},
 		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
 	    ).success(function(data){
@@ -377,8 +378,16 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
 }]);
 
-controllers.controller('CompareCtrl',['$scope', function($scope){
+controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
   
+  
+  $http.post('http://localhost:7001/GMProject/api/savedsearches', 
+	    {msg: "user="+_uToken},
+		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
+	    ).success(function(data){
+      $scope.searches = data;
+	  console.log($scope.searches);
+  });
   // First Pie Graph
   //var pieCtx = document.getElementById("first_pie_canvas").getContext("2d");
   //var pieChart = new Chart(pieCtx).Pie(testPieData);

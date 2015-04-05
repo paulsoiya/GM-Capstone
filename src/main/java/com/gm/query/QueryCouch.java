@@ -43,7 +43,8 @@ public class QueryCouch {
 	@FormParam("startDate") String startDate,
 	@FormParam("make") String make,
 	@FormParam("model") String model,
-	@FormParam("year") String year ){
+	@FormParam("year") String year,
+	@FormParam("user") String user ){
 		
 		System.out.println(location);
 		System.out.println(endDate);
@@ -54,15 +55,13 @@ public class QueryCouch {
 		System.out.println(model != "undefined");
 		
 		System.out.println(year);
-
-
-		
-		//TODO: remove this tempUser and replaced it with an actual user
-		String user = "tempUser";
+		System.out.println(user);
 		
 		CouchConnection couch = new CouchConnection("http://localhost:5984/", "gm/");
 		
-		
+		if(user.equals("undefined")){
+			user = "tempUser";
+		}
 		if(!make.equals("undefined")){
 			couch = new CouchConnection("http://localhost:5984/", make.toLowerCase()+"/");
 		}
@@ -201,4 +200,7 @@ public class QueryCouch {
 		rm.setResult(returnJSON.toString());
         return rm;
     }
+	
+	
+	
 }
