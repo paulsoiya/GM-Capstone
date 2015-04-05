@@ -77,13 +77,13 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 
 
   $scope.getPendingUsers = function () {
-	  $http.get('http://localhost:7001/GMProject/api/pending-users').success(function(data) {
+	  $http.get('../api/pending-users').success(function(data) {
 		  $scope.pusers = data;
 	  });
   }
     
   $scope.getUsers = function () {
-	  $http.get('http://localhost:7001/GMProject/api/users').success(function(data) {
+	  $http.get('../api/users').success(function(data) {
 		  //change boolean value for admin to 
 		  //textual representation of user role
 		  for(var i = 0; i < data.length; i++){
@@ -99,12 +99,27 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
   $scope.getPendingUsers();
   $scope.getUsers();
   
-  $scope.grantAdminAccess = function(id){
+  $scope.changeRole = function(id, admin){
 	  var uid = $scope.users[id].id;
-	  $http.put('http://localhost:7001/GMProject/api/users/' + uid + '/makeadmin').success(function (data, status) {
-          console.log(data);
+	  var payload;
+	  
+	  if ( admin ) { 
+		  payload = {role: true};
+	  } else {
+		  payload = {role: false};
+	  }
+	  
+	  
+	  $http({
+		    method: 'PUT',
+		    url: "../api/users/"+ uid + "/role",
+		    data: $.param(payload),
+		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+		  console.log(data);
           $scope.getUsers();
-      });
+	  });
+	 
   }
   
   /**
@@ -112,7 +127,7 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
    */
   $scope.removeAccess = function(id){
 	  var uid = $scope.users[id].id;
-	  $http.delete('http://localhost:7001/GMProject/api/users/' + uid).success(function (data, status) {
+	  $http.delete('../api/users/' + uid).success(function (data, status) {
           console.log(data);
           $scope.getUsers();
       });
@@ -131,7 +146,7 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 			  			};
 	  $http({
 		    method: 'POST',
-		    url: 'http://localhost:7001/GMProject/api/users',
+		    url: '../api/users',
 		    data: $.param(postFields),
 		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function(data, status, headers, config) {
@@ -148,30 +163,12 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
    */
   $scope.deleteRequest = function(id){
 	  var uid = $scope.pusers[id].id;
-	  $http.delete('http://localhost:7001/GMProject/api/pending-users/' + uid).success(function (data, status) {
+	  $http.delete('../api/pending-users/' + uid).success(function (data, status) {
           console.log(data);
           console.log("DELETED");
           $scope.getPendingUsers();
       });
   }
-
-  $http.get('http://localhost:7001/GMProject/api/pending-users').success(function(data) {
-        $scope.pusers = data;
-  });
-    
-  //fill the users table
-  $http.get('http://localhost:7001/GMProject/api/users').success(function(data) {
-
-      //change boolean value for admin to 
-      //textual representation of user role
-      for(var i = 0; i < data.length; i++){
-          if(data[i].admin === true)
-              data[i].admin = "Admin";
-          else
-              data[i].admin = "User";
-      }
-      $scope.users = data;
-  });
 
 
 }]);
