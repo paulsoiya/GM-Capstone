@@ -176,22 +176,30 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
 
   $scope.save = function()
   {
-   var postFields = {first_name:$(#FirstName).val(),
-			  			last_name:$(#LastName).val(),
-			  			email:$(#inputEmail).val(),
-			  			password:$(#inputPassword).val()
+   var postFields = {first_name:$("#FirstName").val(),
+			  			last_name:$("#LastName").val(),
+			  			email:$("#inputEmail").val(),
+			  			password:$("#inputPassword").val()
 			  			};
 
 	  $http({
 		    method: 'PUT',
-		    url: 'http://localhost:7001/GMProject/api/users',
+		    url: 'http://localhost:7001/GMProject/api/users/' + _uToken,
 		    data: $.param(postFields),
 		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function(data, status, headers, config) {
 			  console.log(data);
 			  $scope.getPendingUsers();
-			  $scope.getUsers();
+			  if(data.success == "success"){
+			      $("success-message").html("");
+			      $("success").show();
+			  }
+			  else{
+                
+			  }
 	  }).error(function(data, status, headers, config) {
+	      $("#success-message").hide();
+
 			console.log("Something went wrong");
 	  });
   }
