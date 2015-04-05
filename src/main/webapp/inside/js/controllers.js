@@ -189,11 +189,12 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
 		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function(data, status, headers, config) {
 	      console.log(data);
-
-	      $scope.getPendingUsers();
+	      $("#success-message").hide();
+	      $("#failure-message").hide();
+	      
 
 			  if(data.success == "success"){
-			      $("success-message").html("");
+			      $("success-message").html("Your changes have been saved");
 			      $("success").show();
 			  }
 			  else{
@@ -206,7 +207,7 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
 
 	      $("#failure-message").html("There was a problem saving your changes");
 	      $("failure").show();
-			console.log("Something went wrong");
+			
 	  });
   }
 //$("#id").val(),
