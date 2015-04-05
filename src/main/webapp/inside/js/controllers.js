@@ -188,18 +188,24 @@ controllers.controller('ProfileCtrl',['$scope', function($scope){
 		    data: $.param(postFields),
 		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function(data, status, headers, config) {
-			  console.log(data);
-			  $scope.getPendingUsers();
+	      console.log(data);
+
+	      $scope.getPendingUsers();
+
 			  if(data.success == "success"){
 			      $("success-message").html("");
 			      $("success").show();
 			  }
 			  else{
-                
+			      $("failure-message").html("there was a problem saving your changes");
+			      $("failure").show();
 			  }
 	  }).error(function(data, status, headers, config) {
 	      $("#success-message").hide();
+	      $("#failure-message").hide();
 
+	      $("#failure-message").html("There was a problem saving your changes");
+	      $("failure").show();
 			console.log("Something went wrong");
 	  });
   }
