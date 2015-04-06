@@ -63,11 +63,6 @@ public class Twit {
 			System.out.println(MYSQLPASSWORD);
 			
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
-<<<<<<< HEAD
-			dbConn = DriverManager.getConnection(MYSQL, MYSQLUSER, MYSQLPASSWORD);
-   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
-   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "digiocean2@");
-=======
 <<<<<<< HEAD:twitterstream/src/Twit.java
 			dbConn = DriverManager.getConnection(MYSQL, MYSQLUSER, MYSQLPASSWORD);
    			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
@@ -76,7 +71,6 @@ public class Twit {
    			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "password");
    			dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "root");
 >>>>>>> master:twitterstream/src/Twit.java
->>>>>>> feature.tweet-to-couch
 			
    			statementMakes = dbConn.createStatement();
    			resultSetMakes = statementMakes.executeQuery("SELECT * FROM filterquerymakes WHERE filterid = 0");
@@ -114,11 +108,7 @@ public class Twit {
 		    while(resultSetMakes.next()) {
 		    	String[] splitMakes = resultSetMakes.getString("makes").split(",");
 				for(int i = 0; i < splitMakes.length; i++) {
-<<<<<<< HEAD
-					makes.add(splitMakes[i]);
-=======
 					makes.add("#"+splitMakes[i]);
->>>>>>> feature.tweet-to-couch
 				}
 		    } 
 
@@ -127,11 +117,7 @@ public class Twit {
 			while(resultSetModels.next()) {
 		    	String[] splitModels = resultSetModels.getString("models").split(",");
 				for(int i = 0; i < splitModels.length; i++) {
-<<<<<<< HEAD
-					models.add(splitModels[i]);
-=======
 					models.add("#"+splitModels[i]);
->>>>>>> feature.tweet-to-couch
 				}
 		    } 
 
@@ -140,11 +126,7 @@ public class Twit {
 			while(resultSetAlternates.next()) {
 				String[] splitAlternates = resultSetAlternates.getString("alternates").split(",");
 				for(int i = 0; i < splitAlternates.length; i++) {
-<<<<<<< HEAD
-			    	alternates.add(splitAlternates[i]);
-=======
 			    	alternates.add("#"+splitAlternates[i]);
->>>>>>> feature.tweet-to-couch
 				}
 		    } 
 
