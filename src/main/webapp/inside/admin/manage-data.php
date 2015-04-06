@@ -27,12 +27,12 @@
         <title>Admin- Manage Data</title>
 
 
-        <link rel="stylesheet" href="../../../plugins/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../plugins/bootstrap/dist/css/bootstrap.min.css">
 
-        <script src="../../../plugins/jquery/dist/jquery.min.js"></script>
-        <script src="../../../plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../../plugins/jquery/dist/jquery.min.js"></script>
+        <script src="../../plugins/bootstrap/dist/js/bootstrap.min.js"></script>
 
-        <link rel="stylesheet" type="text/css" href="../../../css/inside.css">
+        <link rel="stylesheet" type="text/css" href="../../css/inside.css">
         <!-- 
         <script type="text/javascript" src="scripts/manage-data.js"></script>
 
@@ -63,14 +63,15 @@
     <nav class="navbar navbar-inverse navbar-fixed-top white">
       <div class="container">
         <div class="navbar-header">
-        
+
           <a class="navbar-brand" href="#">  
-              <img src="../../../images/primaryNavigationGMLogo.png" 
+              <img src="../../images/primaryNavigationGMLogo.png" 
                    style="margin-top:-10px;" alt="General Motors">
           </a>
         </div>
-          <div class="paddingTop alignRight">
-              Welcome, Admin | <a href="">Logout</a>
+          <div  class="paddingTop alignRight">
+            <a href="../index.html">Switch View</a>
+              | Welcome | <a href="">Logout</a>
           </div>
       </div>
     </nav>
@@ -80,14 +81,14 @@
             <div class="col-md-8"><h1>SocialGM: Admin</h1></div>
             <div class="col-md-4"> 
                 <ul class="nav nav-pills pillMarigin">
-                    <li role="presentation" class="active">
-                        <a href="index.html">Manage Data</a>
-                    </li>
                     <li role="presentation">
+                        <a href="">Manage Data</a>
+                    </li>
+                    <li role="presentation" class="active">
                         <a href="manage-analytics.html">Manage Analytics</a>
                     </li>
                     <li role="presentation">
-                        <a href="manage-users.html">Manage Users</a>
+                        <a href="../../inside/#/admin/manageUsers">Manage Users</a>
                     </li>
                 </ul>
             </div>
@@ -167,12 +168,12 @@
                 </select>
                 
                 <h3>Models   
-                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                <form method="post" name="update" action="manage-data.php?currentMake=<?php echo $newMake ?>">
                     <input type="text" name="newModel" placeholder="New Model"></input>
                 	<input class="btn btn-primary" type="submit" value="Add Model" action=""></input>
                 </form></h3>
                 <div id="models"></div>
-                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                <form method="post" name="update" action="manage-data.php?currentMake=<?php echo $newMake ?>">
                     <select id="removeModelSelector" name="removeModelSelector" multiple class="form-control">
                     <?php
                         $models = preg_split('/[,]/', $modelString);
@@ -188,13 +189,13 @@
                            
 
                	<h3>Alternates 
-                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                <form method="post" name="update" action="manage-data.php?currentMake=<?php echo $newMake ?>">
                     <input type="text" name="newAlternate" placeholder="New Alternate"></input>
                 	<input class="btn btn-primary" type="submit" value="Add Alternate" action=""></input>
                 </form></h3>
           
                 <div id="alt"></div>
-                <form method="post" name="update" action="index.php?currentMake=<?php echo $newMake ?>">
+                <form method="post" name="update" action="manage-data.php?currentMake=<?php echo $newMake ?>">
                     <select id="removeAlternateSelector" name="removeAlternateSelector" multiple class="form-control">
                     <?php
                         $alternates = preg_split('/[,]/', $alternateString);
@@ -221,13 +222,13 @@
     </body>
     <script>
     	function newMakeSelected(val) {
-    		window.location.href='index.php?newMake=' + val;
+    		window.location.href='manage-data.php?newMake=' + val;
     	}
     	function newModelSelected(val) {
-    		window.location.href='index.php?newModel=' + val;
+    		window.location.href='manage-data.php?newModel=' + val;
     	}
     	function newAlternateSelected(val) {
-    		window.location.href='index.php?newAlternate=' + val;
+    		window.location.href='manage-data.php?newAlternate=' + val;
     	}
     </script>
 </html>

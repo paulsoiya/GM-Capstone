@@ -129,15 +129,21 @@ public class UserResource {
 
 	@PUT
 	@Produces("application/json")
-	@Path("/{id}/makeadmin")
-	public ReturnMessage makeAdmin(@PathParam("id") long id) {
-		User u = em.find(User.class, id);
-		u.setAdmin(true);
-		em.persist(u);
-
+	@Path("/{id}/role")
+	public ReturnMessage makeAdmin(@PathParam("id") long id,
+								   @FormParam("role") boolean role) {
+		
+		User user = em.find(User.class, id);
 		ReturnMessage rm = new ReturnMessage();
+		
+		if ( user == null ) {
+			rm.setResult("failure");
+		} else { 
+			user.setAdmin(role);
+			em.persist(user);
+			rm.setResult("success");
+		}
 
-		rm.setResult("success");
 		return rm;
 	}
     
