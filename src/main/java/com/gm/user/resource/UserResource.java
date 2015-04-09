@@ -58,7 +58,7 @@ public class UserResource {
     								@FormParam("last_name") String lastName,
     								@FormParam("puser_id") long id){
         
-       User user = new User(email, password, "", false, firstName, lastName); 
+       User user = new User(email, password, false, firstName, lastName); 
        em.persist(user);
 
        ReturnMessage rm = new ReturnMessage();

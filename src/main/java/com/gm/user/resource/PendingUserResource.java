@@ -64,7 +64,7 @@ public class PendingUserResource {
         String md5Password = sh.md5(password);
 
         PendingUser p = new PendingUser(firstName, lastName, email,
-                md5Password, "", position, reason);
+                md5Password, position, reason);
         em.persist(p);
 
         ReturnMessage rm = new ReturnMessage();
