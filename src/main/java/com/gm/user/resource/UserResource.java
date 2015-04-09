@@ -136,8 +136,11 @@ public class UserResource {
         	rm.setResult("failure");
         } else {
         	
+        	SecurityHelper sh = new SecurityHelper();
+            String md5Password = sh.md5(password); //encrypt the password
+        	
         	User updateUser = new User(user.getId(), email, 
-        						password, user.getSalt(), user.isAdmin(),
+        						md5Password, user.getSalt(), user.isAdmin(),
         						firstName, lastName, user.getCreateDate());
         	
         	em.persist(updateUser);
