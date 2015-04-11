@@ -1,6 +1,10 @@
 -- This document is the master SQL file for creating and 
 -- initializing tables. 
 
+DROP DATABASE IF EXISTS testGM;
+CREATE DATABASE testGM;
+USE testGM;
+
 -- -----------------------------------------------------
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
@@ -70,9 +74,8 @@ DROP TABLE IF EXISTS makes;
 CREATE TABLE makes(
   make_id INT NOT NULL AUTO_INCREMENT,
   make_name varchar(128),
-  PRIMARY KEY(make_id)
+  PRIMARY KEY(make_id))
 ENGINE = InnoDB;
-);
 
 -- -----------------------------------------------------
 -- Table `models`
@@ -82,9 +85,8 @@ CREATE TABLE models(
   model_id INT NOT NULL AUTO_INCREMENT,
     make_id INT NOT NULL,
   model_name varchar(128),
-  PRIMARY KEY(model_id)
+  PRIMARY KEY(model_id))
 ENGINE = InnoDB;
-);
 
 -- -----------------------------------------------------
 -- Table `model_years`
@@ -94,9 +96,8 @@ DROP TABLE IF EXISTS model_years;
 CREATE TABLE model_years(
   model_id INT NOT NULL,
   year_name varchar(128),
-  PRIMARY KEY(model_id, year_name)
+  PRIMARY KEY(model_id, year_name))
 ENGINE = InnoDB;
-);
 
 -- -----------------------------------------------------
 -- Table `make_alternates`
@@ -106,9 +107,8 @@ DROP TABLE IF EXISTS make_alternates;
 CREATE TABLE make_alternates(
   make_id INT NOT NULL,
   make_alternate varchar(128),
-  PRIMARY KEY(make_id)
+  PRIMARY KEY(make_id))
 ENGINE = InnoDB;
-);
 
 -- -----------------------------------------------------
 -- Table `model_alternates`
@@ -118,9 +118,8 @@ DROP TABLE IF EXISTS model_alternates;
 CREATE TABLE model_alternates(
   model_id INT NOT NULL,
   model_alternate varchar(128),
-  PRIMARY KEY(model_id)
+  PRIMARY KEY(model_id))
 ENGINE = InnoDB;
-);
 
 -- -----------------------------------------------------
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -134,11 +133,11 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 
 
-INSERT INTO users (email, password, fname, lname, create_date, is_admin) VALUES ('admin@gm.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'GM', 'Admin', '9999-12-31 23:59:59', '1');
+INSERT INTO user (email, password, fname, lname, create_date, is_admin) VALUES ('admin@gm.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'GM', 'Admin', '9999-12-31 23:59:59', '1');
 
-INSERT INTO explicit_content (explicit_words) VALUES ('fuck'),('shit'),('bitch');
+INSERT INTO explicit_content (explicit_words) VALUES ('shit'),('fuck'),('damn'),('bitch'),('piss'),('dick'),('cock'),('pussy'),('asshole'),('fag'),('bastard'),('douche'),('ass'),('cunt'),('motherfucker'),('nigger'),('whore'),('dickhead');
 
-INSERT INTO common_content (common_words) VALUE ('the'),('be'),('to'),('of'),('and'),('a'),('in'),('that'),('have'),('I'),('it'),('for'),('not'),('on'),('with'),('he'),('as'),('you'),('do'),('at'),('this'),('but'),('his'),('by'),('from'),('they'),('we'),('say'),('her'),('she'),;
+INSERT INTO common_content (common_words) VALUE ('the'),('be'),('to'),('of'),('and'),('a'),('in'),('that'),('have'),('I'),('it'),('for'),('not'),('on'),('with'),('he'),('as'),('you'),('do'),('at'),('this'),('but'),('his'),('by'),('from'),('they'),('we'),('say'),('her'),('she');
 
 INSERT INTO makes (make_name) VALUES ('Chevrolet'),('Buick'),('Cadillac'),('GMC');
 
