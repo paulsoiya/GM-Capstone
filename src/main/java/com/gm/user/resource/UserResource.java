@@ -58,7 +58,7 @@ public class UserResource {
     								@FormParam("last_name") String lastName,
     								@FormParam("puser_id") long id){
         
-       User user = new User(email, password, "", false, firstName, lastName); 
+       User user = new User(email, password, false, firstName, lastName); 
        em.persist(user);
 
        ReturnMessage rm = new ReturnMessage();
@@ -129,15 +129,21 @@ public class UserResource {
 
 	@PUT
 	@Produces("application/json")
-	@Path("/{id}/makeadmin")
-	public ReturnMessage makeAdmin(@PathParam("id") long id) {
-		User u = em.find(User.class, id);
-		u.setAdmin(true);
-		em.persist(u);
-
+	@Path("/{id}/role")
+	public ReturnMessage makeAdmin(@PathParam("id") long id,
+								   @FormParam("role") boolean role) {
+		
+		User user = em.find(User.class, id);
 		ReturnMessage rm = new ReturnMessage();
+		
+		if ( user == null ) {
+			rm.setResult("failure");
+		} else { 
+			user.setAdmin(role);
+			em.persist(user);
+			rm.setResult("success");
+		}
 
-		rm.setResult("success");
 		return rm;
 	}
     

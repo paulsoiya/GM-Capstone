@@ -10,8 +10,6 @@ package com.gm.user;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,8 +29,6 @@ public class PendingUser implements Serializable {
     
     private String password;
     
-    private String salt;
-    
     @Column(name="FNAME")
     private String firstName;
     
@@ -49,13 +45,12 @@ public class PendingUser implements Serializable {
     
     public PendingUser() { } 
     
-    public PendingUser(Long id, String email, String password, String salt, 
+    public PendingUser(Long id, String email, String password, 
                        String position, String reason,
                        String firstName, String lastName) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.salt = salt;
         this.position = position;
         this.reason = reason;
         this.firstName = firstName;
@@ -63,11 +58,10 @@ public class PendingUser implements Serializable {
     }
 
     public PendingUser(String firstName, String lastName, String email, 
-                        String password, String salt, 
+                        String password, 
                        String position, String reason) {
         this.email = email;
         this.password = password;
-        this.salt = salt;
         this.position = position;
         this.reason = reason;
         this.firstName = firstName;
@@ -97,15 +91,6 @@ public class PendingUser implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     
     public String getPosition() {
         return position;
