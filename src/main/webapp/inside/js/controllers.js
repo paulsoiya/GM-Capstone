@@ -8,7 +8,7 @@ var controllers = angular.module('controllers', []);
 
 //this is the user id of the current logged in user
 var _uToken = $.cookie("utoken");
-
+console.log(_uToken);
 
 
 
@@ -251,8 +251,8 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			"startDate="+$scope.startDate+"&"+
 			"make="+$scope.selectMake.makeName+"&"+
 			"model="+$scope.selectModel.modelName+"&"+
-			"year="+$scope.selectYear.yearName+"&"+
-			"user="+_uToken
+			"user="+_uToken+"&"+
+			"year="+$scope.selectYear.yearName
 		},
 		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
 	    ).success(function(data){
@@ -378,13 +378,32 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
   
   
-  $http.post('http://localhost:7001/GMProject/api/savedsearches', 
-	    {msg: "user="+_uToken},
-		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
-	    ).success(function(data){
-      $scope.searches = data;
-	  console.log($scope.searches);
-  });
+  
+    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+    $http({
+      method: 'post',
+      url: 'http://localhost:7001/GMProject/api/savedsearches',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: "user="+$.cookie("utoken")
+    }).then(function(response) {
+      $scope.searches = response.data;
+      console.log(_uToken);
+      console.log($scope.searches);
+    });
+	
+	function compareQuery(form){
+	
+		$http({
+		  method: 'post',
+		  url: 'http://localhost:7001/GMProject/api/savedsearches',
+		  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		  data: "user="+$.cookie("utoken")
+		}).then(function(response) {
+		  $scope.searches = response.data;
+		  console.log(_uToken);
+		  console.log($scope.searches);
+		});
+	}
   // First Pie Graph
   //var pieCtx = document.getElementById("first_pie_canvas").getContext("2d");
   //var pieChart = new Chart(pieCtx).Pie(testPieData);
