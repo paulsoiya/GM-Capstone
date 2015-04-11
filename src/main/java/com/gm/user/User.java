@@ -39,8 +39,6 @@ public class User implements Serializable{
     
     private String password;
     
-    private String salt;
-    
     @Column(name="is_admin")
     private boolean admin;
     
@@ -56,24 +54,22 @@ public class User implements Serializable{
 
     public User() { }
    
-    public User(long id, String email, String password, String salt, 
+    public User(long id, String email, String password, 
             boolean admin, String firstName, String lastName, 
             Date createDate) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.salt = salt;
         this.admin = admin;
         this.firstName = firstName;
         this.lastName = lastName;
         this.createDate = createDate;
     }
 
-    public User(String email, String password, String salt, boolean admin,
+    public User(String email, String password, boolean admin,
             String firstName, String lastName) {
         this.email = email;
         this.password = password;
-        this.salt = salt;
         this.admin = admin;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -104,14 +100,6 @@ public class User implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public boolean isAdmin() {
