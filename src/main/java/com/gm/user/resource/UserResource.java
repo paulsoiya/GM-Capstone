@@ -138,12 +138,13 @@ public class UserResource {
         	
         	SecurityHelper sh = new SecurityHelper();
             String md5Password = sh.md5(password); //encrypt the password
+        
+        	user.setFirstName(firstName);
+        	user.setLastName(lastName);
+        	user.setEmail(email);
+        	user.setPassword(md5Password);
         	
-        	User updateUser = new User(user.getId(), email, 
-        						md5Password, user.getSalt(), user.isAdmin(),
-        						firstName, lastName, user.getCreateDate());
-        	
-        	em.persist(updateUser);
+        	em.persist(user);
         	
         	rm.setResult("success");
         	
