@@ -4,11 +4,12 @@
     <div class="panel panel-default">
       <div class="panel-heading">#generalmotors</div>
       <div class="panel-body">
-        <form>
+        <form id="queryForm" ng-controller="QueryCtrl" ng-submit="queryPost()">
           <!-- Locations dropdown -->
           <div class="form-group">
             <label for="selectLocation">Location</label>
-            <select id="selectLocation" class="form-control">
+
+            <select id="selectLocation" class="form-control" ng-model="selectLocation">
                 <option ng-repeat="location in locations" value="{{location}}">{{location}}</option>
               </select>
           </div>
@@ -57,7 +58,7 @@
               <option value="All Years">All Years</option>
             </select>
           </div>
-          <button type="button" class="btn btn-primary btn-lg">Submit</button>
+          <button type="submit" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>
         </form>
       </div>
     </div>
@@ -68,7 +69,7 @@
       <div class="panel-heading">Grade</div>
       <div class="panel-body">
         <div class="col-md-6">
-          <img src="../../images/grade.png" class="img-responsive" alt="Responsive image"/>
+          <img src="../images/grade.png" class="img-responsive" alt="Responsive image"/>
         </div>
         <div class="col-md-6">
           <canvas class="col-md-12" id="pieGraph_canvas"></canvas>
@@ -111,5 +112,5 @@
       </div>
     </div>
   </div>
-  
+
 </div>
