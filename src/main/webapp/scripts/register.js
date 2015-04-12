@@ -1,3 +1,15 @@
+function clearFields(){
+	$("#first_name").val("");
+	$("#last_name").val("");
+	$("#email").val("");
+	$("#confirm_email").val("");
+	$("#password").val("");
+	$("#confirm_password").val("");
+	$("#position").val("");
+	$("#reason").val("");
+}
+
+
 $( "#registerForm" ).submit(function( event ) {
   event.preventDefault();
   
@@ -9,8 +21,6 @@ $( "#registerForm" ).submit(function( event ) {
   var confirmPassword = $("#confirm_password").val();
   var position = $("#position").val();
   var reason = $("#reason").val();
-  
-  
   
  //validate form
  if(!isValidLength(firstName, 1) ){
@@ -62,11 +72,21 @@ $( "#registerForm" ).submit(function( event ) {
                     $("#success-message").html("Your request was submitted successfully.");
                     $("#failure").hide();
                     $("#success").show();
+                    
+                    //clear the input fields since submission is complete
+                    clearFields();
                 }else{
                     $("#failure-message").html("There was a problem submitting your request. Please Try again.");
                     $("#failure").show();
                 }
-            }   
+            },
+           error: function(){
+        	   $("#failure").hide();
+        	   $("#success").hide();
+        	   $("#failure-message").html("There was a problem submitting your request. Please Try again.");
+               $("#failure").show();
+           }
+            
         });   
         
     return false;
