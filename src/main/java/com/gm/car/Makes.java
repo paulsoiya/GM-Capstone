@@ -42,7 +42,7 @@ public class Makes implements Serializable{
         this.makeName = makeName;
     }
   
-  public Makes(String makeName) {
+    public Makes(String makeName) {
         this.makeName = makeName;
     }
     

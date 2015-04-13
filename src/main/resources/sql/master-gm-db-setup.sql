@@ -51,7 +51,7 @@ DROP TABLE IF EXISTS `explicit_content` ;
 
 CREATE TABLE IF NOT EXISTS `explicit_content` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `explicit_words` VARCHAR(256) NULL,
+  `explicit_words` VARCHAR(128) NOT NULL UNIQUE,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -62,7 +62,7 @@ DROP TABLE IF EXISTS `common_content` ;
 
 CREATE TABLE IF NOT EXISTS `common_content` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `common_words` VARCHAR(256) NULL,
+  `common_words` VARCHAR(128) NOT NULL UNIQUE,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -83,7 +83,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS models;
 CREATE TABLE models(
   model_id INT NOT NULL AUTO_INCREMENT,
-    make_id INT NOT NULL,
+  make_id INT NOT NULL,
   model_name varchar(128),
   PRIMARY KEY(model_id))
 ENGINE = InnoDB;
