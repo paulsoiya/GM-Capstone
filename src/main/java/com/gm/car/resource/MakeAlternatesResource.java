@@ -48,15 +48,16 @@ public class MakeAlternatesResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createMakeAlternate(@FormParam("makeAlternate") String makeAlternate){
+    public ReturnMessage createMakeAlternate(@FormParam("makeID") int makeId,
+                                             @FormParam("makeAlternate") String makeAlternate){
         
-       MakeAlternates makeAlternate = new MakeAlternates(makeAlternate); 
-       em.persist(makeAlternate);
+       MakeAlternates alternate = new MakeAlternates(makeId,makeAlternate); 
+       em.persist(alternate);
 
        ReturnMessage rm = new ReturnMessage();
        //check if object was persisted and return
        //appropriate result message
-       if (em.contains(makeAlternate)) {
+       if (em.contains(alternate)) {
            rm.setResult("success");
        } else {
            rm.setResult("fail");
@@ -66,7 +67,7 @@ public class MakeAlternatesResource {
     }
   
     @DELETE @Path("/{id}")
-    public void deleteMakeAlternate(@PathParam("id") long id){
+    public void deleteMakeAlternate(@PathParam("id") int id){
         em.remove(em.find(MakeAlternates.class, id));
     }
 }

@@ -48,15 +48,16 @@ public class ModelAlternatesResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createModelAlternate(@FormParam("modelAlternate") String modelAlternate){
+    public ReturnMessage createModelAlternate(@FormParam("modelId") int modelId,
+                                              @FormParam("modelAlternate") String modelAlternate){
         
-       ModelAlternates modelAlternate = new ModelAlternates(modelAlternate); 
-       em.persist(modelAlternate);
+       ModelAlternates alternate = new ModelAlternates(modelId, modelAlternate); 
+       em.persist(alternate);
 
        ReturnMessage rm = new ReturnMessage();
        //check if object was persisted and return
        //appropriate result message
-       if (em.contains(modelAlternate)) {
+       if (em.contains(alternate)) {
            rm.setResult("success");
        } else {
            rm.setResult("fail");
@@ -66,7 +67,7 @@ public class ModelAlternatesResource {
     }
   
     @DELETE @Path("/{id}")
-    public void deleteModelAlternate(@PathParam("id") long id){
+    public void deleteModelAlternate(@PathParam("id") int id){
         em.remove(em.find(ModelAlternates.class, id));
     }
 }

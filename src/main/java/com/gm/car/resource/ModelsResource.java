@@ -48,7 +48,7 @@ public class ModelsResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createModel(@FormParam("makeId") long makeId,
+    public ReturnMessage createModel(@FormParam("makeId") int makeId,
                                      @FormParam("modelName") String modelName){
         
        Models model = new Models(makeId, modelName); 

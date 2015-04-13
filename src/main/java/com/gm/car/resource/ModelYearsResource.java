@@ -48,10 +48,10 @@ public class ModelYearsResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createModelYear(@FormParam("modelId") long modelId,
+    public ReturnMessage createModelYear(@FormParam("modelId") int modelId,
                                          @FormParam("yearName") String yearName){
         
-       ModelYears modelYear = new ModelYearss(mpdelId, yearName); 
+       ModelYears modelYear = new ModelYears(modelId, yearName); 
        em.persist(modelYear);
 
        ReturnMessage rm = new ReturnMessage();
