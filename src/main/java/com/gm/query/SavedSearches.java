@@ -50,56 +50,118 @@ public class SavedSearches {
 	@PersistenceContext(unitName="mydb")
     EntityManager em;
 
-    @POST
+    @POST 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public String getSavedViews( @FormParam("user") String user ){
+    public String saveSearch( @FormParam("user") String user,
+	@FormParam("endDate") String endDate,
+	@FormParam("startDate") String startDate,
+	@FormParam("make") String make,
+	@FormParam("model") String model,
+	@FormParam("year") String year, 
+	@FormParam("searchName") String searchName ){
 		
 		JSONArray queryList = new JSONArray();
 		
 		System.out.println(user);
 		
-		CouchConnection couch = new CouchConnection("http://localhost:5984/", "gm/");
+		CouchConnection couch = new CouchConnection("http://localhost:5984/", "savedsearches/");
 		
+		String db = "gm";
 		
-		Query query = em.createQuery("SELECT m from Makes m", Makes.class);
-		List<Makes> makes = query.getResultList();
-		Query query1 = em.createQuery("SELECT m from Models m", Models.class);
-		List<Models> models = query1.getResultList();
-		
-		for(int i = 0; i < makes.size(); ++i){
-			System.out.println(makes.get(i).getMakeName());
-			String makedb = makes.get(i).getMakeName().toLowerCase();
-			couch = new CouchConnection("http://localhost:5984/", makedb+"/");
-			try{
-				String view = couch.queryDB("_design/"+user);
-				if(view != null){
-					queryList.put(makedb);
-				}
-			}catch(Exception e){
-				System.out.println("not found");
-			}
+		if(!make.equals("undefined")){
+			db = make.toLowerCase();
+		}
+		if(!model.equals("undefined")){
+			db = model.toLowerCase();
+		}
+		if(!year.equals("undefined")){
+			db = model.toLowerCase()+year;
 		}
 		
-		for(int i = 0; i < models.size(); ++i){
-			System.out.println(models.get(i).getModelName());
-			String modeldb = models.get(i).getModelName().toLowerCase();
-			couch = new CouchConnection("http://localhost:5984/", modeldb+"/");
-			try{
-				String view = couch.queryDB("_design/"+user);
-				if(view != null){
-					queryList.put(modeldb);
-					
-				}
-			}catch(Exception e){
-				System.out.println("not found");
-			}
+		
+		JSONObject viewDocument = new JSONObject();
+		
+		boolean existingViews = true;
+		try{
+			viewDocument = new JSONObject(couch.queryDB(user));
+			JSONObject search = new JSONObject();
+			search.put("viewName", "_design/("+startDate+")("+endDate+")");
+			search.put("db", db);
+			viewDocument.put(searchName, search);
+			couch.updateDocument(user,viewDocument);
 		}
-		ReturnMessage rm = new ReturnMessage();
-		rm.setResult(queryList.toString());
-        return queryList.toString();
+		catch(Exception e){
+			existingViews = false;
+		}
+
+		if(!existingViews){
+			viewDocument.put("_id", user);
+			JSONObject search = new JSONObject();
+			search.put("viewName", "_design/("+startDate+")("+endDate+")");
+			search.put("db", db);
+			viewDocument.put(searchName, search);
+			couch.createDocuments(viewDocument, false);	
+		}
+		return "success";
     }
 	
 	
+    @POST @Path("/getSavedSearches")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    public String getSavedSearches( @FormParam("user") String user ){
+		
+		JSONArray queryList = new JSONArray();
+		
+		System.out.println(user);
+		
+		CouchConnection couch = new CouchConnection("http://localhost:5984/", "savedsearches/");
+		
+		JSONObject viewDocument = new JSONObject();
+		JSONArray searches = new JSONArray();
+		
+		boolean existingViews = true;
+		try{
+			viewDocument = new JSONObject(couch.queryDB(user));
+		}
+		catch(Exception e){
+			existingViews = false;
+		}
+		
+		return viewDocument.toString();
+    }	
 	
+    @POST @Path("/getSavedSearch")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    public String getSavedSearch( @FormParam("user") String user,
+	@FormParam("searchName") String searchName ){
+		
+		JSONArray queryList = new JSONArray();
+		
+		System.out.println(user);
+		
+		CouchConnection couch = new CouchConnection("http://localhost:5984/", "savedsearches/");
+		
+		JSONObject viewDocument = new JSONObject();
+		JSONObject search = new JSONObject();
+		JSONObject returnJSON = new JSONObject();
+		String response = "error";
+		try{
+			viewDocument = new JSONObject(couch.queryDB(user));
+			search = (JSONObject)viewDocument.get(searchName);
+			String viewName = (String)search.get("viewName");
+			String viewDBString = (String)search.get("db");
+			CouchConnection viewDB = new CouchConnection("http://localhost:5984/", viewDBString);
+			returnJSON.put("wordCount", viewDB.queryDB(viewName+"/_view/wordCount?group=true"));
+			returnJSON.put("sentiment", viewDB.queryDB(viewName+"/_view/sentiment"));
+			response = returnJSON.toString();
+		}
+		catch(Exception e){
+			response = "error";
+		}
+		
+		return response;
+    }		
 }

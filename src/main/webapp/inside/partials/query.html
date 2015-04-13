@@ -89,7 +89,7 @@
       <div class="panel-heading">Compare & Save</div>
       <div class="panel-body">
         <!-- Compare should be saved locally, as cookie -->
-        <form>
+        <form id="saveForm" ng-controller="QueryCtrl" ng-submit="saveQuery()">
           <div class="form-inline form-group">
             <input class="form-control" type="text" placeholder="Perform a search and click 'Add to Compare'" readonly>
             <button type="button" class="btn btn-primary">Add to Compare</button>
@@ -99,8 +99,8 @@
             <button type="button" class="btn btn-primary">Add to Compare</button>
           </div>
           <div class="form-inline form-group">
-            <input class="form-control" type="text" placeholder="Save As...">
-            <button type="button" class="btn btn-primary">Save</button>
+            <input ng-model="searchName" class="form-control" type="text" placeholder="Save As...">
+            <button type="button" class="btn btn-primary" ng-click="saveQuery()">Save</button>
           </div>
         </form>
       </div>
