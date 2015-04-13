@@ -42,7 +42,7 @@
           <div class="form-group">
             <label for="selectRemove">Existing explicit content filtered in displays</label>
             <select class="form-control" id="selectExplicit" ng-model="removeExplicit">
-              <option ng-repeat="explicitWord in explicitWords" value={{explicitWord}}>{{explicitContent.explicitWords}}</input>
+              <option ng-repeat="explicitContent in explicitContents" value={{explicitContent.id}}>{{explicitContent.explicitWords}}</input>
             </select>
           </div>
           <div class="form-group">
@@ -58,7 +58,7 @@
           <div class="form-group">
             <label for="selectRemove">Existing common content filtered in displays</label>
             <select class="form-control" id="selectCommon" ng-model="removeCommon">
-              <option ng-repeat="commonWord in commonWords" value={{commonWord}}>{{explicitContent.commonWords}}</input>
+              <option ng-repeat="commonContent in commonContents" value={{commonContent.id}}>{{commonContent.commonWords}}</input>
             </select>
           </div>
           <div class="form-group">

@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 import com.gm.analytics.ExplicitContent;
+import com.gm.message.ReturnMessage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,6 +43,31 @@ public class ExplicitContentResource {
         Query query = em.createQuery("SELECT e from ExplicitContent e", ExplicitContent.class);
         
         return query.getResultList();
+    }
+  
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    public ReturnMessage createExplicit(@FormParam("explicitWords") String explicitWords){
+        
+       ExplicitContent explicit = new ExplicitContent(explicitWords); 
+       em.persist(explicit);
+
+       ReturnMessage rm = new ReturnMessage();
+       //check if object was persisted and return
+       //appropriate result message
+       if (em.contains(explicit)) {
+           rm.setResult("success");
+       } else {
+           rm.setResult("fail");
+       }
+
+       return rm;
+    }
+  
+    @DELETE @Path("/{id}")
+    public void deleteWord(@PathParam("id") long id){
+        em.remove(em.find(ExplicitContent.class, id));
     }
     
 }
