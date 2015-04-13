@@ -61,12 +61,12 @@ controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scop
   
   $scope.getExplicit = function() {
     $http.get('../api/explicit-content').success(function(data) {
-      $scope.explicitWords = data;
+      $scope.explicitContent = data;
     });
   }
   $scope.getCommon = function() {
     $http.get('../api/common-content').success(function(data) {
-      $scope.commonWords = data;
+      $scope.commonContent = data;
     });
   }
   
@@ -77,25 +77,25 @@ controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scop
   $scope.removeExplicit = '';
   $scope.addExplicit = function() {
     if ($scope.newExplicit) {
-      $scope.explicitWords.push(this.newExplicit);
+      $scope.explicitContent.push(this.newExplicit);
       $scope.newExplicit = '';
     }
   };
   $scope.deleteExplicit = function() {
-    var index = $scope.explicitWords.indexOf($scope.removeExplicit);
-    $scope.explicitWords.splice(index, 1);
+    var index = $scope.explicitContent.indexOf($scope.removeExplicit);
+    $scope.explicitContent.splice(index, 1);
   };
   $scope.newCommon = '';
   $scope.removeCommon = '';
   $scope.addCommon = function() {
     if ($scope.newCommon) {
-      $scope.commonWords.push(this.newCommon);
+      $scope.commonContent.push(this.newCommon);
       $scope.newCommon = '';
     }
   };
   $scope.deleteCommon = function() {
-    var index = $scope.commonWords.indexOf($scope.removeCommon);
-    $scope.commonWords.splice(index, 1);
+    var index = $scope.commonContent.indexOf($scope.removeCommon);
+    $scope.commonContent.splice(index, 1);
   };
 }]);
 
