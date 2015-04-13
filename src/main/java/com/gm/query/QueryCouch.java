@@ -38,13 +38,12 @@ public class QueryCouch {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createView(@FormParam("location") String location,
+    public String createView(@FormParam("location") String location,
 	@FormParam("endDate") String endDate,
 	@FormParam("startDate") String startDate,
 	@FormParam("make") String make,
 	@FormParam("model") String model,
-	@FormParam("year") String year,
-	@FormParam("user") String user ){
+	@FormParam("year") String year ){
 		
 		System.out.println(location);
 		System.out.println(endDate);
@@ -55,22 +54,23 @@ public class QueryCouch {
 		System.out.println(model != "undefined");
 		
 		System.out.println(year);
-		System.out.println(user);
+		//System.out.println(user);
 		
 		CouchConnection couch = new CouchConnection("http://localhost:5984/", "gm/");
 		
-		if(user.equals("undefined")){
-			user = "tempUser";
-		}
+		//if(user.equals("undefined")){
+		//	user = "tempUser";
+		//}
 		if(!make.equals("undefined")){
 			couch = new CouchConnection("http://localhost:5984/", make.toLowerCase()+"/");
 		}
 		if(!model.equals("undefined")){
 			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+"/");
 		}
-		if(!year.equals("undefined")){
-			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+year+"/");
-		}
+		
+		//if(!year.equals("undefined")){
+		//	couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+year+"/");
+		//}
 		
 		long startDateLong = 0;
 		long endDateLong = 0;
@@ -88,7 +88,7 @@ public class QueryCouch {
 		System.out.println(endDateLong);
 		System.out.println(startDateLong);
 
-		JSONObject viewDocument;
+		JSONObject viewDocument = new JSONObject();
 		boolean existingView = true;
 		try{
 			viewDocument = new JSONObject(couch.queryDB("_design/("+startDate+")("+endDate+")"));
@@ -101,7 +101,6 @@ public class QueryCouch {
 		// if it doesn't then make a new view
 		// else if it does then just return the view
 		if(!existingView){
-			viewDocument = new JSONObject();
 			viewDocument.put("views", new JSONObject());
 			
 			JSONObject viewSentiment = new JSONObject();
@@ -181,11 +180,8 @@ public class QueryCouch {
 		returnJSON.put("sentiment", couch.queryDB("_design/("+startDate+")("+endDate+")"+"/_view/sentiment"));
 		
 		System.out.println(returnJSON.toString());
-        ReturnMessage rm = new ReturnMessage();
-		rm.setResult(returnJSON.toString());
-        return rm;
-    }
-	
-	
+
+        return returnJSON.toString();
+    }	
 	
 }
