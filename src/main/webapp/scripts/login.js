@@ -26,7 +26,7 @@ $("#loginForm").submit(function(event) {
         success: function(data) {
                     
             if (data.result === true) {
-            	$.cookie("utoken", data.id);
+            	$.cookie("utoken", data.id, { path: '/' });
                 if(data.admin){
                 	window.open("inside/#/admin/manageUsers", "_self");
                 }else{
