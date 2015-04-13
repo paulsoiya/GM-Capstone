@@ -35,7 +35,7 @@ $("#loginForm").submit(function(event) {
             } else {
                 console.log("failure");
                 //display error
-                $("#failure-message").html("The username/password you entered is incorrect");
+                $("#failure-message").html("The username password combination is not valid.");
                 $("#failure").show();
                 
             }
