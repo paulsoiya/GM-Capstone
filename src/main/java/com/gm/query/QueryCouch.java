@@ -68,7 +68,9 @@ public class QueryCouch {
 		if(!model.equals("undefined")){
 			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+"/");
 		}
-		
+		if(!year.equals("undefined")){
+			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+year+"/");
+		}
 		
 		long startDateLong = 0;
 		long endDateLong = 0;
@@ -86,57 +88,47 @@ public class QueryCouch {
 		System.out.println(endDateLong);
 		System.out.println(startDateLong);
 
-		//System.out.println(couch.queryDB("_design/"+user));
-		
-		
-		//String existingView = couch.queryDB("_design/"+user);
-		//if(existingView != null){
+		JSONObject viewDocument;
+		boolean existingView = true;
 		try{
-			JSONObject viewDocument = new JSONObject(couch.queryDB("_design/"+user));
-			couch.deleteDocuments("_design/"+user, (String)viewDocument.get("_rev"));
+			viewDocument = new JSONObject(couch.queryDB("_design/("+startDate+")("+endDate+")"));
 		}
 		catch(Exception e){
+			existingView = false;
 		}
 		
 		//Checks to see if this view already exists
 		// if it doesn't then make a new view
 		// else if it does then just return the view
-		//if(viewDocument == null){
-			JSONObject viewDocument = new JSONObject();
+		if(!existingView){
+			viewDocument = new JSONObject();
 			viewDocument.put("views", new JSONObject());
 			
 			JSONObject viewSentiment = new JSONObject();
-			
-			
+						
 			StringBuilder sb = new StringBuilder();
-            sb.append("function(doc) {");
+			sb.append("function(doc) {");
 			sb.append("  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") {");
-            sb.append("    emit(null, doc.tweetsentiment);");
+			sb.append("    emit(null, doc.tweetsentiment);");
 			sb.append("  }");
-            sb.append("}");
-			
-			
-			viewSentiment.put("map", sb.toString());
-			//viewSentiment.put("map", "function(doc) { if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") { emit(null, doc.tweetsentiment); } }");
-			
+			sb.append("}");		
+			viewSentiment.put("map", sb.toString());	
 			
 			sb = new StringBuilder();
-            sb.append("function(keys, values, rereduce) {");
-            sb.append("  if (!rereduce){");
-            sb.append("    var length = values.length;");
-            sb.append("    return [sum(values) / length, length];");
-            sb.append("  }else{");
-            sb.append("    var length = sum(values.map(function(v){return v[1]}));");
-            sb.append("    var avg = sum(values.map(function(v){");
-            sb.append("      return v[0] * (v[1] / length);");
-            sb.append("    }));");
-            sb.append("    return [avg, length];");
-            sb.append("  }");
-            sb.append("}");
-            
-				
-			viewSentiment.put("reduce", sb.toString());
-			//viewSentiment.put("reduce", "function(keys, values, rereduce) { if (!rereduce){ var length = values.length; return [sum(values) / length, length]; }else{ var length = sum(values.map(function(v){return v[1]})); var avg = sum(values.map(function(v){ return v[0] * (v[1] / length); })); return [avg, length]; } }");
+			sb.append("function(keys, values, rereduce) {");
+			sb.append("  if (!rereduce){");
+			sb.append("    var length = values.length;");
+			sb.append("    return [sum(values) / length, length];");
+			sb.append("  }else{");
+			sb.append("    var length = sum(values.map(function(v){return v[1]}));");
+			sb.append("    var avg = sum(values.map(function(v){");
+			sb.append("      return v[0] * (v[1] / length);");
+			sb.append("    }));");
+			sb.append("    return [avg, length];");
+			sb.append("  }");
+			sb.append("}");				
+			viewSentiment.put("reduce", sb.toString());	
+			
 			
 			viewDocument.getJSONObject("views").put("sentiment", viewSentiment);
 			
@@ -144,56 +136,49 @@ public class QueryCouch {
 			////////////////////////////////////////////////////////
 			
 			
-			JSONObject viewWordCount = new JSONObject();
-			
+			JSONObject viewWordCount = new JSONObject();			
 			
 			sb = new StringBuilder();
-            sb.append("function(doc) {");
-            sb.append("  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") {");
-            sb.append("    for(var key in doc){");
-            sb.append("      emit(key, doc[key]);");
-            sb.append("    }");
-            sb.append("  }");
-            sb.append("}");
-			
-			
+			sb.append("function(doc) {");
+			sb.append("  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+") {");
+			sb.append("    for(var key in doc){");
+			sb.append("      emit(key, doc[key]);");
+			sb.append("    }");
+			sb.append("  }");
+			sb.append("}");		
 			viewWordCount.put("map", sb.toString());
-			//viewWordCount.put("map", "function(doc){  if(doc.tweettime > "+startDateLong+" && doc.tweettime < "+endDateLong+"){    for(var key in doc){      emit(key, doc[key]);    }  }}");
-			
 			
 			sb = new StringBuilder();
-            sb.append("function(keys, values, rereduce){");
-            sb.append("  if (!rereduce){");
-            sb.append("    var length = values.length;");
-            sb.append("    return length;");
-            sb.append("  }else{");
-            sb.append("    var length = sum(values.map(function(v){return v}));");
-            sb.append("    return length;");
-            sb.append("  }");
-            sb.append("}");
-			
-			
+			sb.append("function(keys, values, rereduce){");
+			sb.append("  if (!rereduce){");
+			sb.append("    var length = values.length;");
+			sb.append("    return length;");
+			sb.append("  }else{");
+			sb.append("    var length = sum(values.map(function(v){return v}));");
+			sb.append("    return length;");
+			sb.append("  }");
+			sb.append("}");
 			viewWordCount.put("reduce", sb.toString());
-			//viewWordCount.put("reduce", "function(keys, values, rereduce){  if (!rereduce){    var length = values.length;    return length;  }else{    var length = sum(values.map(function(v){return v}));    return length;  }}");
+			
 			
 			viewDocument.getJSONObject("views").put("wordCount", viewWordCount);
-			viewDocument.put("_id", "_design/"+user);
+			
+			
+			viewDocument.put("_id", "_design/("+startDate+")("+endDate+")");
 			viewDocument.put("language", "javascript");
 			
 			///////////////////////////////////////////////////////
 			
 			couch.createDocuments(viewDocument, false);
-		//}
-		//else{
-			
-		//}
+		}
+
 		
 		System.out.println(viewDocument.toString());
 		
 		JSONObject returnJSON = new JSONObject();
 		
-		returnJSON.put("wordCount", couch.queryDB("_design/"+user+"/_view/wordCount?group=true"));
-		returnJSON.put("sentiment", couch.queryDB("_design/"+user+"/_view/sentiment"));
+		returnJSON.put("wordCount", couch.queryDB("_design/("+startDate+")("+endDate+")"+"/_view/wordCount?group=true"));
+		returnJSON.put("sentiment", couch.queryDB("_design/("+startDate+")("+endDate+")"+"/_view/sentiment"));
 		
 		System.out.println(returnJSON.toString());
         ReturnMessage rm = new ReturnMessage();
