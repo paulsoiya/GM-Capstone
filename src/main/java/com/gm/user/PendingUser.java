@@ -45,7 +45,8 @@ public class PendingUser implements Serializable {
     
     public PendingUser() { } 
     
-    public PendingUser(Long id, String email, String password, 
+
+    public PendingUser(Long id, String email, String password,
                        String position, String reason,
                        String firstName, String lastName) {
         this.id = id;

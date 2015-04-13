@@ -20,6 +20,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
 
+import java.util.Date;
 import java.util.List;
 
 import com.gm.user.PendingUser;
@@ -121,9 +122,35 @@ public class UserResource {
         em.remove(em.find(User.class, id));
     }
     
-    @PUT @Path("/{id}")
-    public void updateUser(@PathParam("id") long id){
-        User u = em.find(User.class, id);
+    @PUT @Produces("application/json") @Path("/{id}")
+    public ReturnMessage updateUser(@PathParam("id") long id,
+    					   @FormParam("first_name") String firstName,
+    					   @FormParam("last_name") String lastName,
+    					   @FormParam("email") String email,
+    					   @FormParam("password") String password){
+        User user = em.find(User.class, id);
+        
+        ReturnMessage rm = new ReturnMessage();
+        
+        if ( user == null ) {
+        	rm.setResult("failure");
+        } else {
+        	
+        	SecurityHelper sh = new SecurityHelper();
+            String md5Password = sh.md5(password); //encrypt the password
+        
+        	user.setFirstName(firstName);
+        	user.setLastName(lastName);
+        	user.setEmail(email);
+        	user.setPassword(md5Password);
+        	
+        	em.persist(user);
+        	
+        	rm.setResult("success");
+        	
+        }
+        
+        return rm;
        
     }
 
