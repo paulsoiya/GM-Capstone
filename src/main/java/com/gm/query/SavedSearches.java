@@ -155,7 +155,8 @@ public class SavedSearches {
 			search = (JSONObject)viewDocument.get(searchName);
 			String viewName = (String)search.get("viewName");
 			String viewDBString = (String)search.get("db");
-			CouchConnection viewDB = new CouchConnection("http://localhost:5984/", viewDBString);
+			System.out.println(viewDBString);
+			CouchConnection viewDB = new CouchConnection("http://localhost:5984/", viewDBString+"/");
 			returnJSON.put("wordCount", viewDB.queryDB(viewName+"/_view/wordCount?group=true"));
 			returnJSON.put("sentiment", viewDB.queryDB(viewName+"/_view/sentiment"));
 			response = returnJSON.toString();

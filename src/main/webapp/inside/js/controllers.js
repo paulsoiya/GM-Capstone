@@ -276,17 +276,19 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 
 
 
+var counter = 0;
+var savedMake = "aa";
+var savedModel = "aa";
+var savedYear = "aa";
+var savedLocation = "aa";
+var savedStartDate = "aa";
+var savedEndDate = "aa";
 
 controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 
-/*
-	$scope.savedMake = "";
-	var savedModel = "";
-	var savedYear = "";
-	var savedLocation = "";
-	var savedStartDate = "";
-	var savedEndDate = "";
-*/
+	counter += 1;
+	console.log(counter);
+
   
   // Location dropdown
   $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
@@ -348,15 +350,24 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 		"year="+$scope.selectYear.yearName
     }).then(function(response) {
 	
-		$scope.savedMake = $scope.selectMake.makeName;
-		$scope.savedModel = $scope.selectModel.modelName;
-		$scope.savedYear = $scope.selectYear.yearName;
-		$scope.savedLocation = $scope.selectLocation;
-		$scope.savedStartDate = $scope.startDate;
-		$scope.savedEndDate = $scope.endDate;
-		console.log($scope.savedMake);
-		console.log($scope.savedModel);
-		console.log($scope.savedYear);
+	    console.log($scope.selectMake.makeName);
+		console.log($scope.selectModel.modelName);
+		console.log($scope.selectYear.yearName);
+		console.log($scope.selectLocation);
+		console.log($scope.startDate);
+		console.log($scope.endDate);
+		savedMake = $scope.selectMake.makeName+"";
+		savedModel = $scope.selectModel.modelName+"";
+		savedYear = $scope.selectYear.yearName+"";
+		savedLocation = $scope.selectLocation+"";
+		savedStartDate = $scope.startDate+"";
+		savedEndDate = $scope.endDate+"";
+		//console.log($scope.savedMake);
+		//console.log($scope.savedModel);
+		//console.log($scope.savedYear);
+		//console.log($scope.savedLocation);
+		//console.log($scope.savedStartDate);
+		//console.log($scope.savedEndDate);
 		
 		var responseJSON = response.data;
 		console.log(responseJSON);
@@ -379,8 +390,8 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 			return ((current[1] > next[1]) ? -1 : ((current[1] === next[1]) ? 0 : 1));
 		});
 		
-		console.log("wordCountData");
-		console.log(wordCountData);
+		//console.log("wordCountData");
+		//console.log(wordCountData);
 		
 		if(wordCountData.length > 30){
 			var tempData = [];
@@ -409,13 +420,13 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 		console.log(Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100);
 		var pieData = [
 			{
-				value: (Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) / 2,
+				value: (Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) / 2 * 100,
 				color:"#000080",
 				highlight: "#00004c",
 				label: "Positive"
 			},
 			{
-				value: (Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100) / 2,
+				value: (Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100) / 2 * 100,
 				color: "#7f7fff",
 				highlight: "#4c4cff",
 				label: "Negative"
@@ -496,20 +507,27 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   };
   
   $scope.saveQuery = function() {
+    
 	console.log("saving search");
-    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	console.log(savedMake);
+	console.log(savedModel);
+	console.log(savedYear);
+	console.log(savedLocation);
+	console.log(savedStartDate);
+	console.log(savedEndDate);
+    
     $http({
 		method: 'post',
 		url: 'http://localhost:7001/GMProject/api/savedsearches',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		data: "location="+$scope.selectLocation+"&"+
-		"endDate="+$scope.endDate+"&"+
-		"startDate="+$scope.startDate+"&"+
-		"make="+$scope.selectMake.makeName+"&"+
-		"model="+$scope.selectModel.modelName+"&"+
+		data: "location="+savedLocation+"&"+
+		"endDate="+savedEndDate+"&"+
+		"startDate="+savedStartDate+"&"+
+		"make="+savedMake+"&"+
+		"model="+savedModel+"&"+
 		"user="+_uToken+"&"+
 		"searchName="+$scope.searchName+"&"+
-		"year="+$scope.selectYear.yearName
+		"year="+savedYear
     }).then(function(response) {
 		console.log(response);
 	});
