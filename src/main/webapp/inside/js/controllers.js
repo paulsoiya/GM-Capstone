@@ -212,8 +212,43 @@ controllers.controller('NavbarCtrl', ['$scope', '$state',
     }
   }]);
 
-controllers.controller('ProfileCtrl',['$scope', function($scope){
-  
+controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
+	$scope.save = function()
+	  {
+	   var postFields = {first_name:$("#FirstName").val(),
+				  			last_name:$("#LastName").val(),
+				  			email:$("#inputEmail").val(),
+				  			password:$("#inputPassword").val()
+				  			};
+
+		  $http({
+			    method: 'PUT',
+			    url: 'http://localhost:7001/GMProject/api/users/' + _uToken,
+			    data: $.param(postFields),
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		  }).success(function(data, status, headers, config) {
+		      console.log(data);
+		      $("#success").hide();
+		      $("#failure").hide();
+		      
+
+				  if(data.result === "success"){
+				      $("#success-message").html("Your changes have been saved");
+				      $("#success").show();
+				  }
+				  else{
+				      $("#failure-message").html("There was a problem saving your changes");
+				      $("#failure").show();
+				  }
+		  }).error(function(data, status, headers, config) {
+		      $("#success-message").hide();
+		      $("#failure-message").hide();
+
+		      $("#failure-message").html("There was a problem saving your changes");
+		      $("#failure").show();
+				
+		  });
+	  }
 }]);
 
 
