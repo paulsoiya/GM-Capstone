@@ -1,5 +1,5 @@
 /**
- * JAX-RS RESTful implementation for the Models Entity
+ * JAX-RS RESTful implementation for the ModelAlternates Entity
  * 
  * @author Becca Little
  * @version 4/12/2015
@@ -22,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 
 import java.util.List;
 
-import com.gm.car.Models;
+import com.gm.car.ModelAlternates;
 import com.gm.message.ReturnMessage;
 
 import javax.persistence.EntityManager;
@@ -31,16 +31,16 @@ import javax.persistence.Query;
 
 @Stateless
 @LocalBean
-@Path("/models")
-public class ModelsResource {
+@Path("/model-alternates")
+public class ModelAlternatesResource {
     
     @PersistenceContext(unitName="mydb")
     EntityManager em;
     
     @GET @Produces("application/json")
-    public List<Models> getAll(){
+    public List<ModelAlternates> getAll(){
        
-        Query query = em.createQuery("SELECT m from Models m", Models.class);
+        Query query = em.createQuery("SELECT m from ModelAlternates m", ModelAlternates.class);
         
         return query.getResultList();
     }
@@ -48,16 +48,15 @@ public class ModelsResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createModel(@FormParam("makeId") long makeId,
-                                     @FormParam("modelName") String modelName){
+    public ReturnMessage createModelAlternate(@FormParam("modelAlternate") String modelAlternate){
         
-       Models model = new Models(makeId, modelName); 
-       em.persist(model);
+       ModelAlternates modelAlternate = new ModelAlternates(modelAlternate); 
+       em.persist(modelAlternate);
 
        ReturnMessage rm = new ReturnMessage();
        //check if object was persisted and return
        //appropriate result message
-       if (em.contains(model)) {
+       if (em.contains(modelAlternate)) {
            rm.setResult("success");
        } else {
            rm.setResult("fail");
@@ -67,7 +66,7 @@ public class ModelsResource {
     }
   
     @DELETE @Path("/{id}")
-    public void deleteModel(@PathParam("id") long id){
-        em.remove(em.find(Models.class, id));
+    public void deleteModelAlternate(@PathParam("id") long id){
+        em.remove(em.find(ModelAlternates.class, id));
     }
 }
