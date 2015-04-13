@@ -25,18 +25,17 @@ $("#loginForm").submit(function(event) {
         url: "api/users/authenticate",
         success: function(data) {
                     
-            if (data.result === "true") {
-                console.log("success");
-                if(data.admin == "false"){
-                 //redirect to admin page
-                 
+            if (data.result === true) {
+            	$.cookie("utoken", data.id, { path: '/' });
+                if(data.admin){
+                	window.open("inside/#/admin/manageUsers", "_self");
                 }else{
-                 //redirect to user page   
+                	window.open("inside/#/profile", "_self");
                 }
             } else {
                 console.log("failure");
                 //display error
-                $("#failure-message").html("The username/password you entered is incorrect");
+                $("#failure-message").html("The username password combination is not valid.");
                 $("#failure").show();
                 
             }

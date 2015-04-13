@@ -40,11 +40,13 @@ public class Twit {
 
   		Statement statementMakes = null;
   		Statement statementModels = null;
-  		Statement statementAlternates = null;
+  		Statement statementAlternateMakes = null;
+  		Statement statementAlternateModels = null;
 
   		ResultSet resultSetMakes = null;
   		ResultSet resultSetModels = null;
-  		ResultSet resultSetAlternates = null;
+  		ResultSet resultSetAlternateMakes = null;
+  		ResultSet resultSetAlternateModels = null;
 
   		try { 
 			is = new FileInputStream("build.properties");
@@ -70,13 +72,16 @@ public class Twit {
 
 			
    			statementMakes = dbConn.createStatement();
-   			resultSetMakes = statementMakes.executeQuery("SELECT * FROM filterquerymakes WHERE filterid = 0");
+   			resultSetMakes = statementMakes.executeQuery("SELECT * FROM makes");
 
    			statementModels = dbConn.createStatement();
-   			resultSetModels = statementModels.executeQuery("SELECT * FROM filterquerymodels");
+   			resultSetModels = statementModels.executeQuery("SELECT * FROM models");
 
-   			statementAlternates = dbConn.createStatement();
-   			resultSetAlternates = statementAlternates.executeQuery("SELECT * FROM filterqueryalternates");
+   			statementAlternateMakes = dbConn.createStatement();
+   			resultSetAlternateMakes = statementAlternateMakes.executeQuery("SELECT * FROM make_alternates");
+
+   			statementAlternateModels = dbConn.createStatement();
+   			resultSetAlternateModels = statementAlternateModels.executeQuery("SELECT * FROM model_alternates");
   		}
   		catch(Exception e) {
   			e.printStackTrace();
@@ -103,29 +108,27 @@ public class Twit {
 		    // Add makes to filter list
 		    ArrayList<String> makes = new ArrayList<String>();
 		    while(resultSetMakes.next()) {
-		    	String[] splitMakes = resultSetMakes.getString("makes").split(",");
-				for(int i = 0; i < splitMakes.length; i++) {
-					makes.add("#"+splitMakes[i]);
-				}
+					makes.add("#"+resultSetMakes.getString("make_name"));
 		    } 
 
 		    // Add models to filter list
 		    ArrayList<String> models = new ArrayList<String>();
 			while(resultSetModels.next()) {
-		    	String[] splitModels = resultSetModels.getString("models").split(",");
-				for(int i = 0; i < splitModels.length; i++) {
-					models.add("#"+splitModels[i]);
-				}
+				models.add("#"+resultSetModels.getString("model_name"));
+				
 		    } 
 
 		    // Add altenates to filter list
-		    ArrayList<String> alternates = new ArrayList<String>();
-			while(resultSetAlternates.next()) {
-				String[] splitAlternates = resultSetAlternates.getString("alternates").split(",");
-				for(int i = 0; i < splitAlternates.length; i++) {
-			    	alternates.add("#"+splitAlternates[i]);
-				}
-		    } 
+		    ArrayList<String> alternateMakes = new ArrayList<String>();
+			while(resultSetAlternateMakes.next()) {
+			    alternateMakes.add("#"+resultSetAlternateMakes.getString("make_alternate"));
+		    }
+
+		    // Add altenates to filter list
+		    ArrayList<String> alternateModels = new ArrayList<String>();
+			while(resultSetAlternateModels.next()) {
+			    alternateModels.add("#"+resultSetAlternateModels.getString("model_alternate"));
+		    }
 
 		    for(String make : makes) {
 		    	paramsAsList.add(make);
@@ -134,11 +137,16 @@ public class Twit {
 		    for(String model : models) {
 		    	paramsAsList.add(model);
 		    }
-		    for(String alternate : alternates) {
+
+		    for(String alternate : alternateMakes) {
+		    	paramsAsList.add(alternate);
+		    }
+
+		    for(String alternate : alternateModels) {
 		    	paramsAsList.add(alternate);
 		    }
 		    
-		    String[] filterTags = paramsAsList.toArray(new String[paramsAsList.size()]);
+		    final String[] filterTags = paramsAsList.toArray(new String[paramsAsList.size()]);
 		    for(String tag : filterTags) {
 		    	System.out.println(tag);
 		    }

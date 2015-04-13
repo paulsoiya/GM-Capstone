@@ -25,7 +25,7 @@ public class AnalyticSetting implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
     private Long id;
     
     // @Column(name = "data_access")
@@ -39,6 +39,10 @@ public class AnalyticSetting implements Serializable {
 
     public AnalyticSetting() {
 
+    }
+    public AnalyticSetting(Long id, String explicitWords) {
+        this.id = id;
+        this.explicitWords = explicitWords;
     }
     public AnalyticSetting(String explicitWords) {
         this.explicitWords = explicitWords;

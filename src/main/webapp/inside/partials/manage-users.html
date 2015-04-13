@@ -59,7 +59,8 @@
                                     <td>{{user.admin}}</td>
                                     <td>{{user.firstName}} {{user.lastName}}</td>
                                     <td>{{user.email}}</td>
-                                    <td><button class="btn btn-primary" ng-click="grantAdminAccess($index)">Make Admin</button></td>
+                                    <td ng-if="user.admin == 'Admin'"><button class="btn btn-primary" ng-click="changeRole($index,false)">Make User</button></td>
+                                    <td ng-if="user.admin == 'User'"><button class="btn btn-primary" ng-click="changeRole($index,true)">Make Admin</button></td>
                                     <td><button class="btn btn-danger" ng-click="removeAccess($index)">Delete</button></td>
                                 </tr>
                             </tbody>
