@@ -58,18 +58,44 @@ controllers.controller('AdminCtrl', ['$scope',
   }]);
 
 controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scope, $http) {
-  $scope.explicitWords = [];
-  $scope.newWord = '';
-  $scope.removeSelected = '';
-  $scope.add = function() {
-    if ($scope.newWord) {
-      $scope.explicitWords.push(this.newWord);
-      $scope.newWord = '';
+  
+  $scope.getExplicit = function() {
+    $http.get('../api/explicit-content').success(function(data) {
+      $scope.explicitWords = data;
+    });
+  }
+  $scope.getCommon = function() {
+    $http.get('../api/common-content').success(function(data) {
+      $scope.commonWords = data;
+    });
+  }
+  
+  $scope.getExplicit();
+  $scope.getCommon();
+  
+  $scope.newExplicit = '';
+  $scope.removeExplicit = '';
+  $scope.addExplicit = function() {
+    if ($scope.newExplicit) {
+      $scope.explicitWords.push(this.newExplicit);
+      $scope.newExplicit = '';
     }
   };
-  $scope.delete = function() {
-    var index = $scope.explicitWords.indexOf($scope.removeSelected);
+  $scope.deleteExplicit = function() {
+    var index = $scope.explicitWords.indexOf($scope.removeExplicit);
     $scope.explicitWords.splice(index, 1);
+  };
+  $scope.newCommon = '';
+  $scope.removeCommon = '';
+  $scope.addCommon = function() {
+    if ($scope.newCommon) {
+      $scope.commonWords.push(this.newCommon);
+      $scope.newCommon = '';
+    }
+  };
+  $scope.deleteCommon = function() {
+    var index = $scope.commonWords.indexOf($scope.removeCommon);
+    $scope.commonWords.splice(index, 1);
   };
 }]);
 
