@@ -1,0 +1,72 @@
+<div class="comparePage">
+
+  
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">New Explicit</div>
+      <div class="panel-body">
+        
+        <form ng-submit="addExplicit()">
+          <div class="form-group">
+            <label for="addWord">New explicit content to be filtered in displays</label>
+            <input id="addExplicit" class="form-control" type="text" ng-model="newExplicit" name="text" placeholder="New explicit word or phrase"/>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="submitExplicit" class="btn btn-primary">Add Word</button> Note: enter one word or phrase at a time
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">New Common</div>
+      <div class="panel-body">
+        
+        <form ng-submit="addCommon()">
+          <div class="form-group">
+            <label for="addWord">New common content to be filtered in displays</label>
+            <input id="addCommon" class="form-control" type="text" ng-model="newCommon" name="text" placeholder="New common word or phrase"/>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="submitCommon" class="btn btn-primary">Add Word</button> Note: enter one word or phrase at a time
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+    
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Existing Explicit</div>
+      <div class="panel-body">
+        <form ng-submit="deleteExplicit()">
+          <div class="form-group">
+            <label for="selectRemove">Existing explicit content filtered in displays</label>
+            <select class="form-control" id="selectExplicit" ng-model="removeExplicit">
+              <option ng-repeat="explicitContent in explicitContents" value={{explicitContent.id}}>{{explicitContent.explicitWords}}</input>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="removeExplicit" class="btn btn-primary">Remove Word</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Existing Common</div>
+      <div class="panel-body">
+        <form ng-submit="deleteCommon()">
+          <div class="form-group">
+            <label for="selectRemove">Existing common content filtered in displays</label>
+            <select class="form-control" id="selectCommon" ng-model="removeCommon">
+              <option ng-repeat="commonContent in commonContents" value={{commonContent.id}}>{{commonContent.commonWords}}</input>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" id="removeCommon" class="btn btn-primary">Remove Word</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
