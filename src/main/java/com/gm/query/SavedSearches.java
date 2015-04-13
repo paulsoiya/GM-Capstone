@@ -120,16 +120,18 @@ public class SavedSearches {
 		
 		JSONObject viewDocument = new JSONObject();
 		JSONArray searches = new JSONArray();
-		
+		JSONArray keys = new JSONArray();
 		boolean existingViews = true;
 		try{
 			viewDocument = new JSONObject(couch.queryDB(user));
+			keys = viewDocument.names();
+			System.out.println(keys.toString());
 		}
 		catch(Exception e){
 			existingViews = false;
 		}
 		
-		return viewDocument.toString();
+		return keys.toString();
     }	
 	
     @POST @Path("/getSavedSearch")

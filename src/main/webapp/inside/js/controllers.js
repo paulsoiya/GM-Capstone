@@ -453,14 +453,14 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 		method: 'post',
 		url: 'http://localhost:7001/GMProject/api/savedsearches',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		data: "location="+$scope.savedLocation+"&"+
-		"endDate="+$scope.savedEndDate+"&"+
-		"startDate="+$scope.savedStartDate+"&"+
-		"make="+$scope.savedMake+"&"+
-		"model="+$scope.savedModel+"&"+
+		data: "location="+$scope.selectLocation+"&"+
+		"endDate="+$scope.endDate+"&"+
+		"startDate="+$scope.startDate+"&"+
+		"make="+$scope.selectMake.makeName+"&"+
+		"model="+$scope.selectModel.modelName+"&"+
 		"user="+_uToken+"&"+
 		"searchName="+$scope.searchName+"&"+
-		"year="+$scope.savedYear
+		"year="+$scope.selectYear.yearName
     }).then(function(response) {
 		console.log(response);
 	});
@@ -470,25 +470,44 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
 controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 
-
+    $scope.searches = ["hello", "2"];
 	
-	function compareQuery(form){
+
+	$http({
+		method: 'post',
+		url: 'http://localhost:7001/GMProject/api/savedsearches/getSavedSearches',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		data: "user="+_uToken
+	}).then(function(response) {
+	  //$scope.searches = response.data;
+        console.log(response);
+        var data = response.data;
+        var indexId = data.indexOf("_id");
+        var indexRev = data.indexOf("_rev");
+        if (indexId > -1) {
+            data.splice(indexId, 1);
+        }
+        if (indexId > -1) {
+            data.splice(indexRev, 1);
+        }
+        $scope.searches = data;
+	  //console.log($scope.searches);
+	});
+	
+	
+	$scope.comparePost1 = function(){
+	    console.log("getting saved query");
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http({
 			method: 'post',
-			url: 'http://localhost:7001/GMProject/api/savedsearches',
+			url: 'http://localhost:7001/GMProject/api/savedsearches/getSavedSearch',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-			data: "location="+$scope.selectLocation+"&"+
-			"endDate="+$scope.endDate+"&"+
-			"startDate="+$scope.startDate+"&"+
-			"make="+$scope.selectMake.makeName+"&"+
-			"model="+$scope.selectModel.modelName+"&"+
-			"user="+_uToken+"&"+
-			"year="+$scope.selectYear.yearName
+			data: "user="+_uToken+"&"+
+			"searchName="+$scope.searchName
 		}).then(function(response) {
-		  $scope.searches = response.data;
-		  console.log(_uToken);
-		  console.log($scope.searches);
+		  //$scope.searches = response.data;
+		  console.log(response);
+		  //console.log($scope.searches);
 		});
 	}
   // First Pie Graph
