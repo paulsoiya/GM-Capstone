@@ -52,10 +52,105 @@ var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car
 
 
 
-controllers.controller('AdminCtrl', ['$scope',
-  function ($scope) {
+controllers.controller('AdminCtrl', ['$scope', function ($scope) {
+  
     $scope.isAdmin = true;
-  }]);
+  
+}]);
+
+controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $http) {
+    
+    $scope.getMakes = function() {
+    $http.get('../api/makes').success(function(data) {
+      $scope.makes = data;
+    });
+    }
+    $scope.getModels = function() {
+      $http.get('../api/models').success(function(data) {
+        $scope.models = data;
+      });
+    }
+    $scope.getYears = function() {
+      $http.get('../api/model-years').success(function(data) {
+        $scope.years = data;
+      });
+    }
+    $scope.getMakeAlternates = function() {
+      $http.get('../api/make-alternates').success(function(data) {
+        $scope.makeAlternates = data;
+      });
+    }
+    $scope.getModelAlternates = function() {
+      $http.get('../api/model-alternates').success(function(data) {
+        $scope.modelAlternates = data;
+      });
+    }
+  
+    $scope.getMakes();
+    $scope.getModels();
+    $scope.getYears();
+    $scope.getMakeAlternates();
+    $scope.getModelAlternates();
+  
+    $scope.selectMake = '';
+    console.log($scope.selectMake);
+    $scope.deleteMake = function() {
+      $http.delete('../api/makes' + $scope.selectMake).success(function (data, status) {
+          console.log($scope.selectMake);
+          $scope.getMakes();
+          $scope.selectMake = '';
+      });
+    }
+    
+    $scope.newMake = '';
+    $scope.addMake = function() {
+      var postFields = {makeName: $scope.newMake};
+	  $http({
+		    method: 'POST',
+		    url: '../api/makes',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			  console.log(data);
+			  $scope.getMakes();
+              $scope.newMake = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newMake = '';
+	  });
+    }
+    
+    $scope.selectMpdel = '';
+    $scope.deleteModel = function() {
+      
+    }
+    
+    $scope.newModel = '';
+    $scope.addModel = function() {
+      
+    }
+    
+    $scope.selectYear = '';
+    $scope.deleteYear = function() {
+      
+    }
+    
+    $scope.newYear = '';
+    $scope.addYear = function() {
+      
+    }
+    
+    $scope.selectMakeAlternate = '';
+    $scope.deleteMakeAlternate = function() {
+      
+    }
+    
+    $scope.newMakeAlternate = '';
+    $scope.addMakeAlternate = function() {
+      
+    }
+  
+}]);
 
 controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scope, $http) {
   
