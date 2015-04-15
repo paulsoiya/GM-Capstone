@@ -338,9 +338,15 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   //POST, query response
   $scope.queryPost = function() {
     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+    if($scope.selectMake === "undefined"){
+    	$scope.selectMake.makeName === "undefined";
+    }
+    if($scope.selectMake === "undefined"){
+    	$scope.selectMake.makeName === "undefined";
+    }
     $http({
 		method: 'post',
-		url: 'http://localhost:7001/GMProject/api/query',
+		url: '../api/query',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		data: "location="+$scope.selectLocation+"&"+
 		"endDate="+$scope.endDate+"&"+
@@ -518,7 +524,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
     
     $http({
 		method: 'post',
-		url: 'http://localhost:7001/GMProject/api/savedsearches',
+		url: '../api/savedsearches',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		data: "location="+savedLocation+"&"+
 		"endDate="+savedEndDate+"&"+
@@ -537,12 +543,10 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
 controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 
-    $scope.searches = ["hello", "2"];
-	
 
 	$http({
 		method: 'post',
-		url: 'http://localhost:7001/GMProject/api/savedsearches/getSavedSearches',
+		url: '../api/savedsearches/getSavedSearches',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		data: "user="+_uToken
 	}).then(function(response) {
@@ -563,17 +567,37 @@ controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($sc
 	
 	
 	$scope.comparePost1 = function(){
-	    console.log("getting saved query");
+		$(".comparesearch1").removeClass('hidden');
+
 		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http({
 			method: 'post',
-			url: 'http://localhost:7001/GMProject/api/savedsearches/getSavedSearch',
+			url: '../api/savedsearches/getSavedSearch',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: "user="+_uToken+"&"+
-			"searchName="+$scope.searchName
+			"searchName="+$scope.searchName1
 		}).then(function(response) {
 		  //$scope.searches = response.data;
 		  console.log(response);
+
+		  //console.log($scope.searches);
+		});
+	}
+
+	$scope.comparePost2 = function(){
+		$(".comparesearch2").removeClass('hidden');
+
+		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+		$http({
+			method: 'post',
+			url: '../api/savedsearches/getSavedSearch',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: "user="+_uToken+"&"+
+			"searchName="+$scope.searchName2
+		}).then(function(response) {
+		  //$scope.searches = response.data;
+		  console.log(response);
+
 		  //console.log($scope.searches);
 		});
 	}

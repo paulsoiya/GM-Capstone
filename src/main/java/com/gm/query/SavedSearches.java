@@ -103,7 +103,7 @@ public class SavedSearches {
 			viewDocument.put(searchName, search);
 			couch.createDocuments(viewDocument, false);	
 		}
-		return "success";
+		return "{data: 'success'}";
     }
 	
 	

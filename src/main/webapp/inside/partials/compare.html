@@ -7,27 +7,27 @@
       <div class="panel-heading">Search 1</div>
       <div class="panel-body">
 	  <form id="queryForm1" ng-controller="CompareCtrl" ng-submit="comparePost1()">
-	    <select id="selectSearch1" class="form-control" ng-model="searchName">
+	    <select id="selectSearch1" class="form-control" ng-model="searchName1">
           <option ng-repeat="name in searches" value="{{name}}">{{name}}</option> 
         </select>
 	    <button type="submit" class="btn btn-primary btn-lg" ng-click="comparePost1()">Submit</button>
 	  </form>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default hidden comparesearch1">
       <div class="panel-heading">Grade</div>
       <div class="panel-body">
         <span>
         <canvas class="col-md-12" id="first_pie_canvas"></canvas>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default hidden comparesearch1">
       <div class="panel-heading">Most Frequent Words</div>
       <div class="panel-body">
         <canvas class="col-md-12" id="first_bar_canvas"></canvas>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default hidden comparesearch1">
       <div class="panel-heading">Word Cloud</div>
       <div class="panel-body">
         <canvas id="first_cloud_canvas" class="wordcloud col-md-12"></canvas>
@@ -39,28 +39,28 @@
     <div class="panel panel-default">
       <div class="panel-heading">Search 2</div>
       <div class="panel-body">
-      <form id="queryForm1" ng-controller="CompareCtrl" ng-submit="comparePost1()">
-	    <select id="selectSearch2" class="form-control" ng-model="searchName">
+      <form id="queryForm1" ng-controller="CompareCtrl" ng-submit="comparePost2()">
+	    <select id="selectSearch2" class="form-control" ng-model="searchName2">
           <option ng-repeat="name in searches" value="{{name}}">{{name}}</option> 
         </select>
-	    <button type="submit" class="btn btn-primary btn-lg" ng-click="comparePost1()">Submit</button>
+	    <button type="submit" class="btn btn-primary btn-lg" ng-click="comparePost2()">Submit</button>
 	  </form>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default hidden comparesearch2">
       <div class="panel-heading">Grade</div>
       <div class="panel-body">
         <span>
         <canvas class="col-md-12" id="second_pie_canvas"></canvas>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default hidden comparesearch2">
       <div class="panel-heading">Most Frequent Words</div>
       <div class="panel-body">
         <canvas class="col-md-12" id="second_bar_canvas"></canvas>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-default hidden comparesearch2">
       <div class="panel-heading">Word Cloud</div>
       <div class="panel-body">
         <canvas id="second_cloud_canvas" class="wordcloud col-md-12"></canvas>

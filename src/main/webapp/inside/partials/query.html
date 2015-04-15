@@ -41,21 +41,21 @@
           <div class="form-group nullable">
             <label for="selectMake">Make</label>
             <select id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes">
-              <option value="{{selectMake.makeName}}">All Makes</option> 
+              <option value="undefined">All Makes</option> 
             </select>
           </div>
           <!-- models dropdown -->
           <div class="form-group nullable">
             <label for="selectModel">Model</label>
             <select id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}">
-              <option value="{{selectModel.modelName}}">All Models</option> 
+              <option value="undefined">All Models</option> 
             </select>
           </div>
           <!-- years dropdown -->
           <div class="form-group nullable">
             <label for="selectYear">Year</label>
             <select id="selectYear" class="form-control" ng-model="selectYear" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}">
-              <option value="{{selectYear.yearName}}">All Years</option>
+              <option value="undefined">All Years</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>
