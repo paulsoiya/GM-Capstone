@@ -50,6 +50,14 @@ public class UserResource {
         return query.getResultList();
     }
    
+    @GET
+    @Produces("application/json")
+    public User findUser(@PathParam("id") long id){
+    	User user = em.find(User.class, id);
+    	
+    	return user;
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
