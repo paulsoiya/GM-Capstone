@@ -236,6 +236,17 @@ controllers.controller('NavbarCtrl', ['$scope', '$state',
   }]);
 
 controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
+	
+	$scope.getUserDetail = function() {
+		
+		 $http.get('../api/users/' + _uToken).success(function(data) {
+			  $scope.userData = data;
+		  });
+	}
+	
+	$scope.getUserDetail();
+	
+	
 	$scope.save = function()
 	  {
 	   var postFields = {first_name:$("#FirstName").val(),

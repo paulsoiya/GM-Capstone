@@ -50,7 +50,9 @@ public class UserResource {
         return query.getResultList();
     }
    
+    
     @GET
+    @Path("/{id}")
     @Produces("application/json")
     public User findUser(@PathParam("id") long id){
     	User user = em.find(User.class, id);
