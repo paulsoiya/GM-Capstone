@@ -30,14 +30,14 @@ public class Makes implements Serializable{
     
     @Column(name="make_id")
     @Id @GeneratedValue
-    private int makeId;
+    private long makeId;
     
     @Column(name="make_name")
     private String makeName;
 
     public Makes() { }
    
-    public Makes(int makeId, String makeName) {
+    public Makes(long makeId, String makeName) {
         this.makeId = makeId;
         this.makeName = makeName;
     }
@@ -46,11 +46,11 @@ public class Makes implements Serializable{
         this.makeName = makeName;
     }
     
-    public int getMakeId() {
+    public long getMakeId() {
         return makeId;
     }
 
-    public void setMakeId(int makeId) {
+    public void setMakeId(long makeId) {
         this.makeId = makeId;
     }
 

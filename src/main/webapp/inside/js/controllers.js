@@ -95,7 +95,7 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
     $scope.selectMake = '';
     console.log($scope.selectMake);
     $scope.deleteMake = function() {
-      $http.delete('../api/makes' + $scope.selectMake).success(function (data, status) {
+      $http.delete('../api/makes/' + $scope.selectMake).success(function (data, status) {
           console.log($scope.selectMake);
           $scope.getMakes();
           $scope.selectMake = '';

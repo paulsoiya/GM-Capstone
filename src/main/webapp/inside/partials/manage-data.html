@@ -7,14 +7,15 @@
               <form ng-submit="deleteMake()">
                   <div class="form-group">
                     <label for="selectMake">Current Makes:</label>
-                    <select id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes" value="make.id">
+                    <select id="selectMake" class="form-control" ng-model="selectMake">
+                      <option ng-repeat="make in makes" value={{make.makeId}}>{{make.makeName}}</input>
                     </select>
                   </div>
                   <div class="form-group">
                     <button id="removeMake" type="submit" class="btn btn-primary">Delete Make</button>
                   </div>
               </form>
-              <form ng-submit="addMake">
+              <form ng-submit="addMake()">
                   <div class="form-group">
                     <input id="newMake" class="form-control" type="text" ng-model="newMake" name="text" placeholder="New Make"/>
                   </div>
