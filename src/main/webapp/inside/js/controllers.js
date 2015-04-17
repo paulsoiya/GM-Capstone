@@ -249,12 +249,22 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 	
 	$scope.save = function()
 	  {
-	   var postFields = {first_name:$("#FirstName").val(),
+		$("#success").hide();
+		$("#failure").hide();
+		
+	   var postFields = {	first_name:$("#FirstName").val(),
 				  			last_name:$("#LastName").val(),
 				  			email:$("#inputEmail").val(),
 				  			password:$("#inputPassword").val()
-				  			};
+				  		};
 
+	   if ($("#inputPassword").val() != $("#inputPasswordConfirm").val()) {
+		   $("#failure-message").html("The passwords you entered do not match");
+		   $("#failure").show();
+		   return;
+	   }
+	   
+	   
 		  $http({
 			    method: 'PUT',
 			    url: 'http://localhost:7001/GMProject/api/users/' + _uToken,
@@ -265,7 +275,6 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 		      $("#success").hide();
 		      $("#failure").hide();
 		      
-
 				  if(data.result === "success"){
 				      $("#success-message").html("Your changes have been saved");
 				      $("#success").show();
@@ -274,6 +283,7 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 				      $("#failure-message").html("There was a problem saving your changes");
 				      $("#failure").show();
 				  }
+				  
 		  }).error(function(data, status, headers, config) {
 		      $("#success-message").hide();
 		      $("#failure-message").hide();
