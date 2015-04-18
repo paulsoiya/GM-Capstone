@@ -105,7 +105,7 @@ public class UserResource {
       
         List<User> users = q.getResultList();
         //check if the user exists
-        if(!users.isEmpty()){
+        if (!users.isEmpty()) {
             user = (User) users.get(0);
             
             //check if the user entered the correct email address and password
@@ -117,10 +117,10 @@ public class UserResource {
         }
    
         AuthenticateResponse response;
-        if(result){
+        if (result) {
             response = new AuthenticateResponse(result,
-                                                user.getId(), user.isAdmin());
-        }else{
+                                                user.getId(), user.isAdmin(), user.getFirstName());
+        } else {
             response = new AuthenticateResponse(result);
         }
         
