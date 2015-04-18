@@ -1,56 +1,11 @@
 'use strict';
 
-/* Controllers */
-
-var controllers = angular.module('controllers', []);
-
-
-
 //this is the user id of the current logged in user
 var _uToken = $.cookie("utoken");
 
+/* Controllers */
 
-
-
-// Test Data
-var testPieData = [
-    {
-        value: 300,
-        color:"#000080",
-        highlight: "#00004c",
-        label: "Positive"
-    },
-    {
-        value: 50,
-        color: "#7f7fff",
-        highlight: "#4c4cff",
-        label: "Negative"
-    }
-  ]
-var testBarData = {
-    labels: ["Chevy", "Chevrolet", "Cadillac", "Caddy"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [10, 8, 5, 3]
-        }
-    ]
-  };
-var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car', 5], ['new', 4],
-                   ['love', 11], ['like', 10], ['awesome', 2], ['cool', 10], ['Caddy', 10], ['Chevrolet', 3],
-                   ['wow', 13], ['fantastic', 9], ['yowza', 3], ['the', 7], ['true', 7], ['stuff', 1],
-                   ['can', 14], ['say', 8], ['shiny', 4], ['red', 5], ['truck', 8], ['man', 2],
-                  ];
-
-// Default data
-
-
-
-
+var controllers = angular.module('controllers', []);
 
 controllers.controller('AdminCtrl', ['$scope', function ($scope) {
   
@@ -93,16 +48,21 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
     $scope.getModelAlternates();
   
     $scope.selectMake = '';
-    console.log($scope.selectMake);
+    $scope.newMake = '';
+    $scope.selectModel = '';
+    $scope.newModel = '';
+    $scope.selectYear = '';
+    $scope.newYear = '';
+    $scope.selectMakeAlternate = '';
+    $scope.newMakeAlternate = '';
+  
     $scope.deleteMake = function() {
       $http.delete('../api/makes/' + $scope.selectMake).success(function (data, status) {
-          console.log($scope.selectMake);
           $scope.getMakes();
           $scope.selectMake = '';
       });
     }
     
-    $scope.newMake = '';
     $scope.addMake = function() {
       var postFields = {makeName: $scope.newMake};
 	  $http({
@@ -111,41 +71,71 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
 		    data: $.param(postFields),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function(data, status, headers, config) {
-			  console.log(data);
-			  $scope.getMakes();
-              $scope.newMake = '';
+			console.log(data);
+			$scope.getMakes();
+            $scope.newMake = '';
 	  }).error(function(data, status, config) {
 			console.log("Something went wrong");
             $scope.newMake = '';
 	  });
     }
     
-    $scope.selectMpdel = '';
     $scope.deleteModel = function() {
-      
+      $http.delete('../api/models/' + $scope.selectModel).success(function (data, status) {
+          $scope.getModels();
+          $scope.selectModel = '';
+      });
     }
     
-    $scope.newModel = '';
     $scope.addModel = function() {
-      
-    }
+      var postFields = {modelName: $scope.newModel};
+	  $http({
+		    method: 'POST',
+		    url: '../api/models',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.getModels();
+            $scope.newModel = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newModel = '';
+	  });
+    }    
     
-    $scope.selectYear = '';
     $scope.deleteYear = function() {
-      
+      $http.delete('../api/model-years/' + $scope.selectYear).success(function (data, status) {
+          $scope.getYears();
+          $scope.selectYear = '';
+      });
     }
     
-    $scope.newYear = '';
+    
     $scope.addYear = function() {
-      
+      var postFields = {modelId: $scope.selectModel,
+                        yearName: $scope.newYear};
+	  $http({
+		    method: 'POST',
+		    url: '../api/model-years',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.getYears();
+            $scope.newYear = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newYear = '';
+	  });
     }
     
-    $scope.selectMakeAlternate = '';
+    
     $scope.deleteMakeAlternate = function() {
       
     }
     
-    $scope.newMakeAlternate = '';
+    
     $scope.addMakeAlternate = function() {
       
     }
@@ -178,9 +168,9 @@ controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scop
 		    data: $.param(postFields),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function(data, status, headers, config) {
-			  console.log(data);
-			  $scope.getExplicit();
-              $scope.newExplicit = '';
+		    console.log(data);
+			$scope.getExplicit();
+            $scope.newExplicit = '';
 	  }).error(function(data, status, config) {
 			console.log("Something went wrong");
             $scope.newExplicit = '';

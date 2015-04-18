@@ -29,7 +29,7 @@ public class Makes implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Column(name="make_id")
-    @Id @GeneratedValue
+    @Id
     private long makeId;
     
     @Column(name="make_name")

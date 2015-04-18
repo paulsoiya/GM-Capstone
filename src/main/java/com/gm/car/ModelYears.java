@@ -28,26 +28,34 @@ public class ModelYears implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    @Column(name="model_id")
+    @Column(name="year_id")
     @Id
-    private int modelId;
+    private long yearId;
+  
+    @Column(name="model_id")
+    private long modelId;
     
     @Column(name="year_name")
-    @Id
     private String yearName;
 
     public ModelYears() { }
    
-    public ModelYears(int modelId, String yearName) {
+    public ModelYears(long yearId, long modelId, String yearName) {
+        this.yearId = yearId;
+        this.modelId = modelId;
+        this.yearName = yearName;
+    }
+  
+    public ModelYears(long modelId, String yearName) {
         this.modelId = modelId;
         this.yearName = yearName;
     }
     
-    public int getModelId() {
+    public long getModelId() {
         return modelId;
     }
 
-    public void setModelId(int modelId) {
+    public void setModelId(long modelId) {
         this.modelId = modelId;
     }
 

@@ -48,7 +48,7 @@ public class ModelYearsResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createModelYear(@FormParam("modelId") int modelId,
+    public ReturnMessage createModelYear(@FormParam("modelId") long modelId,
                                          @FormParam("yearName") String yearName){
         
        ModelYears modelYear = new ModelYears(modelId, yearName); 
