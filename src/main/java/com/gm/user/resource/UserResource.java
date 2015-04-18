@@ -50,6 +50,16 @@ public class UserResource {
         return query.getResultList();
     }
    
+    
+    @GET
+    @Path("/{id}")
+    @Produces("application/json")
+    public User findUser(@PathParam("id") long id){
+    	User user = em.find(User.class, id);
+    	
+    	return user;
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
@@ -136,13 +146,16 @@ public class UserResource {
         	rm.setResult("failure");
         } else {
         	
-        	SecurityHelper sh = new SecurityHelper();
-            String md5Password = sh.md5(password); //encrypt the password
-        
         	user.setFirstName(firstName);
         	user.setLastName(lastName);
         	user.setEmail(email);
-        	user.setPassword(md5Password);
+        	
+        	//determine if password was updated
+        	if (!"".equals(password)) {
+        		SecurityHelper sh = new SecurityHelper();
+                String md5Password = sh.md5(password); //encrypt the password
+        		user.setPassword(md5Password);
+        	} 
         	
         	em.persist(user);
         	
