@@ -14,6 +14,9 @@ controllers.controller('AdminCtrl', ['$scope', function ($scope) {
 }]);
 
 controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $http) {
+  
+    // WARNING: Angular's filter function works by searching for how something begins.
+    // When you add enough makes / models, the models / years won't filter correctly.
     
     $scope.getMakes = function() {
     $http.get('../api/makes').success(function(data) {
@@ -47,11 +50,11 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
     $scope.getMakeAlternates();
     $scope.getModelAlternates();
   
-    $scope.selectMake = '';
+    $scope.selectMake = 'None';
     $scope.newMake = '';
-    $scope.selectModel = '';
+    $scope.selectModel = 'None';
     $scope.newModel = '';
-    $scope.selectYear = '';
+    $scope.selectYear = 'None';
     $scope.newYear = '';
     $scope.selectMakeAlternate = '';
     $scope.newMakeAlternate = '';
@@ -59,7 +62,9 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
     $scope.deleteMake = function() {
       $http.delete('../api/makes/' + $scope.selectMake).success(function (data, status) {
           $scope.getMakes();
-          $scope.selectMake = '';
+          $scope.selectMake = 'None';
+          $scope.selectModel = 'None';
+          $scope.selectYear = 'None';
       });
     }
     
@@ -83,12 +88,14 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
     $scope.deleteModel = function() {
       $http.delete('../api/models/' + $scope.selectModel).success(function (data, status) {
           $scope.getModels();
-          $scope.selectModel = '';
+          $scope.selectModel = 'None';
+          $scope.selectYear = 'None';
       });
     }
     
     $scope.addModel = function() {
-      var postFields = {modelName: $scope.newModel};
+      var postFields = {makeId: $scope.selectMake,
+                        modelName: $scope.newModel};
 	  $http({
 		    method: 'POST',
 		    url: '../api/models',
@@ -107,7 +114,7 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
     $scope.deleteYear = function() {
       $http.delete('../api/model-years/' + $scope.selectYear).success(function (data, status) {
           $scope.getYears();
-          $scope.selectYear = '';
+          $scope.selectYear = 'None';
       });
     }
     

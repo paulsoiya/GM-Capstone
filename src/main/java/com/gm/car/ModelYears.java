@@ -50,6 +50,14 @@ public class ModelYears implements Serializable{
         this.modelId = modelId;
         this.yearName = yearName;
     }
+  
+    public long getYearId() {
+        return yearId;
+    }
+
+    public void setYearId(long yearId) {
+        this.yearId = yearId;
+    }
     
     public long getModelId() {
         return modelId;
