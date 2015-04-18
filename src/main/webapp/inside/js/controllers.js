@@ -5,51 +5,9 @@
 var controllers = angular.module('controllers', []);
 
 
-
 //this is the user id of the current logged in user
 var _uToken = $.cookie("utoken");
 console.log(_uToken);
-
-
-
-// Test Data
-var testPieData = [
-    {
-        value: 300,
-        color:"#000080",
-        highlight: "#00004c",
-        label: "Positive"
-    },
-    {
-        value: 50,
-        color: "#7f7fff",
-        highlight: "#4c4cff",
-        label: "Negative"
-    }
-  ]
-var testBarData = {
-    labels: ["Chevy", "Chevrolet", "Cadillac", "Caddy"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [10, 8, 5, 3]
-        }
-    ]
-  };
-var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car', 5], ['new', 4],
-                   ['love', 11], ['like', 10], ['awesome', 2], ['cool', 10], ['Caddy', 10], ['Chevrolet', 3],
-                   ['wow', 13], ['fantastic', 9], ['yowza', 3], ['the', 7], ['true', 7], ['stuff', 1],
-                   ['can', 14], ['say', 8], ['shiny', 4], ['red', 5], ['truck', 8], ['man', 2],
-                  ];
-
-// Default data
-
-
-
 
 
 controllers.controller('AdminCtrl', ['$scope',
@@ -287,7 +245,7 @@ var savedEndDate = "aa";
 controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 
 	counter += 1;
-	console.log(counter);
+	//console.log(counter);
 
   
   // Location dropdown
@@ -320,21 +278,27 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   
   // Make, model, year
   // makes
-  $http.get('http://localhost:7001/GMProject/api/makes').success(function(data) {
-      $scope.makes = data;
-	  console.log(data);
-  });
-  // models
-  $http.get('http://localhost:7001/GMProject/api/models').success(function(data) {
-	$scope.models = data;
-	console.log(data);
-  });
-  // years
-  $http.get('http://localhost:7001/GMProject/api/model-years').success(function(data) {
-      $scope.years = data;
-	  console.log(data);
-  });
+  	$http.get('../api/makes').success(function(data) {
+		$scope.makes = data;
+		var allMakes = {makeId: -1, makeName: "All Makes"};
+		$scope.makes.unshift(allMakes);
+		if(counter == 1)console.log($scope.makes);
+  	});
   
+	$http.get('../api/models').success(function(data) {
+		$scope.models = data;
+		var allModels = {modelId: -1, modelName: "All Models", makeId: -1};
+		$scope.models.unshift(allModels);
+		if(counter == 1)console.log($scope.models);
+	});
+
+	$http.get('../api/model-years').success(function(data) {
+		$scope.years = data;
+		var allYears = {yearName: "All Years", modelId: -1};
+		$scope.years.unshift(allYears);
+		if(counter == 1)console.log($scope.years);
+	});
+
   //POST, query response
   $scope.queryPost = function() {
     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -343,8 +307,8 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
     }
     if($scope.selectMake === "undefined"){
     	$scope.selectMake.makeName === "undefined";
-    }
-    $http({
+	}
+	$http({
 		method: 'post',
 		url: '../api/query',
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -354,174 +318,27 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 		"make="+$scope.selectMake.makeName+"&"+
 		"model="+$scope.selectModel.modelName+"&"+
 		"year="+$scope.selectYear.yearName
-    }).then(function(response) {
+	}).then(function(response) {
 	
-	    console.log($scope.selectMake.makeName);
-		console.log($scope.selectModel.modelName);
-		console.log($scope.selectYear.yearName);
-		console.log($scope.selectLocation);
-		console.log($scope.startDate);
-		console.log($scope.endDate);
 		savedMake = $scope.selectMake.makeName+"";
 		savedModel = $scope.selectModel.modelName+"";
 		savedYear = $scope.selectYear.yearName+"";
 		savedLocation = $scope.selectLocation+"";
 		savedStartDate = $scope.startDate+"";
 		savedEndDate = $scope.endDate+"";
-		//console.log($scope.savedMake);
-		//console.log($scope.savedModel);
-		//console.log($scope.savedYear);
-		//console.log($scope.savedLocation);
-		//console.log($scope.savedStartDate);
-		//console.log($scope.savedEndDate);
 		
-		var responseJSON = response.data;
-		console.log(responseJSON);
-		var wordCount = JSON.parse(responseJSON.wordCount);
-		var sentiment = JSON.parse(responseJSON.sentiment);
-		
-		var wordCountData = [];
-		
-		for(var i = 0; i < wordCount.rows.length; ++i){
-			if(wordCount.rows[i].key !== "_id" &&
-			wordCount.rows[i].key !== "_rev" &&
-			wordCount.rows[i].key !== "tweetsentiment" &&
-			wordCount.rows[i].key !== "tweettext" &&
-			wordCount.rows[i].key !== "tweettime"){
-				wordCountData.push([wordCount.rows[i].key, wordCount.rows[i].value]);
-			}
-		}
-		
-		wordCountData.sort(function(current, next) {
-			return ((current[1] > next[1]) ? -1 : ((current[1] === next[1]) ? 0 : 1));
-		});
-		
-		//console.log("wordCountData");
-		//console.log(wordCountData);
-		
-		if(wordCountData.length > 30){
-			var tempData = [];
-			for(var i = 0; i < 30; ++i){
-				tempData[i] = wordCountData[i];
-			}
-			wordCountData = tempData;
-		}
-		
-		//Word Cloud
-		WordCloud(document.getElementById('wordCloud_canvas'), 
-			{ 
-				list: wordCountData, 
-				color: 'random-dark',
-				shape: 'square',
-				rotateRatio: 0.0,
-				weightFactor: 2
-			}
-		);
-		
-		console.log(sentiment.rows[0].value[0]);
-		console.log(Math.abs(sentiment.rows[0].value[0] + 1));
-		console.log(Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100));
-		
-		console.log(Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100);
-		console.log(Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100);
-		var pieData = [
-			{
-				value: (Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) / 2 * 100,
-				color:"#000080",
-				highlight: "#00004c",
-				label: "Positive"
-			},
-			{
-				value: (Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100) / 2 * 100,
-				color: "#7f7fff",
-				highlight: "#4c4cff",
-				label: "Negative"
-			}
-		  ]
-
-//TODO maybe?: chart isn't updating, it's just redrawing, might need to fix			  
-/*
-		pieChart[0].value = Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100;
-		pieChart[1].value = Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100;
-
-		barData.labels[0] = wordCountData[0][0];
-		barData.labels[1] = wordCountData[1][0];
-		barData.labels[2] = wordCountData[2][0];
-		barData.labels[3] = wordCountData[3][0];
-
-		barChart.datasets[0].data[0] = wordCountData[0][1];
-		barChart.datasets[0].data[1] = wordCountData[1][1];
-		barChart.datasets[0].data[2] = wordCountData[2][1];
-		barChart.datasets[0].data[3] = wordCountData[3][1];
-*/
-		var barData = {
-			labels: [wordCountData[0][0], 
-				wordCountData[1][0], 
-				wordCountData[2][0], 
-				wordCountData[3][0]
-			],
-			datasets: [
-				{
-					label: "My First dataset",
-					fillColor: "rgba(220,220,220,0.5)",
-					strokeColor: "rgba(220,220,220,0.8)",
-					highlightFill: "rgba(220,220,220,0.75)",
-					highlightStroke: "rgba(220,220,220,1)",
-					data: [wordCountData[0][1], 
-					wordCountData[1][1], 
-					wordCountData[2][1], 
-					wordCountData[3][1] 
-					]
-				}
-			]
-		  };
-
-		// Pie Graph
-		var pieCtx = document.getElementById("pieGraph_canvas").getContext("2d");
-		pieCtx.clearRect(0, 0, document.getElementById("pieGraph_canvas").width, document.getElementById("pieGraph_canvas").height);
-		var pieChart = new Chart(pieCtx).Pie(pieData);
-
-		// Bar Graph
-		var barCtx = document.getElementById("barGraph_canvas").getContext("2d");
-		barCtx.clearRect(0, 0, document.getElementById("pieGraph_canvas").width, document.getElementById("pieGraph_canvas").height);
-		var barChart = new Chart(barCtx).Bar(barData);
-
-		//barChart.update();
-		//pieChart.update();
+		var wordCloud = document.getElementById('wordCloud_canvas');
+		var pieChart = document.getElementById('pieGraph_canvas');
+		var barGraph = document.getElementById('barGraph_canvas');
+		drawQuery(response, wordCloud, pieChart, barGraph);
 			
-
     });
-  
-  
-
-  
- /* 
-    $http.post('http://localhost:7001/GMProject/api/query', 
-	    {
-			msg: "location="+$scope.selectLocation+"&"+
-			"endDate="+$scope.endDate+"&"+
-			"startDate="+$scope.startDate+"&"+
-			"make="+$scope.selectMake.makeName+"&"+
-			"model="+$scope.selectModel.modelName+"&"+
-			"user="+_uToken+"&"+
-			"year="+$scope.selectYear.yearName
-		},
-		{headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
-	    ).success(function(data){
-
-		});*/
   };
   
+
+
   $scope.saveQuery = function() {
-    
-	console.log("saving search");
-	console.log(savedMake);
-	console.log(savedModel);
-	console.log(savedYear);
-	console.log(savedLocation);
-	console.log(savedStartDate);
-	console.log(savedEndDate);
-    
+
     $http({
 		method: 'post',
 		url: '../api/savedsearches',
@@ -535,11 +352,19 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 		"searchName="+$scope.searchName+"&"+
 		"year="+savedYear
     }).then(function(response) {
+    	$("#savedMessage").removeClass('hidden');
+    	$scope.searchName = "";
+    	setTimeout(function(){
+    		$("#savedMessage").addClass('hidden');
+    	}, 2500)
+		console.log("response");
 		console.log(response);
 	});
   };
 
 }]);
+
+
 
 controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 
@@ -569,7 +394,6 @@ controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($sc
 	$scope.comparePost1 = function(){
 		$(".comparesearch1").removeClass('hidden');
 
-		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http({
 			method: 'post',
 			url: '../api/savedsearches/getSavedSearch',
@@ -577,17 +401,19 @@ controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($sc
 			data: "user="+_uToken+"&"+
 			"searchName="+$scope.searchName1
 		}).then(function(response) {
-		  //$scope.searches = response.data;
-		  console.log(response);
+		  	//$scope.searches = response.data;
+		  	console.log(response);
 
-		  //console.log($scope.searches);
+		  	var wordCloud = document.getElementById('first_cloud_canvas');
+			var pieChart = document.getElementById('first_pie_canvas');
+			var barGraph = document.getElementById('first_bar_canvas');
+		  	drawQuery(response, wordCloud, pieChart, barGraph);
 		});
 	}
 
 	$scope.comparePost2 = function(){
 		$(".comparesearch2").removeClass('hidden');
 
-		$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 		$http({
 			method: 'post',
 			url: '../api/savedsearches/getSavedSearch',
@@ -595,50 +421,126 @@ controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($sc
 			data: "user="+_uToken+"&"+
 			"searchName="+$scope.searchName2
 		}).then(function(response) {
-		  //$scope.searches = response.data;
-		  console.log(response);
+		  	//$scope.searches = response.data;
+		    console.log(response);
 
-		  //console.log($scope.searches);
+		    var wordCloud = document.getElementById('second_cloud_canvas');
+			var pieChart = document.getElementById('second_pie_canvas');
+			var barGraph = document.getElementById('second_bar_canvas');
+			drawQuery(response, wordCloud, pieChart, barGraph);
 		});
 	}
-  // First Pie Graph
-  //var pieCtx = document.getElementById("first_pie_canvas").getContext("2d");
-  //var pieChart = new Chart(pieCtx).Pie(testPieData);
-  
-  // First Bar Graph
-  //var barCtx = document.getElementById("first_bar_canvas").getContext("2d");
-  //var barChart = new Chart(barCtx).Bar(testBarData);
-  
-  // First Word Cloud
-/*
-  WordCloud(document.getElementById('first_cloud_canvas'), 
-          { 
-              list: testWords, 
-              color: 'random-dark',
-              shape: 'square',
-              rotateRatio: 0.0,
-              weightFactor: 2
-          }
-  );
-  */
-  // Second Pie Graph
-  //var pieCtx = document.getElementById("second_pie_canvas").getContext("2d");
-  //var pieChart = new Chart(pieCtx).Pie(testPieData);
-  
-  // Second Bar Graph
-  //var barCtx = document.getElementById("second_bar_canvas").getContext("2d");
-  //var barChart = new Chart(barCtx).Bar(testBarData);
-  
-  // Second Word Cloud
-/*  WordCloud(document.getElementById('second_cloud_canvas'), 
-          { 
-              list: testWords, 
-              color: 'random-dark',
-              shape: 'square',
-              rotateRatio: 0.0,
-              weightFactor: 2
-          }
-  );
-  
-  */
+
 }]);
+
+
+function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
+	var responseJSON = response.data;
+
+	var wordCount = JSON.parse(responseJSON.wordCount);
+	var sentiment = JSON.parse(responseJSON.sentiment);
+	
+	var wordCountData = [];
+	
+	for(var i = 0; i < wordCount.rows.length; ++i){
+		if(wordCount.rows[i].key !== "_id" &&
+		wordCount.rows[i].key !== "_rev" &&
+		wordCount.rows[i].key !== "tweetsentiment" &&
+		wordCount.rows[i].key !== "tweettext" &&
+		wordCount.rows[i].key !== "tweettime"){
+			wordCountData.push([wordCount.rows[i].key, wordCount.rows[i].value]);
+		}
+	}
+	
+	wordCountData.sort(function(current, next) {
+		return ((current[1] > next[1]) ? -1 : ((current[1] === next[1]) ? 0 : 1));
+	});
+			
+	if(wordCountData.length > 30){
+		var tempData = [];
+		for(var i = 0; i < 30; ++i){
+			tempData[i] = wordCountData[i];
+		}
+		wordCountData = tempData;
+	}
+	
+	//Word Cloud
+
+	WordCloud(wordCloudCanvas, 
+		{ 
+			list: wordCountData, 
+			color: 'random-dark',
+			shape: 'square',
+			rotateRatio: 0.0,
+			weightFactor: 2
+		}
+	);
+	
+	//console.log(sentiment.rows[0].value[0]);
+	//console.log(Math.abs(sentiment.rows[0].value[0] + 1));
+	//console.log(Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100));
+	
+	//console.log(Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100);
+	//console.log(Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100);
+	var pieData = [
+		{
+			value: (Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) / 2 * 100,
+			color:"#000080",
+			highlight: "#00004c",
+			label: "Positive %"
+		},
+		{
+			value: (Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100) / 2 * 100,
+			color: "#7f7fff",
+			highlight: "#4c4cff",
+			label: "Negative %"
+		}
+	  ]
+
+//TODO maybe?: chart isn't updating, it's just redrawing, might need to fix			  
+/*
+	pieChart[0].value = Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100;
+	pieChart[1].value = Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100;
+
+	barData.labels[0] = wordCountData[0][0];
+	barData.labels[1] = wordCountData[1][0];
+	barData.labels[2] = wordCountData[2][0];
+	barData.labels[3] = wordCountData[3][0];
+
+	barChart.datasets[0].data[0] = wordCountData[0][1];
+	barChart.datasets[0].data[1] = wordCountData[1][1];
+	barChart.datasets[0].data[2] = wordCountData[2][1];
+	barChart.datasets[0].data[3] = wordCountData[3][1];
+*/
+	var barData = {
+		labels: [wordCountData[0][0], 
+			wordCountData[1][0], 
+			wordCountData[2][0], 
+			wordCountData[3][0]
+		],
+		datasets: [
+			{
+				label: "My First dataset",
+				fillColor: "rgba(220,220,220,0.5)",
+				strokeColor: "rgba(220,220,220,0.8)",
+				highlightFill: "rgba(220,220,220,0.75)",
+				highlightStroke: "rgba(220,220,220,1)",
+				data: [wordCountData[0][1], 
+				wordCountData[1][1], 
+				wordCountData[2][1], 
+				wordCountData[3][1] 
+				]
+			}
+		]
+	  };
+
+	// Pie Graph
+	var pieCtx = pieGraphCanvas.getContext("2d");
+	pieCtx.clearRect(0, 0, pieGraphCanvas.width, pieGraphCanvas.height);
+	var pieChart = new Chart(pieCtx).Pie(pieData);
+
+	// Bar Graph
+	var barCtx = barGraphCanvas.getContext("2d");
+	barCtx.clearRect(0, 0, barGraphCanvas.width, barGraphCanvas.height);
+	var barChart = new Chart(barCtx).Bar(barData);
+}

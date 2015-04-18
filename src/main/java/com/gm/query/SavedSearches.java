@@ -36,19 +36,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
-
-
-
-
 @Stateless
 @LocalBean
 @Path("/savedsearches")
 public class SavedSearches {
-
-
-	@PersistenceContext(unitName="mydb")
-    EntityManager em;
 
     @POST 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -103,6 +94,7 @@ public class SavedSearches {
 			viewDocument.put(searchName, search);
 			couch.createDocuments(viewDocument, false);	
 		}
+
 		return "{data: 'success'}";
     }
 	

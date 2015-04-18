@@ -47,14 +47,14 @@
           <!-- models dropdown -->
           <div class="form-group nullable">
             <label for="selectModel">Model</label>
-            <select id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}">
+            <select id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | selectFromSelected:selectMake.makeId">
               <option value="undefined">All Models</option> 
             </select>
           </div>
           <!-- years dropdown -->
           <div class="form-group nullable">
             <label for="selectYear">Year</label>
-            <select id="selectYear" class="form-control" ng-model="selectYear" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}">
+            <select id="selectYear" class="form-control" ng-model="selectYear" ng-options="year.yearName for year in years | selectFromSelected2:selectModel.modelId">
               <option value="undefined">All Years</option>
             </select>
           </div>
@@ -91,16 +91,9 @@
         <!-- Compare should be saved locally, as cookie -->
         <form id="saveForm" ng-controller="QueryCtrl" ng-submit="saveQuery()">
           <div class="form-inline form-group">
-            <input class="form-control" type="text" placeholder="Perform a search and click 'Add to Compare'" readonly>
-            <button type="button" class="btn btn-primary">Add to Compare</button>
-          </div>
-          <div class="form-inline form-group">
-            <input class="form-control" type="text" placeholder="Perform a search and click 'Add to Compare'" readonly>
-            <button type="button" class="btn btn-primary">Add to Compare</button>
-          </div>
-          <div class="form-inline form-group">
             <input ng-model="searchName" class="form-control" type="text" placeholder="Save As...">
             <button type="button" class="btn btn-primary" ng-click="saveQuery()">Save</button>
+            <span id="savedMessage" class="hidden">Query saved successfully</span>
           </div>
         </form>
       </div>
