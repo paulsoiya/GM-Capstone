@@ -1,5 +1,5 @@
 'use strict';
-
+//http://jsfiddle.net/EeL9y/421/
 /* Controllers */
 
 var controllers = angular.module('controllers', []);
@@ -195,6 +195,45 @@ controllers.controller('NavbarCtrl', ['$scope', '$state',
 
 controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 	
+	$http({
+		method: 'post',
+		url: '../api/savedsearches/getSavedSearches',
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		data: "user="+_uToken
+	}).then(function(response) {
+        var data = response.data;
+        var indexId = data.indexOf("_id");
+        var indexRev = data.indexOf("_rev");
+        if (indexId > -1) {
+            data.splice(indexId, 1);
+        }
+        if (indexId > -1) {
+            data.splice(indexRev, 1);
+        }
+        $scope.searches = data;
+	});
+
+
+	$scope.savedSearch = function() {
+	    $location.path('query');
+
+		$http({
+			method: 'post',
+			url: '../api/savedsearches/getSavedSearch',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: "user="+_uToken+"&"+
+			"searchName="+$scope.searchName
+		}).then(function(response) {
+		  	//$scope.searches = response.data;
+		  	console.log(response);
+
+		  	var wordCloud = document.getElementById('first_cloud_canvas');
+			var pieChart = document.getElementById('first_pie_canvas');
+			var barGraph = document.getElementById('first_bar_canvas');
+		  	drawQuery(response, wordCloud, pieChart, barGraph);
+		});
+   	}
+
 	$scope.getUserDetail = function() {
 		
 		 $http.get('../api/users/' + _uToken).success(function(data) {
@@ -396,8 +435,6 @@ controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($sc
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		data: "user="+_uToken
 	}).then(function(response) {
-	  //$scope.searches = response.data;
-        console.log(response);
         var data = response.data;
         var indexId = data.indexOf("_id");
         var indexRev = data.indexOf("_rev");
@@ -408,7 +445,6 @@ controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($sc
             data.splice(indexRev, 1);
         }
         $scope.searches = data;
-	  //console.log($scope.searches);
 	});
 	
 	
