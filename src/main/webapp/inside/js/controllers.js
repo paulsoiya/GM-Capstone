@@ -479,9 +479,9 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
 
 	$scope.Letters = function(){
-var Grade = .55;
+//var Grade = .55;
 var GID= document.getElementById("Grade");
-        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .6) {
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100)  <= .6) {
 		GID.src = "../images/a.png";
 		}
 
