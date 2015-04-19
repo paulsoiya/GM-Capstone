@@ -3,9 +3,12 @@
   <persistence-unit name="mydb" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>jdbc/mysql_ds</jta-data-source>
+    <properties>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
     <class>com.gm.user.User</class>
     <class>com.gm.user.PendingUser</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
   </persistence-unit>
-  
 </persistence>

@@ -1,28 +1,6 @@
 // package com.gm.test;
 package com.gm.setting;
 
-// import java.util.List;
-// import javax.inject.Inject;
-// import javax.persistence.EntityManager;
-// import javax.persistence.PersistenceContext;
-// import javax.transaction.UserTransaction;
-// import org.jboss.arquillian.container.test.api.Deployment;
-// import org.jboss.arquillian.junit.Arquillian;
-// import org.jboss.shrinkwrap.api.Archive;
-// import org.jboss.shrinkwrap.api.ShrinkWrap;
-// import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-// import org.jboss.shrinkwrap.api.spec.WebArchive;
-// import org.junit.runner.RunWith;
-// import org.junit.Before;
-// import org.junit.After;
-// import java.util.List;
-// import org.junit.Test;
-// import java.util.Arrays;
-// import java.util.Collection;
-// import java.util.HashSet;
-// import java.util.Set;
-// import org.junit.Assert;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -49,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 
 @RunWith(Arquillian.class)
 public class AnalyticSettingTest {
@@ -79,7 +58,25 @@ public class AnalyticSettingTest {
     private static final String[] BAD_WORDS = {
         "Bad Word 1",
         "Bad Word 2",
-        "Bad Word 3"
+        "Bad Word 3",
+        "Bad Word 1",
+        "Bad Word 4",
+        "Bad Word 5",
+        "Bad Word 6",
+        "Bad Word 7",
+        "Bad Word 8",
+        "Bad Word 9",
+        "Bad Word 10",
+        "Bad Word 11",
+        "Bad Word 12",
+        "Bad Word 13",
+        "Bad Word 14",
+        "Bad Word 15",
+        "Bad Word 16",
+        "Bad Word 17",
+        "Bad Word 18",
+        "Bad Word 19",
+        "Bad Word 20"
     };
     
     @PersistenceContext
@@ -109,13 +106,11 @@ public class AnalyticSettingTest {
         utx.begin();
         em.joinTransaction();
         System.out.println("Inserting records...");
-        for (String title : BAD_WORDS) {
-            AnalyticSetting setting = new AnalyticSetting(title);
+        for (String word : BAD_WORDS) {
+            AnalyticSetting setting = new AnalyticSetting(word);
             em.persist(setting);
         }
-        System.out.println("116");
         utx.commit();
-        System.out.println("118");
         // clear the persistence context (first-level cache)
         em.clear();
     }
@@ -145,12 +140,12 @@ public class AnalyticSettingTest {
     }
 
     private static void assertContainsAllWords(Collection<AnalyticSetting> retrievedWords) {
-    Assert.assertEquals(BAD_WORDS.length, retrievedWords.size());
-    final Set<String> retrievedWordsSet = new HashSet<String>();
-    for (AnalyticSetting setting : retrievedWords) {
-        System.out.println("* " + setting);
-        retrievedWordsSet.add(setting.getExplicitWords());
+        Assert.assertEquals(BAD_WORDS.length, retrievedWords.size());
+        final Set<String> retrievedWordsSet = new HashSet<String>();
+        for (AnalyticSetting setting : retrievedWords) {
+            System.out.println("* " + setting);
+            retrievedWordsSet.add(setting.getExplicitWords());
+        }
+        Assert.assertTrue(retrievedWordsSet.containsAll(Arrays.asList(BAD_WORDS)));
     }
-    Assert.assertTrue(retrievedWordsSet.containsAll(Arrays.asList(BAD_WORDS)));
-}
 }
