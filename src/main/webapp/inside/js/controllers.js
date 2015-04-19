@@ -479,20 +479,26 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
 
 	$scope.Letters = function(){
-
-//Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100)
 var Grade = .55;
 var GID= document.getElementById("Grade");
-		if( Grade <= .6){
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .6) {
 		GID.src = "../images/a.png";
 		}
 
-		if( Grade <= .55){
-		GID.src = "../images/b.jpg";
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .55) {
+		GID.src = "../images/b.png";
 		}
 
-		if( Grade <= .50){
-		GID.src = "../images/c.jpg";
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .50) {
+		GID.src = "../images/c.png";
+		}
+
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .45) {
+		    GID.src = "../images/d.png";
+		}
+
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .40) {
+		    GID.src = "../images/f.png";
 		}
 	}
 
