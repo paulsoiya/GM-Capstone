@@ -2,22 +2,16 @@
 
 /* Filters */
 
-angular.module('filters', []).filter('checkmark', function() {
-  return function(input) {
-    return input ? '\u2713' : '\u2718';
-  };
-});
-
-angular.module('filters', []).filter('selectFromSelected', function () {
+angular.module('filters', []).filter('modelFilter',function () {
     return function (items, value) {
         var out = [{}];
-        console.log(items);
-        console.log(value);
-        if(value){
-            for(x=0; x<items.length; x++){
-
-                if(items[x].makeId == value || items[x].makeId == -1 )
-                    out.push(items[x]);
+        if(value === -1){
+            return items;
+        }
+        else if(value){
+            for(var i = 0; i < items.length; i++){
+                if(items[i].makeId == value || items[i].makeId == -1 )
+                    out.push(items[i]);
             }
             return out;
         }
@@ -25,18 +19,14 @@ angular.module('filters', []).filter('selectFromSelected', function () {
             return items
         }
     };
-});
-
-angular.module('filters', []).filter('selectFromSelected2', function () {
+}).filter('yearFilter',function () {
     return function (items, value) {
         var out = [{}];
         
-        console.log(items);
-        console.log(value);
         if(value){
-            for(x=0; x<items.length; x++){
-                if(items[x].modelId == value || items[x].modelId == -1 )
-                    out.push(items[x]);
+            for( var i = 0; i < items.length; i++){
+                if(items[i].modelId == value || items[i].modelId == -1 )
+                    out.push(items[i]);
             }
             return out;
         }

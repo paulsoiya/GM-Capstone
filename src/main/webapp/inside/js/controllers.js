@@ -195,6 +195,8 @@ controllers.controller('NavbarCtrl', ['$scope', '$state',
 
 controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 	
+
+
 	$http({
 		method: 'post',
 		url: '../api/savedsearches/getSavedSearches',
@@ -303,13 +305,48 @@ var savedStartDate = "aa";
 var savedEndDate = "aa";
 
 controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
+	
+	WordCloud(document.getElementById('wordCloud_canvas'), 
+		{ 
+			list: [['loading page...', 50]], 
+			color: 'random-dark',
+			shape: 'square',
+			rotateRatio: 0.0,
+			weightFactor: 2
+		}
+	);
+
+	$scope.changeMake = function(){
+        console.log($scope.selectMake.makeName);
+        if($scope.selectMake.makeName === "All Makes"){
+            $scope.selectModel = $scope.models[0];
+            $scope.selectYear = $scope.years[0];
+            document.getElementById("selectModel").disabled = true;
+            document.getElementById("selectYear").disabled = true;
+            console.log("fkdfkdsfkdsm");
+        }
+        else{
+            document.getElementById("selectModel").disabled = false;
+            console.log("aaaaaaaaaaa");
+        }
+    }
+    $scope.changeModel = function(){
+        if($scope.selectModel.modelName === "All Models"){
+            $scope.selectYear = $scope.years[0];
+            document.getElementById("selectYear").disabled = true;
+        }
+        else{
+            document.getElementById("selectYear").disabled = false;
+            console.log("aaaaaaaaaaa");
+        }
+    }
 
 	counter += 1;
 	//console.log(counter);
 
   
   // Location dropdown
-  $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
+    $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
                       'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 
                       'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 
                       'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 
@@ -342,21 +379,18 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 		$scope.makes = data;
 		var allMakes = {makeId: -1, makeName: "All Makes"};
 		$scope.makes.unshift(allMakes);
-		if(counter == 1)console.log($scope.makes);
   	});
   
 	$http.get('../api/models').success(function(data) {
 		$scope.models = data;
 		var allModels = {modelId: -1, modelName: "All Models", makeId: -1};
 		$scope.models.unshift(allModels);
-		if(counter == 1)console.log($scope.models);
 	});
 
 	$http.get('../api/model-years').success(function(data) {
 		$scope.years = data;
 		var allYears = {yearName: "All Years", modelId: -1};
 		$scope.years.unshift(allYears);
-		if(counter == 1)console.log($scope.years);
 	});
 
   //POST, query response
@@ -421,6 +455,27 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 		console.log(response);
 	});
   };
+
+
+	if(counter === 1){
+		$http({
+			method: 'post',
+			url: '../api/query',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: "location="+$scope.selectLocation+"&"+
+			"endDate="+$scope.endDate+"&"+
+			"startDate="+$scope.startDate+"&"+
+			"make="+"undefined"+"&"+
+			"model="+"undefined"+"&"+
+			"year="+"undefined"
+		}).then(function(response) {
+			var wordCloud = document.getElementById('wordCloud_canvas');
+			var pieChart = document.getElementById('pieGraph_canvas');
+			var barGraph = document.getElementById('barGraph_canvas');
+			drawQuery(response, wordCloud, pieChart, barGraph);		
+		});
+	}
+
 
 }]);
 
@@ -520,7 +575,7 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
 		}
 		wordCountData = tempData;
 	}
-	
+	console.log(wordCountData);
 	//Word Cloud
 
 	WordCloud(wordCloudCanvas, 
@@ -601,3 +656,5 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
 	barCtx.clearRect(0, 0, barGraphCanvas.width, barGraphCanvas.height);
 	var barChart = new Chart(barCtx).Bar(barData);
 }
+
+
