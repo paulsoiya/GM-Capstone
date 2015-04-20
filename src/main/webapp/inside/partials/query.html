@@ -17,8 +17,8 @@
           <div class="form-group">
             <label for="selectStart">From</label>
             <div class="input-group" id="selectStart">
-              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="startDate" is-open="startOpened" 
-                     min-date="'{{aMonthAgo}}'" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="startDate" is-open="startOpened"
+                     min-date="'{{aMonthAgo}}'" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
                      ng-required="true" close-text="Close" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event, 'start')"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -29,8 +29,8 @@
           <div class="form-group">
             <label for="selectEnd">to</label>
             <div class="input-group" id="selectEnd">
-              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="endDate" is-open="endOpened" 
-                     min-date="startDate" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" 
+              <input type="text" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="endDate" is-open="endOpened"
+                     min-date="startDate" max-date="'{{today}}'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
                      ng-required="true" close-text="Close" />
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event, 'end')"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -41,14 +41,14 @@
           <div class="form-group nullable">
             <label for="selectMake">Make</label>
             <select id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes">
-              <option value="All Makes">All Makes</option> 
+              <option value="All Makes">All Makes</option>
             </select>
           </div>
           <!-- models dropdown -->
           <div class="form-group nullable">
             <label for="selectModel">Model</label>
             <select id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}">
-              <option value="All Models">All Models</option> 
+              <option value="All Models">All Models</option>
             </select>
           </div>
           <!-- years dropdown -->
@@ -63,13 +63,13 @@
       </div>
     </div>
   </div>
-  
+
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-heading">Grade</div>
       <div class="panel-body">
-        <div class="col-md-6">
-          <img src="../images/grade.png" class="img-responsive" alt="Responsive image"/>
+        <div  class="col-md-6">
+          <img id="Grade" src="../images/a.png" class="img-responsive" alt="Responsive image"/>
         </div>
         <div class="col-md-6">
           <canvas class="col-md-12" id="pieGraph_canvas"></canvas>
@@ -83,7 +83,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-heading">Compare & Save</div>
