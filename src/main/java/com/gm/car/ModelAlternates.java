@@ -51,7 +51,7 @@ public class ModelAlternates implements Serializable{
         this.modelAlternateName = modelAlternateName;
     }
     
-    public long getModeAlternatelId() {
+    public long getModelAlternateId() {
         return modelAlternateId;
     }
 
