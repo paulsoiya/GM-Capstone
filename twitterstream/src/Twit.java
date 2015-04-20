@@ -108,7 +108,7 @@ public class Twit {
 		    // Add makes to filter list
 		    ArrayList<String> makes = new ArrayList<String>();
 		    while(resultSetMakes.next()) {
-					makes.add("#"+resultSetMakes.getString("make_name"));
+				makes.add("#"+resultSetMakes.getString("make_name"));
 		    } 
 
 		    // Add models to filter list
@@ -121,13 +121,13 @@ public class Twit {
 		    // Add altenates to filter list
 		    ArrayList<String> alternateMakes = new ArrayList<String>();
 			while(resultSetAlternateMakes.next()) {
-			    alternateMakes.add("#"+resultSetAlternateMakes.getString("make_alternate"));
+			    alternateMakes.add("#"+resultSetAlternateMakes.getString("make_alternate_name"));
 		    }
 
 		    // Add altenates to filter list
 		    ArrayList<String> alternateModels = new ArrayList<String>();
 			while(resultSetAlternateModels.next()) {
-			    alternateModels.add("#"+resultSetAlternateModels.getString("model_alternate"));
+			    alternateModels.add("#"+resultSetAlternateModels.getString("model_alternate_name"));
 		    }
 
 		    for(String make : makes) {
@@ -136,6 +136,8 @@ public class Twit {
 
 		    for(String model : models) {
 		    	paramsAsList.add(model);
+				paramsAsList.add(model+"2014");
+				paramsAsList.add(model+"2015");
 		    }
 
 		    for(String alternate : alternateMakes) {
@@ -257,7 +259,8 @@ public class Twit {
 							cc.createDocuments(injectObj, false);    
 							
 							for(String tag : filterTags) {
-								if(text.contains(tag)){
+								//if(text.contains(tag)){
+								if(Pattern.compile(Pattern.quote(tag), Pattern.CASE_INSENSITIVE).matcher(text).find()){;
 									CouchConnection couch = new CouchConnection(COUCHDB, tag+"/");	
 									couch.createDocuments(injectObj, false);    
 								}

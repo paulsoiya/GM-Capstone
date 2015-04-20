@@ -2,9 +2,9 @@
 
   <div class="col-md-3 query-form">
     <div class="panel panel-default">
-      <div class="panel-heading">#generalmotors</div>
+      <div class="panel-heading">Query Parameters</div>
       <div class="panel-body">
-        <form id="queryForm" ng-controller="QueryCtrl" ng-submit="queryPost()">
+        <form id="queryForm" ng-controller="QueryCtrl">
           <!-- Locations dropdown -->
           <div class="form-group">
             <label for="selectLocation">Location</label>
@@ -39,23 +39,29 @@
           </div>
           <!-- makes dropdown -->
           <div class="form-group nullable">
-            <label for="selectMake">Make</label>
-            <select id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes">
-              <option value="All Makes">All Makes</option>
+            <label for="selectMake">Make </label>
+            <!--<select id="selectMake" ng-change="changeMake()" ng-model="selectMake" ng-options="make.makeName for make in makes" class="form-control"></select>-->
+            <select ng-change="changeMake()" id="selectMake" class="form-control" ng-model="selectMake">
+              <option value='All Makes'>All Makes</option>
+              <option ng-repeat="make in makes" value={{make.makeId}}>{{make.makeName}}</option>
             </select>
           </div>
           <!-- models dropdown -->
           <div class="form-group nullable">
-            <label for="selectModel">Model</label>
-            <select id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}">
-              <option value="All Models">All Models</option>
+            <label for="selectModel">Model </label>
+            <!--<select id="selectModel" ng-change="changeModel()" ng-model="selectModel" class="form-control" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}" disabled="true"></select>-->
+            <select id="selectModel" ng-change="changeModel()" class="form-control" ng-model="selectModel" disabled="true">
+              <option value='All Models'>All Models</option>
+              <option ng-repeat="model in models | filter:{makeId:selectMake}" value={{model.modelId}}>{{model.modelName}}</option>
             </select>
           </div>
           <!-- years dropdown -->
           <div class="form-group nullable">
-            <label for="selectYear">Year</label>
-            <select id="selectYear" class="form-control" ng-model="selectYear" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}">
-              <option value="All Years">All Years</option>
+            <label for="selectYear">Year </label>
+            <!--<select id="selectYear" ng-model="selectYear" class="form-control" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}" disabled="true"></select>-->
+            <select id="selectYear" class="form-control" ng-model="selectYear" disabled="true">
+              <option value='All Years'>All Years</option>
+              <option ng-repeat="year in years | filter:{modelId:selectModel}" value={{year.yearId}}>{{year.yearName}}</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>
@@ -68,11 +74,11 @@
     <div class="panel panel-default">
       <div class="panel-heading">Grade</div>
       <div class="panel-body">
-        <div  class="col-md-6">
-          <img id="Grade" src="../images/a.png" class="img-responsive" alt="Responsive image"/>
+        <div  class="col-md-5">
+          <img id="Grade" ng-src="../images/{{grade}}" class="img-responsive"/>
         </div>
         <div class="col-md-6">
-          <canvas class="col-md-12" id="pieGraph_canvas"></canvas>
+          <canvas id="pieGraph_canvas" width="275"></canvas>
         </div>
       </div>
     </div>
@@ -86,21 +92,14 @@
 
   <div class="col-md-4">
     <div class="panel panel-default">
-      <div class="panel-heading">Compare & Save</div>
+      <div class="panel-heading">Save Searches</div>
       <div class="panel-body">
         <!-- Compare should be saved locally, as cookie -->
-        <form>
+        <form id="saveForm" ng-controller="QueryCtrl" ng-submit="saveQuery()">
           <div class="form-inline form-group">
-            <input class="form-control" type="text" placeholder="Perform a search and click 'Add to Compare'" readonly>
-            <button type="button" class="btn btn-primary">Add to Compare</button>
-          </div>
-          <div class="form-inline form-group">
-            <input class="form-control" type="text" placeholder="Perform a search and click 'Add to Compare'" readonly>
-            <button type="button" class="btn btn-primary">Add to Compare</button>
-          </div>
-          <div class="form-inline form-group">
-            <input class="form-control" type="text" placeholder="Save As...">
-            <button type="button" class="btn btn-primary">Save</button>
+            <input ng-model="searchName" class="form-control" type="text" placeholder="Save As...">
+            <button type="button" class="btn btn-primary" ng-click="saveQuery()">Save</button>
+            <span id="savedMessage" class="hidden">Query saved successfully</span>
           </div>
         </form>
       </div>
