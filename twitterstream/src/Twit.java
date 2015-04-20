@@ -108,7 +108,7 @@ public class Twit {
 		    // Add makes to filter list
 		    ArrayList<String> makes = new ArrayList<String>();
 		    while(resultSetMakes.next()) {
-					makes.add("#"+resultSetMakes.getString("make_name"));
+				makes.add("#"+resultSetMakes.getString("make_name"));
 		    } 
 
 		    // Add models to filter list
@@ -136,6 +136,8 @@ public class Twit {
 
 		    for(String model : models) {
 		    	paramsAsList.add(model);
+				paramsAsList.add(model+"2014");
+				paramsAsList.add(model+"2015");
 		    }
 
 		    for(String alternate : alternateMakes) {
