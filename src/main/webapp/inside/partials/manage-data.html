@@ -1,67 +1,124 @@
-<div class="container">
-
-    <div class="row">
-        <div class="col-lg-5 grayBoxArea">
-            <h3>Data Pull Frequency</h3>
-            <form class="form-inline" id="dataAccessForm">
-            <div class="form-group">
-
-                <select class="form-control"
-                        name="accessFrequency" 
-                        style="width:200px">
-                    <option>24 Hours</option>
-                </select>
-
-                <button type="submit"
-                        class="btn btn-primary">
-                    Update
-                </button>
-            </div>
-            </form>
-            <h3>Data Retention</h3>
-            <form class="form-inline" id="dataRetentionForm">
-            <div class="form-group">
-
-                <select class="form-control"
-                        name="top-words" 
-                        style="width:200px">
-                    <option value="6">6 Months</option>
-                </select>
-
-                <button type="submit"
-                        class="btn btn-primary">
-                    Update
-                </button>
-            </div>
-            </form>
-            <h3>Data Statistics</h3>
-
-            <table class="table-condensed">
-                <tr>
-                    <td><b>Total Number of Tweets:</b></td>
-                    <td><span id="totalNumTweets">243500</span></td>
-                </tr>
-                <tr>
-                    <td><b>Total Data Storage:</b></td>
-                    <td><span id="totalDataStorage">29.3 TB</span></td>
-                </tr>
-            </table>
-
-        </div>
-        <div class="col-lg-1"></div>
-        <div class="col-lg-5 grayBoxArea">
-            <h3>Hash Tags</h3>
-            <form class="form-inline" id="hashtagForm">
-                <div class="form-group">
-                    <input type="text"
-                           name="hashtag" 
-                           class="form-control"
-                           placeholder="Enter hashtag">
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
-        </div>
+<div class="comparePage">
+  
+    <div class="col-md-4">
+      <div class="panel panel-default">
+          <div class="panel-heading">Makes</div>
+          <div class="panel-body">
+              <form ng-submit="deleteMake()">
+                  <div class="form-group">
+                    <label for="selectMake">Current Makes:</label>
+                    <select id="selectMake" class="form-control" ng-model="selectMake">
+                      <option ng-repeat="make in makes" value={{make.makeId}}>{{make.makeName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button id="removeMake" type="submit" class="btn btn-primary">Delete Make</button>
+                  </div>
+              </form>
+              <form ng-submit="addMake()">
+                  <div class="form-group">
+                    <input id="newMake" class="form-control" type="text" ng-model="newMake" name="text" placeholder="New Make"/>
+                  </div>
+                  <div class="form-group">
+                    <button id="submitMake" type="submit" class="btn btn-primary">Add Make</button>
+                  </div>
+              </form>
+              <form ng-submit="deleteMakeAlternate()">
+                  <div class="form-group">
+                    <label for="selectMakeAlternate">Alternate Names for Current Make:</label>
+                    <select id="selectMakeAlternate" class="form-control" ng-model="selectMakeAlternate">
+                      <option ng-repeat="makeAlternate in makeAlternates | filter:{makeId:selectMake}" value={{makeAlternate.makeAlternateId}}>{{makeAlternate.makeAlternateName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button id="removeMakeAlternate" type="submit" class="btn btn-primary">Delete Make Alternate</button>
+                  </div>
+              </form>
+              <form ng-submit="addMakeAlternate()">
+                  <div class="form-group">
+                    <input id="newMakeAlternate" class="form-control" type="text" ng-model="newMakeAlternate" name="text" placeholder="New Make Alternate"/>
+                  </div>
+                  <div class="form-group">
+                    <button id="submitMakeAlternate" type="submit" class="btn btn-primary">Add Make Alternate</button>
+                  </div>
+              </form>
+          </div>
+      </div>
     </div>
-
+  
+    <div class="col-md-4">
+      <div class="panel panel-default">
+          <div class="panel-heading">Models</div>
+          <div class="panel-body">
+              <form ng-submit="deleteModel()">
+                  <div class="form-group">
+                    <label for="selectModel">Current Models:</label>
+                    <select id="selectModel" class="form-control" ng-model="selectModel">
+                      <option ng-repeat="model in models | filter:{makeId:selectMake}" value={{model.modelId}}>{{model.modelName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button id="removeModel" type="submit" class="btn btn-primary">Delete Model</button>
+                  </div>
+              </form>
+              <form ng-submit="addModel()">
+                  <div class="form-group">
+                    <input id="newModel" class="form-control" type="text" ng-model="newModel" name="text" placeholder="New Model"/>
+                  </div>
+                  <div class="form-group">
+                    <button id="submitModel" type="submit" class="btn btn-primary">Add Model</button>
+                  </div>
+              </form>
+              <form ng-submit="deleteModelAlternate()">
+                  <div class="form-group">
+                    <label for="selectModelAlternate">Alternate Names for Current Model:</label>
+                    <select id="selectModelAlternate" class="form-control" ng-model="selectModelAlternate">
+                      <option ng-repeat="modelAlternate in modelAlternates | filter:{modelId:selectModel}" value={{modelAlternate.modelAlternateId}}>{{modelAlternate.modelAlternateName}}</option>
+                    </select>
+                    {{modelAlternate}}
+                    {{modelAlternate.modelAlternateId}}
+                  </div>
+                  <div class="form-group">
+                    <button id="removeModelAlternate" type="submit" class="btn btn-primary">Delete Model Alternate</button>
+                  </div>
+              </form>
+              <form ng-submit="addModelAlternate()">
+                  <div class="form-group">
+                    <input id="newModelAlternate" class="form-control" type="text" ng-model="newModelAlternate" name="text" placeholder="New Model Alternate"/>
+                  </div>
+                  <div class="form-group">
+                    <button id="submitModelAlternate" type="submit" class="btn btn-primary">Add Model Alternate</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+    </div>
+  
+    <div class="col-md-4">
+      <div class="panel panel-default">
+          <div class="panel-heading">Years</div>
+          <div class="panel-body">
+              <form ng-submit="deleteYear()">
+                  <div class="form-group">
+                    <label for="selectYear">Current Years:</label>
+                    <select id="selectYear" class="form-control" ng-model="selectYear">
+                      <option ng-repeat="year in years | filter:{modelId:selectModel}" value={{year.yearId}}>{{year.yearName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button id="removeYear" type="submit" class="btn btn-primary">Delete Year</button>
+                  </div>
+              </form>
+              <form ng-submit="addYear()">
+                  <div class="form-group">
+                    <input id="newYear" class="form-control" type="text" ng-model="newYear" name="text" placeholder="New Year"/>
+                  </div>
+                  <div class="form-group">
+                    <button id="submitYear" type="submit" class="btn btn-primary">Add Year</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+    </div> 
 
 </div>

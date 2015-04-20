@@ -8,9 +8,12 @@
       </a>
     </div>
       <div  class="paddingTop alignRight">
-        <a  ui-sref="user.profile" ng-show="isAdminState()">Switch View</a>
-        <a  ui-sref="admin.manageUsers" ng-show="!isAdminState()">Switch View</a>
-          | Welcome, Admin | <a onclick="logout()">Logout</a>
+      <span id="switchView">
+        <a ui-sref="user.profile" ng-show="isAdminState()">Switch View</a>
+        <a ui-sref="admin.manageUsers" ng-show="!isAdminState()">Switch View</a>
+         | 
+      </span>
+          Welcome, <span id="ufname"></span> | <a onclick="logout()">Logout</a>
       </div>
   </div>
 </nav>

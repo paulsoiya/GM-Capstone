@@ -1,22 +1,201 @@
 'use strict';
-//http://jsfiddle.net/EeL9y/421/
+//this is the user id of the current logged in user
+var _uToken = $.cookie("utoken");
+var _uAdmin = $.cookie("uadmin");
+var _uFname = $.cookie("ufname");
+
+
 /* Controllers */
 
 var controllers = angular.module('controllers', []);
 
-
-//this is the user id of the current logged in user
-var _uToken = $.cookie("utoken");
-console.log(_uToken);
-
-
 controllers.controller('AdminCtrl', ['$scope',
   function ($scope) {
-    $scope.isAdmin = true;
+    $scope.isAdmin = _uAdmin;
   }]);
 
-controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scope, $http) {
+controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $http) {
   
+    // WARNING: Angular's filter function works by searching for how something begins.
+    // When you add enough makes / models, the models / years won't filter correctly.
+    
+    $scope.getMakes = function() {
+    $http.get('../api/makes').success(function(data) {
+      $scope.makes = data;
+    });
+    }
+    $scope.getModels = function() {
+      $http.get('../api/models').success(function(data) {
+        $scope.models = data;
+      });
+    }
+    $scope.getYears = function() {
+      $http.get('../api/model-years').success(function(data) {
+        $scope.years = data;
+      });
+    }
+    $scope.getMakeAlternates = function() {
+      $http.get('../api/make-alternates').success(function(data) {
+        $scope.makeAlternates = data;
+      });
+    }
+    $scope.getModelAlternates = function() {
+      $http.get('../api/model-alternates').success(function(data) {
+        $scope.modelAlternates = data;
+      });
+    }
+  
+    $scope.getMakes();
+    $scope.getModels();
+    $scope.getYears();
+    $scope.getMakeAlternates();
+    $scope.getModelAlternates();
+  
+    $scope.selectMake = 'None';
+    $scope.newMake = '';
+    $scope.selectModel = 'None';
+    $scope.newModel = '';
+    $scope.selectYear = 'None';
+    $scope.newYear = '';
+    $scope.selectMakeAlternate = 'None';
+    $scope.newMakeAlternate = '';
+    $scope.selectModelAlternate = 'None';
+    $scope.newModelAlternate = '';
+  
+    $scope.deleteMake = function() {
+      $http.delete('../api/makes/' + $scope.selectMake).success(function (data, status) {
+          $scope.getMakes();
+          $scope.selectMake = 'None';
+          $scope.selectModel = 'None';
+          $scope.selectYear = 'None';
+          $scope.selectMakeAlternate = 'None';
+          $scope.selectModelAlternate = 'None';
+      });
+    }
+    
+    $scope.addMake = function() {
+      var postFields = {makeName: $scope.newMake};
+	  $http({
+		    method: 'POST',
+		    url: '../api/makes',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.getMakes();
+            $scope.newMake = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newMake = '';
+	  });
+    }
+    
+    $scope.deleteModel = function() {
+      $http.delete('../api/models/' + $scope.selectModel).success(function (data, status) {
+          $scope.getModels();
+          $scope.selectModel = 'None';
+          $scope.selectYear = 'None';
+          $scope.selectModelAlternate = 'None';
+      });
+    }
+    
+    $scope.addModel = function() {
+      var postFields = {makeId: $scope.selectMake,
+                        modelName: $scope.newModel};
+	  $http({
+		    method: 'POST',
+		    url: '../api/models',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.getModels();
+            $scope.newModel = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newModel = '';
+	  });
+    }    
+    
+    $scope.deleteYear = function() {
+      $http.delete('../api/model-years/' + $scope.selectYear).success(function (data, status) {
+          $scope.getYears();
+          $scope.selectYear = 'None';
+      });
+    }
+    
+    $scope.addYear = function() {
+      var postFields = {modelId: $scope.selectModel,
+                        yearName: $scope.newYear};
+	  $http({
+		    method: 'POST',
+		    url: '../api/model-years',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.getYears();
+            $scope.newYear = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newYear = '';
+	  });
+    }
+    
+    $scope.deleteMakeAlternate = function() {
+      $http.delete('../api/make-alternates/' + $scope.selectMakeAlternate).success(function (data, status) {
+          $scope.getMakeAlternates();
+          $scope.selectMakeAlternate = 'None';
+      });
+    }
+    
+    $scope.addMakeAlternate = function() {
+      var postFields = {makeId: $scope.selectMake,
+                        makeAlternateName: $scope.newMakeAlternate};
+	  $http({
+		    method: 'POST',
+		    url: '../api/make-alternates',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.getMakeAlternates();
+            $scope.newMakeAlternate = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newMakeAlternate = '';
+	  });
+    }
+    
+    $scope.deleteModelAlternate = function() {
+      $http.delete('../api/model-alternates/' + $scope.selectModelAlternate).success(function (data, status) {
+          $scope.getModelAlternates();
+          $scope.selectModelAlternate = 'None';
+      });
+    }
+    
+    $scope.addModelAlternate = function() {
+      var postFields = {modelId: $scope.selectModel,
+                        modelAlternateName: $scope.newModelAlternate};
+	  $http({
+		    method: 'POST',
+		    url: '../api/model-alternates',
+		    data: $.param(postFields),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	  }).success(function(data, status, headers, config) {
+			console.log(data);
+			$scope.getModelAlternates();
+            $scope.newModelAlternate = '';
+	  }).error(function(data, status, config) {
+			console.log("Something went wrong");
+            $scope.newModelAlternate = '';
+	  });
+    }
+  
+}]);
+
+controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scope, $http) {
+
   $scope.getExplicit = function() {
     $http.get('../api/explicit-content').success(function(data) {
       $scope.explicitContents = data;
@@ -27,10 +206,10 @@ controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scop
       $scope.commonContents = data;
     });
   }
-  
+
   $scope.getExplicit();
   $scope.getCommon();
-  
+
   $scope.newExplicit = '';
   $scope.removeExplicit = '';
   $scope.addExplicit = function(){
@@ -41,9 +220,9 @@ controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scop
 		    data: $.param(postFields),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	  }).success(function(data, status, headers, config) {
-			  console.log(data);
-			  $scope.getExplicit();
-              $scope.newExplicit = '';
+		    console.log(data);
+			$scope.getExplicit();
+            $scope.newExplicit = '';
 	  }).error(function(data, status, config) {
 			console.log("Something went wrong");
             $scope.newExplicit = '';
@@ -82,16 +261,17 @@ controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scop
 
 controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, $http){
 
-
+	
   $scope.getPendingUsers = function () {
 	  $http.get('../api/pending-users').success(function(data) {
 		  $scope.pusers = data;
 	  });
   }
-    
+  
+
   $scope.getUsers = function () {
 	  $http.get('../api/users').success(function(data) {
-		  //change boolean value for admin to 
+		  //change boolean value for admin to
 		  //textual representation of user role
 		  for(var i = 0; i < data.length; i++){
 			  if(data[i].admin)
@@ -102,21 +282,21 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 		  $scope.users = data;
 	  });
   }
-  
+
   $scope.getPendingUsers();
   $scope.getUsers();
-  
+
   $scope.changeRole = function(id, admin){
 	  var uid = $scope.users[id].id;
 	  var payload;
-	  
-	  if ( admin ) { 
+
+	  if ( admin ) {
 		  payload = {role: true};
 	  } else {
 		  payload = {role: false};
 	  }
-	  
-	  
+
+
 	  $http({
 		    method: 'PUT',
 		    url: "../api/users/"+ uid + "/role",
@@ -126,9 +306,9 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 		  console.log(data);
           $scope.getUsers();
 	  });
-	 
+
   }
-  
+
   /**
    * Deletes a registered user
    */
@@ -139,15 +319,15 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
           $scope.getUsers();
       });
   }
-  
+
   /**
    * Converts a pending user into a user
    */
   $scope.grantAccess = function(id){
-	
-	  var postFields = {email: $scope.pusers[id].email, 
-			  			password: $scope.pusers[id].password, 
-			  			first_name: $scope.pusers[id].firstName, 
+
+	  var postFields = {email: $scope.pusers[id].email,
+			  			password: $scope.pusers[id].password,
+			  			first_name: $scope.pusers[id].firstName,
 			  			last_name: $scope.pusers[id].lastName,
 			  			puser_id: $scope.pusers[id].id
 			  			};
@@ -164,7 +344,7 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 			console.log("Something went wrong");
 	  });
   }
-  
+
   /**
    * Deletes a pending user from the database
    */
@@ -186,16 +366,21 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 controllers.controller('NavbarCtrl', ['$scope', '$state',
   function ($scope, $state){
     
-    $scope.userIsAdmin = true;
+	if ( _uAdmin == "false") {
+		$("#switchView").hide();
+	}
+	
+	$("#ufname").html(_uFname);
+	
+    $scope.userIsAdmin = _uAdmin;
     
+
     $scope.isAdminState = function(){
-      return $state.includes("admin"); 
+      return $state.includes("admin");
     }
   }]);
 
 controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
-	
-
 
 	$http({
 		method: 'post',
@@ -237,20 +422,24 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
    	}
 
 	$scope.getUserDetail = function() {
-		
+
 		 $http.get('../api/users/' + _uToken).success(function(data) {
 			  $scope.userData = data;
 		  });
 	}
 	
+	
+	
+	
+
 	$scope.getUserDetail();
-	
-	
+
+
 	$scope.save = function()
 	  {
 		$("#success").hide();
 		$("#failure").hide();
-		
+
 	   var postFields = {	first_name:$("#FirstName").val(),
 				  			last_name:$("#LastName").val(),
 				  			email:$("#inputEmail").val(),
@@ -262,8 +451,8 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 		   $("#failure").show();
 		   return;
 	   }
-	   
-	   
+
+
 		  $http({
 			    method: 'PUT',
 			    url: 'http://localhost:7001/GMProject/api/users/' + _uToken,
@@ -273,7 +462,7 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 		      console.log(data);
 		      $("#success").hide();
 		      $("#failure").hide();
-		      
+
 				  if(data.result === "success"){
 				      $("#success-message").html("Your changes have been saved");
 				      $("#success").show();
@@ -282,14 +471,14 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 				      $("#failure-message").html("There was a problem saving your changes");
 				      $("#failure").show();
 				  }
-				  
+
 		  }).error(function(data, status, headers, config) {
 		      $("#success-message").hide();
 		      $("#failure-message").hide();
 
 		      $("#failure-message").html("There was a problem saving your changes");
 		      $("#failure").show();
-				
+
 		  });
 	  }
 }]);
@@ -344,18 +533,18 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 	counter += 1;
 	//console.log(counter);
 
-  
+
   // Location dropdown
-    $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas', 
-                      'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 
-                      'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 
-                      'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 
-                      'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 
-                      'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 
-                      'New Jersey', 'New Mexico', 'New York', 'North Carolina', 
-                      'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
-                      'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 
-                      'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 
+  $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas',
+                      'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida',
+                      'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
+                      'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland',
+                      'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
+                      'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+                      'New Jersey', 'New Mexico', 'New York', 'North Carolina',
+                      'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania',
+                      'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
+                      'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington',
                       'West Virginia', 'Wisconsin', 'Wyoming'];
   // Datepickers
   $scope.open = function($event, dateType) {
@@ -372,7 +561,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   $scope.endDate = $scope.today;
   $scope.aMonthAgo = $filter('date')(new Date() - 2592000000, 'yyyy-MM-dd');
   $scope.startDate = $scope.aMonthAgo;
-  
+
   // Make, model, year
   // makes
   	$http.get('../api/makes').success(function(data) {
@@ -480,7 +669,6 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 }]);
 
 
-
 controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 
 
@@ -543,8 +731,33 @@ controllers.controller('CompareCtrl',['$scope', '$http', '$filter', function($sc
 		});
 	}
 
-}]);
 
+	$scope.Letters = function(){
+//var Grade = .55;
+var GID= document.getElementById("Grade");
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100)  <= .6) {
+		GID.src = "../images/a.png";
+		}
+
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .55) {
+		GID.src = "../images/b.png";
+		}
+
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .50) {
+		GID.src = "../images/c.png";
+		}
+
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .45) {
+		    GID.src = "../images/d.png";
+		}
+
+        if ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) <= .40) {
+		    GID.src = "../images/f.png";
+		}
+	}
+
+	$scope.Letters();
+}]);
 
 function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
 	var responseJSON = response.data;
@@ -656,5 +869,3 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
 	barCtx.clearRect(0, 0, barGraphCanvas.width, barGraphCanvas.height);
 	var barChart = new Chart(barCtx).Bar(barData);
 }
-
-

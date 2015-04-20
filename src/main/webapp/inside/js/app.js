@@ -50,7 +50,7 @@ socialGMApp.config(function($stateProvider, $urlRouterProvider){
     .state('admin.manageData', {
       url: "/manageData",
       templateUrl: "partials/manage-data.html",
-      controller: "AdminCtrl"
+      controller: "ManageDataCtrl"
     })
     .state('admin.manageAnalytics', {
       url: "/manageAnalytics",
