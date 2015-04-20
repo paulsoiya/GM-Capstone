@@ -38,14 +38,12 @@ public class QueryCouch {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public String createView(@FormParam("location") String location,
-	@FormParam("endDate") String endDate,
+    public String createView(@FormParam("endDate") String endDate,
 	@FormParam("startDate") String startDate,
 	@FormParam("make") String make,
 	@FormParam("model") String model,
 	@FormParam("year") String year ){
 		
-		System.out.println(location);
 		System.out.println(endDate);
 		System.out.println(startDate);
 		System.out.println(make);
