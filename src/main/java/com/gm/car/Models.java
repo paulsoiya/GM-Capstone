@@ -29,41 +29,41 @@ public class Models implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Column(name="model_id")
-    @Id @GeneratedValue
-    private int modelId;    
+    @Id
+    private long modelId;    
   
     @Column(name="make_id")
-    private int makeId;
+    private long makeId;
     
     @Column(name="model_name")
     private String modelName;
 
     public Models() { }
    
-    public Models(int modelId, int makeId, String modelName) {
+    public Models(long modelId, long makeId, String modelName) {
         this.modelId = modelId;
         this.makeId = makeId;
         this.modelName = modelName;
     }
   
-    public Models(int makeId, String modelName) {
+    public Models(long makeId, String modelName) {
         this.makeId = makeId;
         this.modelName = modelName;
     }
     
-    public int getModelId() {
+    public long getModelId() {
         return modelId;
     }
 
-    public void setModelId(int modelId) {
+    public void setModelId(long modelId) {
         this.modelId = modelId;
     }
   
-    public int getMakeId() {
+    public long getMakeId() {
         return makeId;
     }
 
-    public void setMakeId(int makeId) {
+    public void setMakeId(long makeId) {
         this.makeId = makeId;
     }
 

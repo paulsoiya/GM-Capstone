@@ -73,7 +73,7 @@ DROP TABLE IF EXISTS makes;
 
 CREATE TABLE makes(
   make_id INT NOT NULL AUTO_INCREMENT,
-  make_name varchar(128),
+  make_name varchar(128) NOT NULL UNIQUE,
   PRIMARY KEY(make_id))
 ENGINE = InnoDB;
 
@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS models;
 CREATE TABLE models(
   model_id INT NOT NULL AUTO_INCREMENT,
   make_id INT NOT NULL,
-  model_name varchar(128),
+  model_name varchar(128) NOT NULL UNIQUE,
   PRIMARY KEY(model_id))
 ENGINE = InnoDB;
 
@@ -94,9 +94,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS model_years;
 
 CREATE TABLE model_years(
+  year_id INT NOT NULL AUTO_INCREMENT,
   model_id INT NOT NULL,
-  year_name varchar(128),
-  PRIMARY KEY(model_id, year_name))
+  year_name varchar(128) NOT NULL,
+  PRIMARY KEY(year_id))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -105,9 +106,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS make_alternates;
 
 CREATE TABLE make_alternates(
+  make_alternate_id INT NOT NULL AUTO_INCREMENT,
   make_id INT NOT NULL,
-  make_alternate varchar(128),
-  PRIMARY KEY(make_id))
+  make_alternate_name varchar(128) NOT NULL,
+  PRIMARY KEY(make_alternate_id))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -116,9 +118,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS model_alternates;
 
 CREATE TABLE model_alternates(
+  model_alternate_id INT NOT NULL AUTO_INCREMENT,
   model_id INT NOT NULL,
-  model_alternate varchar(128),
-  PRIMARY KEY(model_id))
+  model_alternate_name varchar(128) NOT NULL,
+  PRIMARY KEY(model_alternate_id))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -149,44 +152,44 @@ INSERT INTO models (make_id, model_name) VALUES (2, 'Verano'),(2, 'Lacrosse'),(2
 INSERT INTO models (make_id, model_name) VALUES (3, 'CTS'),(3, 'XTS'),(3, 'ATS'),(3,'CTS_V'),(3, 'SRX'),(3, 'Escalade');
 INSERT INTO models (make_id, model_name) VALUES (4, 'Terrain'),(4, 'Acadia'),(4, 'Yukon'),(4, 'Sierra');
 
-INSERT INTO model_years VALUES (1, '2014'), (1, '2015');
-INSERT INTO model_years VALUES (2, '2014'), (2, '2015');
-INSERT INTO model_years VALUES (3, '2014'), (3, '2015');
-INSERT INTO model_years VALUES (4, '2014'), (4, '2015');
-INSERT INTO model_years VALUES (5, '2014'), (5, '2015');
-INSERT INTO model_years VALUES (6, '2014'), (6, '2015');
-INSERT INTO model_years VALUES (7, '2014'), (7, '2015');
-INSERT INTO model_years VALUES (8, '2014'), (8, '2015');
-INSERT INTO model_years VALUES (9, '2014'), (9, '2015');
-INSERT INTO model_years VALUES (10, '2014'), (10, '2015');
-INSERT INTO model_years VALUES (11, '2014'), (11, '2015');
-INSERT INTO model_years VALUES (12, '2014'), (12, '2015');
-INSERT INTO model_years VALUES (13, '2014'), (13, '2015');
-INSERT INTO model_years VALUES (14, '2014'), (14, '2015');
-INSERT INTO model_years VALUES (15, '2014'), (15, '2015');
-INSERT INTO model_years VALUES (16, '2014'), (16, '2015');
-INSERT INTO model_years VALUES (17, '2014'), (17, '2015');
-INSERT INTO model_years VALUES (18, '2014'), (18, '2015');
-INSERT INTO model_years VALUES (19, '2014'), (19, '2015');
-INSERT INTO model_years VALUES (20, '2014'), (20, '2015');
-INSERT INTO model_years VALUES (21, '2014'), (21, '2015');
-INSERT INTO model_years VALUES (22, '2014'), (22, '2015');
-INSERT INTO model_years VALUES (23, '2014'), (23, '2015');
-INSERT INTO model_years VALUES (24, '2014'), (24, '2015');
-INSERT INTO model_years VALUES (25, '2014'), (25, '2015');
-INSERT INTO model_years VALUES (26, '2014'), (26, '2015');
-INSERT INTO model_years VALUES (27, '2014'), (27, '2015');
-INSERT INTO model_years VALUES (28, '2014'), (28, '2015');
-INSERT INTO model_years VALUES (29, '2014'), (29, '2015');
-INSERT INTO model_years VALUES (30, '2014'), (30, '2015');
-INSERT INTO model_years VALUES (31, '2014'), (31, '2015');
-INSERT INTO model_years VALUES (32, '2014'), (32, '2015');
-INSERT INTO model_years VALUES (33, '2014'), (33, '2015');
-INSERT INTO model_years VALUES (34, '2014'), (34, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (1, '2014'), (1, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (2, '2014'), (2, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (3, '2014'), (3, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (4, '2014'), (4, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (5, '2014'), (5, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (6, '2014'), (6, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (7, '2014'), (7, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (8, '2014'), (8, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (9, '2014'), (9, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (10, '2014'), (10, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (11, '2014'), (11, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (12, '2014'), (12, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (13, '2014'), (13, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (14, '2014'), (14, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (15, '2014'), (15, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (16, '2014'), (16, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (17, '2014'), (17, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (18, '2014'), (18, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (19, '2014'), (19, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (20, '2014'), (20, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (21, '2014'), (21, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (22, '2014'), (22, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (23, '2014'), (23, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (24, '2014'), (24, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (25, '2014'), (25, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (26, '2014'), (26, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (27, '2014'), (27, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (28, '2014'), (28, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (29, '2014'), (29, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (30, '2014'), (30, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (31, '2014'), (31, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (32, '2014'), (32, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (33, '2014'), (33, '2015');
+INSERT INTO model_years (model_id, year_name) VALUES (34, '2014'), (34, '2015');
 
-INSERT INTO make_alternates VALUES (1, 'Chevy'),(3, 'Caddy');
+INSERT INTO make_alternates (make_id, make_alternate_name) VALUES (1, 'Chevy'),(3, 'Caddy');
 
-INSERT INTO model_alternates VALUES (9, 'Vette');
+INSERT INTO model_alternates (model_id, model_alternate_name) VALUES (9, 'Vette');
 
 
 COMMIT;
