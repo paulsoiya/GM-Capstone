@@ -486,12 +486,12 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 
 
 var counter = 0;
-var savedMake = "aa";
-var savedModel = "aa";
-var savedYear = "aa";
+var savedMake = "All Makes";
+var savedModel = "All Models";
+var savedYear = "All Years";
 var savedLocation = "aa";
-var savedStartDate = "aa";
-var savedEndDate = "aa";
+var savedStartDate = "undefined";
+var savedEndDate = "undefined";
 
 controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scope, $http, $filter){
 	
@@ -507,21 +507,35 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
 	$scope.changeMake = function(){
         console.log($scope.selectMake.makeName);
+        for(var i = 0; $scope.models > i; ++i ){
+    		if($scope.selectMake.makeId === $scope.models[i].makeId){
+    			$scope.selectModel = $scope.models[i];
+    			i = $scope.models;
+    		}
+    	}
+        for(var i = 0; $scope.years > i; ++i ){
+    		if($scope.selectModel.modelId === $scope.years[i].modelId){
+    			$scope.selectYear = $scope.years[i];
+    			i = $scope.years;
+    		}
+        }
+
         if($scope.selectMake.makeName === "All Makes"){
-            $scope.selectModel = $scope.models[0];
-            $scope.selectYear = $scope.years[0];
             document.getElementById("selectModel").disabled = true;
             document.getElementById("selectYear").disabled = true;
-            console.log("fkdfkdsfkdsm");
         }
         else{
             document.getElementById("selectModel").disabled = false;
-            console.log("aaaaaaaaaaa");
         }
     }
     $scope.changeModel = function(){
+    	for(var i = 0; $scope.years > i; ++i ){
+    		if($scope.selectModel.modelId === $scope.years[i].modelId){
+    			$scope.selectYear = $scope.years[i];
+    			i = $scope.years;
+    		}
+        }
         if($scope.selectModel.modelName === "All Models"){
-            $scope.selectYear = $scope.years[0];
             document.getElementById("selectYear").disabled = true;
         }
         else{
@@ -566,20 +580,34 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   // makes
   	$http.get('../api/makes').success(function(data) {
 		$scope.makes = data;
-		var allMakes = {makeId: -1, makeName: "All Makes"};
+/*		var allMakes = {makeId: -1, makeName: "All Makes"};
 		$scope.makes.unshift(allMakes);
+		$scope.selectMake = $scope.makes[0];
+		console.log($scope.makes);*/
   	});
   
 	$http.get('../api/models').success(function(data) {
 		$scope.models = data;
+/*		for(var i = 0; $scope.makes.length > i; ++i){
+			$scope.models.unshift({modelName: "All Years", modelId: -1, makeId: $scope.makes[i]});
+			console.log($scope.models[i].modelId);
+		}
 		var allModels = {modelId: -1, modelName: "All Models", makeId: -1};
 		$scope.models.unshift(allModels);
+		$scope.selectModel = $scope.models[0];
+		console.log($scope.models);*/
 	});
 
 	$http.get('../api/model-years').success(function(data) {
 		$scope.years = data;
-		var allYears = {yearName: "All Years", modelId: -1};
-		$scope.years.unshift(allYears);
+/*		//var allYears = {yearName: "All Years", modelId: $scope.models.modelId};
+		for(var i = 0; $scope.models.length > i; ++i){
+			$scope.years.unshift({yearName: "All Years", modelId: $scope.models[i].modelId});
+			console.log($scope.models[i].modelId);
+		}
+		$scope.selectYears = $scope.years[0];
+		console.log("$scope.years");
+		console.log($scope.years);*/
 	});
 
   //POST, query response

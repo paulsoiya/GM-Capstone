@@ -61,16 +61,15 @@ public class QueryCouch {
 		//if(user.equals("undefined")){
 		//	user = "tempUser";
 		//}
-		if(!make.equals("undefined")){
+		if(!make.equals("undefined") || make.equals("All Makes")){
 			couch = new CouchConnection("http://localhost:5984/", make.toLowerCase()+"/");
 		}
-		if(!model.equals("undefined")){
+		if(!model.equals("undefined") || model.equals("All Models")){
 			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+"/");
 		}
-		
-		//if(!year.equals("undefined")){
-		//	couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+year+"/");
-		//}
+		if(!year.equals("undefined") || year.equals("All Years")){
+			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+year+"/");
+		}
 		
 		long startDateLong = 0;
 		long endDateLong = 0;

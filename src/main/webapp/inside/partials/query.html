@@ -39,21 +39,29 @@
           </div>
           <!-- makes dropdown -->
           <div class="form-group nullable">
-            <label for="selectMake">Make</label>
-            <select ng-init="selectMake = makes[0]" ng-change="changeMake()" id="selectMake" class="form-control" ng-model="selectMake" ng-options="make.makeName for make in makes">
+            <label for="selectMake">Make </label>
+            <!--<select id="selectMake" ng-change="changeMake()" ng-model="selectMake" ng-options="make.makeName for make in makes" class="form-control"></select>-->
+            <select ng-change="changeMake()" id="selectMake" class="form-control" ng-model="selectMake">
+              <option value='All Makes'>All Makes</option>
+              <option ng-repeat="make in makes" value={{make.makeId}}>{{make.makeName}}</option>
             </select>
           </div>
           <!-- models dropdown -->
           <div class="form-group nullable">
-            <label for="selectModel">Model</label>
-            <select ng-init="selectModel = models[0]" ng-change="changeModel()" id="selectModel" class="form-control" ng-model="selectModel" ng-options="model.modelName for model in models | modelFilter:selectMake.makeId" disabled="true">
+            <label for="selectModel">Model </label>
+            <!--<select id="selectModel" ng-change="changeModel()" ng-model="selectModel" class="form-control" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}" disabled="true"></select>-->
+            <select id="selectModel" ng-change="changeModel()" class="form-control" ng-model="selectModel" disabled="true">
+              <option value='All Models'>All Models</option>
+              <option ng-repeat="model in models | filter:{makeId:selectMake}" value={{model.modelId}}>{{model.modelName}}</option>
             </select>
           </div>
           <!-- years dropdown -->
           <div class="form-group nullable">
-            <label for="selectYear">Year</label>
-            <select ng-init="selectYear = years[0]" id="selectYear" class="form-control" ng-model="selectYear" ng-options="year.yearName for year in years | yearFilter:selectModel.modelId" disabled="true">
-              
+            <label for="selectYear">Year </label>
+            <!--<select id="selectYear" ng-model="selectYear" class="form-control" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}" disabled="true"></select>-->
+            <select id="selectYear" class="form-control" ng-model="selectYear" disabled="true">
+              <option value='All Years'>All Years</option>
+              <option ng-repeat="year in years | filter:{modelId:selectModel}" value={{year.yearId}}>{{year.yearName}}</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>

@@ -259,7 +259,8 @@ public class Twit {
 							cc.createDocuments(injectObj, false);    
 							
 							for(String tag : filterTags) {
-								if(text.contains(tag)){
+								//if(text.contains(tag)){
+								if(Pattern.compile(Pattern.quote(tag), Pattern.CASE_INSENSITIVE).matcher(text).find()){;
 									CouchConnection couch = new CouchConnection(COUCHDB, tag+"/");	
 									couch.createDocuments(injectObj, false);    
 								}

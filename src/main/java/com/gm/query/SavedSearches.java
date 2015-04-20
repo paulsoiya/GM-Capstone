@@ -60,13 +60,13 @@ public class SavedSearches {
 		
 		String db = "gm";
 		
-		if(!make.equals("undefined")){
+		if(!make.equals("undefined") && !make.equals("All Makes")){
 			db = make.toLowerCase();
 		}
-		if(!model.equals("undefined")){
+		if(!model.equals("undefined") && !model.equals("All Models")){
 			db = model.toLowerCase();
 		}
-		if(!year.equals("undefined")){
+		if(!year.equals("undefined") && !year.equals("All Years")){
 			db = model.toLowerCase()+year;
 		}
 		
@@ -95,7 +95,7 @@ public class SavedSearches {
 			couch.createDocuments(viewDocument, false);	
 		}
 
-		return "{data: 'success'}";
+		return "{'data': 'success'}";
     }
 	
 	
@@ -149,6 +149,12 @@ public class SavedSearches {
 			String viewDBString = (String)search.get("db");
 			System.out.println(viewDBString);
 			CouchConnection viewDB = new CouchConnection("http://localhost:5984/", viewDBString+"/");
+
+			System.out.println(search);
+			System.out.println(viewName);
+			System.out.println(viewDBString);
+			System.out.println(viewDB.queryDB(viewName+"/_view/wordCount?group=true"));
+			System.out.println(viewDB.queryDB(viewName+"/_view/sentiment"));
 			returnJSON.put("wordCount", viewDB.queryDB(viewName+"/_view/wordCount?group=true"));
 			returnJSON.put("sentiment", viewDB.queryDB(viewName+"/_view/sentiment"));
 			response = returnJSON.toString();
