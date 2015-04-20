@@ -44,7 +44,8 @@ public class CouchConnection {
 			}
 			response = result.toString();
 		}catch(IOException e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("404 "+view+" Not Found");
 		}finally{
 			if (instream != null)
 				try {
@@ -82,7 +83,8 @@ public class CouchConnection {
 			response = result.toString();
 			System.out.println(response);
 		}catch(IOException e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Can't update id: "+id);
 		}finally{
 			if (instream != null)
 				try {
@@ -124,7 +126,8 @@ public class CouchConnection {
 			response = result.toString();
 			System.out.println(response);
 		}catch(IOException e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Can't create");
 		}finally{
 			if (instream != null)
 				try {
@@ -154,7 +157,8 @@ public class CouchConnection {
 			}
 			response = result.toString();
 		}catch(IOException e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Can't delete");
 		}finally{
 			if (instream != null)
 				try {
