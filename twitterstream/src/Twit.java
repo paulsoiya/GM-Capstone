@@ -121,13 +121,13 @@ public class Twit {
 		    // Add altenates to filter list
 		    ArrayList<String> alternateMakes = new ArrayList<String>();
 			while(resultSetAlternateMakes.next()) {
-			    alternateMakes.add("#"+resultSetAlternateMakes.getString("make_alternate"));
+			    alternateMakes.add("#"+resultSetAlternateMakes.getString("make_alternate_name"));
 		    }
 
 		    // Add altenates to filter list
 		    ArrayList<String> alternateModels = new ArrayList<String>();
 			while(resultSetAlternateModels.next()) {
-			    alternateModels.add("#"+resultSetAlternateModels.getString("model_alternate"));
+			    alternateModels.add("#"+resultSetAlternateModels.getString("model_alternate_name"));
 		    }
 
 		    for(String make : makes) {
