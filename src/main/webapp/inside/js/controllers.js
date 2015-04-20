@@ -8,6 +8,9 @@ var controllers = angular.module('controllers', []);
 
 //this is the user id of the current logged in user
 var _uToken = $.cookie("utoken");
+var _uAdmin = $.cookie("uadmin");
+var _uFname = $.cookie("ufname");
+
 
 
 
@@ -54,7 +57,7 @@ var testWords = [['Chevy', 30], ['Cadillac', 6], ['nice', 1], ['good', 9], ['car
 
 controllers.controller('AdminCtrl', ['$scope',
   function ($scope) {
-    $scope.isAdmin = true;
+    $scope.isAdmin = _uAdmin;
   }]);
 
 controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scope, $http) {
@@ -124,12 +127,13 @@ controllers.controller('ManageAnalyticsCtrl', ['$scope', '$http', function($scop
 
 controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, $http){
 
-
+	
   $scope.getPendingUsers = function () {
 	  $http.get('../api/pending-users').success(function(data) {
 		  $scope.pusers = data;
 	  });
   }
+  
 
   $scope.getUsers = function () {
 	  $http.get('../api/users').success(function(data) {
@@ -227,8 +231,15 @@ controllers.controller('ManageUsersCtrl', ['$scope', '$http', function ($scope, 
 
 controllers.controller('NavbarCtrl', ['$scope', '$state',
   function ($scope, $state){
-
-    $scope.userIsAdmin = true;
+    
+	if ( _uAdmin == "false") {
+		$("#switchView").hide();
+	}
+	
+	$("#ufname").html(_uFname);
+	
+    $scope.userIsAdmin = _uAdmin;
+    
 
     $scope.isAdminState = function(){
       return $state.includes("admin");
@@ -243,6 +254,10 @@ controllers.controller('ProfileCtrl',['$scope','$http', function($scope, $http){
 			  $scope.userData = data;
 		  });
 	}
+	
+	
+	
+	
 
 	$scope.getUserDetail();
 
