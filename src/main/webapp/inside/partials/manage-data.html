@@ -1,6 +1,6 @@
 <div class="comparePage">
   
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="panel panel-default">
           <div class="panel-heading">Makes</div>
           <div class="panel-body">
@@ -22,12 +22,31 @@
                   <div class="form-group">
                     <button id="submitMake" type="submit" class="btn btn-primary">Add Make</button>
                   </div>
-               </form>
+              </form>
+              <form ng-submit="deleteMakeAlternate()">
+                  <div class="form-group">
+                    <label for="selectMakeAlternate">Alternate Names for Current Make:</label>
+                    <select id="selectMakeAlternate" class="form-control" ng-model="selectMakeAlternate">
+                      <option ng-repeat="makeAlternate in makeAlternates | filter:{makeId:selectMake}" value={{makeAlternate.makeAlternateId}}>{{makeAlternate.makeAlternateName}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <button id="removeMakeAlternate" type="submit" class="btn btn-primary">Delete Make Alternate</button>
+                  </div>
+              </form>
+              <form ng-submit="addMakeAlternate()">
+                  <div class="form-group">
+                    <input id="newMakeAlternate" class="form-control" type="text" ng-model="newMakeAlternate" name="text" placeholder="New Make Alternate"/>
+                  </div>
+                  <div class="form-group">
+                    <button id="submitMakeAlternate" type="submit" class="btn btn-primary">Add Make Alternate</button>
+                  </div>
+              </form>
           </div>
       </div>
     </div>
   
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="panel panel-default">
           <div class="panel-heading">Models</div>
           <div class="panel-body">
@@ -49,12 +68,33 @@
                   <div class="form-group">
                     <button id="submitModel" type="submit" class="btn btn-primary">Add Model</button>
                   </div>
-               </form>
+              </form>
+              <form ng-submit="deleteModelAlternate()">
+                  <div class="form-group">
+                    <label for="selectModelAlternate">Alternate Names for Current Model:</label>
+                    <select id="selectModelAlternate" class="form-control" ng-model="selectModelAlternate">
+                      <option ng-repeat="modelAlternate in modelAlternates | filter:{modelId:selectModel}" value={{modelAlternate.modelAlternateId}}>{{modelAlternate.modelAlternateName}}</option>
+                    </select>
+                    {{modelAlternate}}
+                    {{modelAlternate.modelAlternateId}}
+                  </div>
+                  <div class="form-group">
+                    <button id="removeModelAlternate" type="submit" class="btn btn-primary">Delete Model Alternate</button>
+                  </div>
+              </form>
+              <form ng-submit="addModelAlternate()">
+                  <div class="form-group">
+                    <input id="newModelAlternate" class="form-control" type="text" ng-model="newModelAlternate" name="text" placeholder="New Model Alternate"/>
+                  </div>
+                  <div class="form-group">
+                    <button id="submitModelAlternate" type="submit" class="btn btn-primary">Add Model Alternate</button>
+                  </div>
+              </form>
           </div>
       </div>
     </div>
   
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="panel panel-default">
           <div class="panel-heading">Years</div>
           <div class="panel-body">
@@ -76,35 +116,9 @@
                   <div class="form-group">
                     <button id="submitYear" type="submit" class="btn btn-primary">Add Year</button>
                   </div>
-               </form>
-          </div>
-      </div>
-    </div>
-  
-    <div class="col-md-3">
-      <div class="panel panel-default">
-          <div class="panel-heading">Alternates</div>
-          <div class="panel-body">
-              <form ng-submit="deleteAlternate()">
-                  <div class="form-group">
-                    <label for="selectAlternate">Current Alternates:</label>
-                    <select id="selectAlternate" class="form-control" ng-model="selectAlternate" ng-options="makeAlternate.makeAlternate for makeAlternate in makeAlternates">
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <button id="removeAlternate" type="submit" class="btn btn-primary">Delete Alternate</button>
-                  </div>
               </form>
-              <form ng-submit="addAlternate()">
-                  <div class="form-group">
-                    <input id="newAlternate" class="form-control" type="text" ng-model="newAlternate" name="text" placeholder="New Alternate"/>
-                  </div>
-                  <div class="form-group">
-                    <button id="submitAlternate" type="submit" class="btn btn-primary">Add Alternate</button>
-                  </div>
-               </form>
           </div>
       </div>
-    </div>  
+    </div> 
 
 </div>

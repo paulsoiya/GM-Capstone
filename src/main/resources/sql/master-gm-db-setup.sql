@@ -106,9 +106,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS make_alternates;
 
 CREATE TABLE make_alternates(
+  make_alternate_id INT NOT NULL AUTO_INCREMENT,
   make_id INT NOT NULL,
-  make_alternate varchar(128),
-  PRIMARY KEY(make_id))
+  make_alternate_name varchar(128) NOT NULL,
+  PRIMARY KEY(make_alternate_id))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -117,9 +118,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS model_alternates;
 
 CREATE TABLE model_alternates(
+  model_alternate_id INT NOT NULL AUTO_INCREMENT,
   model_id INT NOT NULL,
-  model_alternate varchar(128),
-  PRIMARY KEY(model_id))
+  model_alternate_name varchar(128) NOT NULL,
+  PRIMARY KEY(model_alternate_id))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -185,9 +187,9 @@ INSERT INTO model_years (model_id, year_name) VALUES (32, '2014'), (32, '2015');
 INSERT INTO model_years (model_id, year_name) VALUES (33, '2014'), (33, '2015');
 INSERT INTO model_years (model_id, year_name) VALUES (34, '2014'), (34, '2015');
 
-INSERT INTO make_alternates VALUES (1, 'Chevy'),(3, 'Caddy');
+INSERT INTO make_alternates (make_id, make_alternate_name) VALUES (1, 'Chevy'),(3, 'Caddy');
 
-INSERT INTO model_alternates VALUES (9, 'Vette');
+INSERT INTO model_alternates (model_id, model_alternate_name) VALUES (9, 'Vette');
 
 
 COMMIT;

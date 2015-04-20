@@ -48,10 +48,10 @@ public class MakeAlternatesResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createMakeAlternate(@FormParam("makeID") int makeId,
-                                             @FormParam("makeAlternate") String makeAlternate){
+    public ReturnMessage createMakeAlternate(@FormParam("makeId") long makeId,
+                                             @FormParam("makeAlternateName") String makeAlternateName){
         
-       MakeAlternates alternate = new MakeAlternates(makeId,makeAlternate); 
+       MakeAlternates alternate = new MakeAlternates(makeId,makeAlternateName); 
        em.persist(alternate);
 
        ReturnMessage rm = new ReturnMessage();
@@ -67,7 +67,7 @@ public class MakeAlternatesResource {
     }
   
     @DELETE @Path("/{id}")
-    public void deleteMakeAlternate(@PathParam("id") int id){
+    public void deleteMakeAlternate(@PathParam("id") long id){
         em.remove(em.find(MakeAlternates.class, id));
     }
 }

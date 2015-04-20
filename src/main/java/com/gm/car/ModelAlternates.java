@@ -28,34 +28,51 @@ public class ModelAlternates implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    @Column(name="model_id")
+    @Column(name="model_alternate_id")
     @Id
-    private int modelId;
+    private long modelAlternateId;
+  
+    @Column(name="model_id")
+    private long modelId;
     
-    @Column(name="model_alternate")
-    private String modelAlternate;
+    @Column(name="model_alternate_name")
+    private String modelAlternateName;
 
     public ModelAlternates() { }
-   
-    public ModelAlternates(int modelId, String modelAlternate) {
+  
+    public ModelAlternates(long modelAlternateId, long modelId, String modelAlternateName) {
+        this.modelAlternateId = modelAlternateId;
         this.modelId = modelId;
-        this.modelAlternate = modelAlternate;
+        this.modelAlternateName = modelAlternateName;
+    }
+   
+    public ModelAlternates(long modelId, String modelAlternateName) {
+        this.modelId = modelId;
+        this.modelAlternateName = modelAlternateName;
     }
     
-    public int getModelId() {
+    public long getModeAlternatelId() {
+        return modelAlternateId;
+    }
+
+    public void setModelAlternateId(long modelAlternateId) {
+        this.modelAlternateId = modelAlternateId;
+    }
+    
+    public long getModelId() {
         return modelId;
     }
 
-    public void setModelId(int modelId) {
+    public void setModelId(long modelId) {
         this.modelId = modelId;
     }
 
-    public String getModelAlternate() {
-        return modelAlternate;
+    public String getModelAlternateName() {
+        return modelAlternateName;
     }
 
-    public void setModelAlternate(String modelAlternate) {
-        this.modelAlternate = modelAlternate;
+    public void setModelAlternateName(String modelAlternateName) {
+        this.modelAlternateName = modelAlternateName;
     }
     
 }

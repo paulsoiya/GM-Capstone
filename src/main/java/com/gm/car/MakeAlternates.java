@@ -28,34 +28,51 @@ public class MakeAlternates implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    @Column(name="make_id")
+    @Column (name="make_alternate_id")
     @Id
-    private int makeId;
+    private long makeAlternateId;             
+  
+    @Column(name="make_id")
+    private long makeId;
     
-    @Column(name="make_alternate")
-    private String makeAlternate;
+    @Column(name="make_alternate_name")
+    private String makeAlternateName;
 
     public MakeAlternates() { }
    
-    public MakeAlternates(int makeId, String makeAlternate) {
+    public MakeAlternates(long makeAlternateId, long makeId, String makeAlternateName) {
+        this.makeAlternateId = makeAlternateId;
         this.makeId = makeId;
-        this.makeAlternate = makeAlternate;
+        this.makeAlternateName = makeAlternateName;
+    }
+  
+    public MakeAlternates(long makeId, String makeAlternateName) {
+        this.makeId = makeId;
+        this.makeAlternateName = makeAlternateName;
     }
     
-    public int getMakeId() {
+    public void setMakeAlternateId(long makeAlternateId) {
+        this.makeAlternateId = makeAlternateId;
+    }
+  
+    public long getMakeAlternateId() {
+        return makeAlternateId;
+    }
+
+    public void setMakeId(long makeId) {
+        this.makeId = makeId;
+    }
+  
+    public long getMakeId() {
         return makeId;
     }
 
-    public void setMakeId(int makeId) {
-        this.makeId = makeId;
+    public String getMakeAlternateName() {
+        return makeAlternateName;
     }
 
-    public String getMakeAlternate() {
-        return makeAlternate;
-    }
-
-    public void setMakeAlternate(String makeAlternate) {
-        this.makeAlternate = makeAlternate;
+    public void setMakeAlternateName(String makeAlternateName) {
+        this.makeAlternateName = makeAlternateName;
     }
     
 }

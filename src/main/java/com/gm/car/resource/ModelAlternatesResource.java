@@ -48,10 +48,10 @@ public class ModelAlternatesResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public ReturnMessage createModelAlternate(@FormParam("modelId") int modelId,
-                                              @FormParam("modelAlternate") String modelAlternate){
+    public ReturnMessage createModelAlternate(@FormParam("modelId") long modelId,
+                                              @FormParam("modelAlternateName") String modelAlternateName){
         
-       ModelAlternates alternate = new ModelAlternates(modelId, modelAlternate); 
+       ModelAlternates alternate = new ModelAlternates(modelId, modelAlternateName); 
        em.persist(alternate);
 
        ReturnMessage rm = new ReturnMessage();
@@ -67,7 +67,7 @@ public class ModelAlternatesResource {
     }
   
     @DELETE @Path("/{id}")
-    public void deleteModelAlternate(@PathParam("id") int id){
+    public void deleteModelAlternate(@PathParam("id") long id){
         em.remove(em.find(ModelAlternates.class, id));
     }
 }
