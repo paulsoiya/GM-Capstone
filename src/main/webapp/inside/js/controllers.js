@@ -374,17 +374,15 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
 
   }
 
-  			$scope.heatmap = function(){
-
+  			$scope.Gmap = function(){
 
   			    var myLatlng = new google.maps.LatLng(37.090240, -95.712891);
   			    // map options,
   			    var myOptions = {
-  			        zoom: 4,
+  			        zoom: 3,
   			        center: myLatlng
   			    }
-  			    var map = new google.maps.Map(document.getElementById("Map"), myOptions);
-
+  			    var map = new google.maps.Map(document.getElementById("GMap"), myOptions);
 
   			    var heatmap = new HeatmapOverlay(map, 
                 {
@@ -409,27 +407,32 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   			    var testData = {
   			        max: 3,
   			        data: [{
-  			            lat: 48.3333,
-  			            lng: 16.35,
+  			            lat: 27.664827,
+  			            lng: -81.515754,
   			            count: 100
   			        }, {
-  			            lat: 51.465558,
-  			            lng: 0.010986,
+  			            lat: 33.294345,
+  			            lng: -111.890906,
   			            count: 100
   			        }, {
-  			            lat: 33.5363,
-  			            lng: -5.044,
+  			            lat: 32.776664,
+  			            lng: -96.796988,
+  			            count: 100
+  			        }, {
+  			            lat: 46.729553,
+  			            lng: -94.6859,
+  			            count: 100
+  			        }, {
+  			            lat: 47.606209,
+  			            lng: -122.332071,
   			            count: 100
   			        }]
   			    };
 
   			    heatmap.setData(testData);
-
-
 			}
 
-$scope.heatmap()
-
+  			$scope.Gmap()
 }]);
 
 controllers.controller('CompareCtrl',['$scope', function($scope){
