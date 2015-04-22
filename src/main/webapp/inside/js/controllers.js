@@ -377,13 +377,13 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   			$scope.heatmap = function(){
 
 
-		var myLatlng = new google.maps.LatLng(25.6586, -80.3568);
-// map options,
-	var myOptions = {
- 	 				zoom: 3,
-  	 				center: myLatlng
-	}
- var map = new google.maps.Map(document.getElementById("Map"), myOptions);
+  			    var myLatlng = new google.maps.LatLng(25.6586, -80.3568);
+  			    // map options,
+  			    var myOptions = {
+  			        zoom: 3,
+  			        center: myLatlng
+  			    }
+  			    var map = new google.maps.Map(document.getElementById("Map"), myOptions);
 
 
 
