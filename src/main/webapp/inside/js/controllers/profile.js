@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('controllers').controller('ProfileCtrl',['$scope','$http', 
-                                                        function($scope, $http){
+angular.module('controllers').controller('ProfileCtrl',['$scope','$http', '$location',
+                                                        function($scope, $http, $location){
 
       $http({
             method: 'post',
