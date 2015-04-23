@@ -71,5 +71,3 @@ angular.module('controllers').controller('CompareCtrl',['$scope', '$http', '$fil
             });
       }
 }]);
-
-var grade;
