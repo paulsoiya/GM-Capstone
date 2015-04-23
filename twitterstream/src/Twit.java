@@ -42,11 +42,14 @@ public class Twit {
   		Statement statementModels = null;
   		Statement statementAlternateMakes = null;
   		Statement statementAlternateModels = null;
+  		Statement statementModelYears = null;
 
   		ResultSet resultSetMakes = null;
   		ResultSet resultSetModels = null;
   		ResultSet resultSetAlternateMakes = null;
   		ResultSet resultSetAlternateModels = null;
+  		ResultSet resultSetAlternateModelYears = null;
+  		ResultSet resultSetModelYears = null;
 
   		try { 
 			is = new FileInputStream("build.properties");
@@ -77,6 +80,9 @@ public class Twit {
    			statementModels = dbConn.createStatement();
    			resultSetModels = statementModels.executeQuery("SELECT * FROM models");
 
+   			statementModelYears = dbConn.createStatement();
+   			resultSetModelYears = statementModelYears.executeQuery("SELECT * FROM model_years");
+
    			statementAlternateMakes = dbConn.createStatement();
    			resultSetAlternateMakes = statementAlternateMakes.executeQuery("SELECT * FROM make_alternates");
 
@@ -100,7 +106,8 @@ public class Twit {
   		List<Status> tweets = new ArrayList<Status>();
 
 		try {
-			// MongoClient mongoClient = new MongoClient("localhost", 27017);
+			//Couch connection
+			CouchConnection cc = new CouchConnection(COUCHDB, null); 
 		    // Filter
 		    FilterQuery filter = new FilterQuery();
 		    ArrayList<String> paramsAsList = new ArrayList<String>();
@@ -109,14 +116,34 @@ public class Twit {
 		    ArrayList<String> makes = new ArrayList<String>();
 		    while(resultSetMakes.next()) {
 				makes.add("#"+resultSetMakes.getString("make_name"));
+				cc.makeDB(resultSetMakes.getString("make_name"));
 		    } 
 
 		    // Add models to filter list
 		    ArrayList<String> models = new ArrayList<String>();
+		    ArrayList<Integer> modelIds = new ArrayList<Integer>();
 			while(resultSetModels.next()) {
 				models.add("#"+resultSetModels.getString("model_name"));
-				
+				cc.makeDB(resultSetModels.getString("model_name"));
+				modelIds.add(resultSetModels.getInt("model_id"));
 		    } 
+
+ 			ArrayList<String> modelYears = new ArrayList<String>();
+ 			ArrayList<Integer> modelYearMakeIds = new ArrayList<Integer>();
+			while(resultSetModels.next()) {
+				modelYears.add(resultSetModelYears.getString("model_year"));
+				modelYearMakeIds.add(resultSetModelYears.getInt("model_id"));
+		    } 
+
+		    //Create databases on couch if doesn't already exist
+		    for(int i = 0; i < modelYears.size(); ++i){
+		    	for(int j = 0; j < modelIds.size(); ++j){
+		    		if(modelIds.get(i) == modelYearMakeIds.get(i)){
+		    			cc.makeDB((models.get(i)+modelYears.get(i)).toLowerCase());
+		    		}
+		    	}
+		    }
+
 
 		    // Add altenates to filter list
 		    ArrayList<String> alternateMakes = new ArrayList<String>();
@@ -241,12 +268,7 @@ public class Twit {
 							//injectObj.put("length", length);
 							
 							
-							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) {
-								//JSONObject wordDocument = new JSONObject();
-								//wordDocument.put("_id", entry.getKey());
-								//wordDocument.put("_frequency", entry.getValue());
-								
-								//JSONObject currentWordDocument = new JSONObject( cc.queryDB(entry.getKey()) ); 
+							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) { 
 								injectObj.put(entry.getKey(), entry.getValue());	
 							}
 							
@@ -259,9 +281,16 @@ public class Twit {
 							cc.createDocuments(injectObj, false);    
 							
 							for(String tag : filterTags) {
-								//if(text.contains(tag)){
-								if(Pattern.compile(Pattern.quote(tag), Pattern.CASE_INSENSITIVE).matcher(text).find()){;
-									CouchConnection couch = new CouchConnection(COUCHDB, tag+"/");	
+								System.out.println();
+
+
+								if(text.toLowerCase().contains(tag.toLowerCase().substring(1))){;
+									for(int i = 0; i < 100; ++i){
+										System.out.println("");
+										System.out.println(tag.toLowerCase());
+										System.out.println("");
+									}
+									CouchConnection couch = new CouchConnection(COUCHDB, tag.toLowerCase().substring(1)+"/");	
 									couch.createDocuments(injectObj, false);    
 								}
 							}
