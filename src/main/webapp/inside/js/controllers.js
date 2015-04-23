@@ -552,19 +552,6 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
       counter += 1;
       //console.log(counter);
 
-
-  // Location dropdown
-  $scope.locations = ['All Locations', 'Alabama', 'Alaska', 'Arizona', 'Arkansas',
-                      'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida',
-                      'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
-                      'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland',
-                      'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-                      'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-                      'New Jersey', 'New Mexico', 'New York', 'North Carolina',
-                      'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania',
-                      'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
-                      'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington',
-                      'West Virginia', 'Wisconsin', 'Wyoming'];
   // Datepickers
   $scope.open = function($event, dateType) {
     $event.preventDefault();
@@ -630,8 +617,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
             method: 'post',
             url: '../api/query',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "location="+$scope.selectLocation+"&"+
-            "endDate="+$scope.endDate+"&"+
+            data: "endDate="+$scope.endDate+"&"+
             "startDate="+$scope.startDate+"&"+
             "make="+$scope.selectMake.makeName+"&"+
             "model="+$scope.selectModel.modelName+"&"+
@@ -641,7 +627,6 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
             savedMake = $scope.selectMake.makeName+"";
             savedModel = $scope.selectModel.modelName+"";
             savedYear = $scope.selectYear.yearName+"";
-            savedLocation = $scope.selectLocation+"";
             savedStartDate = $scope.startDate+"";
             savedEndDate = $scope.endDate+"";
             
@@ -661,8 +646,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
             method: 'post',
             url: '../api/savedsearches',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "location="+savedLocation+"&"+
-            "endDate="+savedEndDate+"&"+
+            data: "endDate="+savedEndDate+"&"+
             "startDate="+savedStartDate+"&"+
             "make="+savedMake+"&"+
             "model="+savedModel+"&"+
@@ -686,8 +670,7 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
                   method: 'post',
                   url: '../api/query',
                   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                  data: "location="+$scope.selectLocation+"&"+
-                  "endDate="+$scope.endDate+"&"+
+                  data: "endDate="+$scope.endDate+"&"+
                   "startDate="+$scope.startDate+"&"+
                   "make="+"undefined"+"&"+
                   "model="+"undefined"+"&"+
