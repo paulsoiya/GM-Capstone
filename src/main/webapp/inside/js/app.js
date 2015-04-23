@@ -7,7 +7,6 @@ var socialGMApp = angular.module('socialGMApp', [
   'animations',
   'controllers',
   'filters',
-  'services',
   'directives',
   'ui.bootstrap'
 ]);
