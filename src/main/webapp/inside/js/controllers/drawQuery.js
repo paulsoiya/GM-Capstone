@@ -62,7 +62,8 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
         ]
     
     var positive = Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100 / 2 * 100;
-    
+    var grade;  
+  
     if (positive >= 60) {
             grade = "a.png";
     }
@@ -125,4 +126,6 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
       var barCtx = barGraphCanvas.getContext("2d");
       barCtx.clearRect(0, 0, barGraphCanvas.width, barGraphCanvas.height);
       var barChart = new Chart(barCtx).Bar(barData);
+  
+      return grade;
 }
