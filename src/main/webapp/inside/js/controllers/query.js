@@ -2,13 +2,11 @@
 
 var notLoaded = true;
 
-
-
-
 var makes;
 var models;
 var years;
 
+//Properly filter models based on make selected
 var changeMake = function(){
   $("#selectModel").empty();
   $("#selectYear").empty();
@@ -18,7 +16,7 @@ var changeMake = function(){
   $("#selectYear").val(-1);
 
   $("#selectModel").append($('<option>', {value: -1, text: "All Models"}));
-  if($("#selectMake").val() === -1){
+  if($("#selectMake").val() == -1){
     $("#selectModel").attr('disabled', 'disabled');
     $("#selectModel").val(-1);
   }
@@ -31,7 +29,7 @@ var changeMake = function(){
     $("#selectModel").removeAttr('disabled');
   }
 }
-
+//Properly filter years based on model selected
 var changeModel = function(){
   $("#selectYear").empty();
 
@@ -70,18 +68,18 @@ angular.module('controllers').controller('QueryCtrl',['$scope', '$http', '$filte
   // Get data from SQL and set up stuff
   $scope.getMakes = function() {
     $http.get('../api/makes').success(function(data) {
-        makes = data;
-        var allMakes = {makeId: -1, makeName: "All Makes"};
-        makes.unshift(allMakes);
+      makes = data;
+      var allMakes = {makeId: -1, makeName: "All Makes"};
+      makes.unshift(allMakes);
 
-        for(var i = 0; i < makes.length; ++i){
-          $("#selectMake").append($('<option>', {
-            value: makes[i].makeId,
-            text: makes[i].makeName
-          }));
-        }
+      for(var i = 0; i < makes.length; ++i){
+        $("#selectMake").append($('<option>', {
+          value: makes[i].makeId,
+          text: makes[i].makeName
+        }));
+      }
 
-        $scope.getModels();
+      $scope.getModels();
     });
   }
   $scope.getModels = function() {
@@ -103,37 +101,10 @@ angular.module('controllers').controller('QueryCtrl',['$scope', '$http', '$filte
 
       $("#selectYear").append($('<option>', {value: -1, text: "All Years"}));
       $("#selectYear").val(-1);
+      $scope.queryPost();
     });   
   }
   
-  // Check to make sure setting up everything only happens once
-  if (notLoaded) {
-    $scope.getMakes();
-    $scope.selectMake = -1;
-    $scope.selectModel = -1;
-    $scope.selectYear = -1;
-    notLoaded = false;
-  }                  
-  
-  // On change should reset other fields
-  $scope.makesChange = function(){
-      $scope.selectModel = -1;
-      $scope.selectYear = -1;
-      if ($scope.selectMake < 0) {
-        document.getElementById("selectModel").disabled = true;
-        document.getElementById("selectYear").disabled = true;
-      } else {
-        document.getElementById("selectModel").disabled = false;
-      }
-  }
-  $scope.modelsChange = function(){
-      $scope.selectYear = -1;
-      if ($scope.selectModel < 0) {
-        document.getElementById("selectYear").disabled = true;
-      } else {
-        document.getElementById("selectYear").disabled = false;
-      }
-  }
   
   // Datepickers
   $scope.open = function($event, dateType) {
@@ -154,84 +125,57 @@ angular.module('controllers').controller('QueryCtrl',['$scope', '$http', '$filte
 
   //POST, query response
   $scope.queryPost = function() {
-    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-    if($scope.selectMake === "undefined"){
-      $scope.selectMake.makeName === "undefined";
+    var payload = { endDate: $scope.endDate,
+      startDate: $scope.startDate,
+      make: $("#selectMake option:selected").text(),
+      model: $("#selectModel option:selected").text(),
+      year: $("#selectYear option:selected").text()
     }
-    if($scope.selectMake === "undefined"){
-      $scope.selectMake.makeName === "undefined";
-      }
-      $http({
-            method: 'post',
-            url: '../api/query',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "endDate="+$scope.endDate+"&"+
-            "startDate="+$scope.startDate+"&"+
-            "make="+$scope.selectMake.makeName+"&"+
-            "model="+$scope.selectModel.modelName+"&"+
-            "year="+$scope.selectYear.yearName
-      }).then(function(response) {
-      
-            savedMake = $scope.selectMake.makeName+"";
-            savedModel = $scope.selectModel.modelName+"";
-            savedYear = $scope.selectYear.yearName+"";
-            savedStartDate = $scope.startDate+"";
-            savedEndDate = $scope.endDate+"";
-            
-            var wordCloud = document.getElementById('wordCloud_canvas');
-            var pieChart = document.getElementById('pieGraph_canvas');
-            var barGraph = document.getElementById('barGraph_canvas');
-            drawQuery(response, wordCloud, pieChart, barGraph);
-                  
+    $http({
+      method: 'post',
+      url: '../api/query',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: $.param(payload)
+    }).then(function(response) {
+      var wordCloud = document.getElementById('wordCloud_canvas');
+      var pieChart = document.getElementById('pieGraph_canvas');
+      var barGraph = document.getElementById('barGraph_canvas');
+      drawQuery(response, wordCloud, pieChart, barGraph);          
     });
   };
   
 
 
   $scope.saveQuery = function() {
+    var payload = { endDate: $scope.endDate,
+      startDate: $scope.startDate,
+      make: $("#selectMake option:selected").text(),
+      model: $("#selectModel option:selected").text(),
+      year: $("#selectYear option:selected").text(),
+      user: _uToken,
+      searchName: $scope.searchName
+    }
 
     $http({
-            method: 'post',
-            url: '../api/savedsearches',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "endDate="+savedEndDate+"&"+
-            "startDate="+savedStartDate+"&"+
-            "make="+savedMake+"&"+
-            "model="+savedModel+"&"+
-            "user="+_uToken+"&"+
-            "searchName="+$scope.searchName+"&"+
-            "year="+savedYear
+      method: 'post',
+      url: '../api/savedsearches',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: $.param(payload)
     }).then(function(response) {
       $("#savedMessage").removeClass('hidden');
       $scope.searchName = "";
       setTimeout(function(){
-            $("#savedMessage").addClass('hidden');
+        $("#savedMessage").addClass('hidden');
       }, 2500)
-            console.log("response");
-            console.log(response);
-      });
+      console.log("response");
+      console.log(response);
+    });
   };
 
-
-      if(counter === 1){
-            $http({
-                  method: 'post',
-                  url: '../api/query',
-                  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                  data: "endDate="+$scope.endDate+"&"+
-                  "startDate="+$scope.startDate+"&"+
-                  "make="+"undefined"+"&"+
-                  "model="+"undefined"+"&"+
-                  "year="+"undefined"
-            }).then(function(response) {
-                  var wordCloud = document.getElementById('wordCloud_canvas');
-                  var pieChart = document.getElementById('pieGraph_canvas');
-                  var barGraph = document.getElementById('barGraph_canvas');
-                  drawQuery(response, wordCloud, pieChart, barGraph);   
-            $scope.grade = grade;
-            });
-      }
-
+  if (notLoaded) {
+    $scope.getMakes();
+    notLoaded = false;
+  }    
 
 }]);
 

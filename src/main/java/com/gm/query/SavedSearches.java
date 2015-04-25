@@ -44,7 +44,7 @@ public class SavedSearches {
     @POST 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public String saveSearch( @FormParam("user") String user,
+    public ReturnMessage saveSearch( @FormParam("user") String user,
 	@FormParam("endDate") String endDate,
 	@FormParam("startDate") String startDate,
 	@FormParam("make") String make,
@@ -95,7 +95,9 @@ public class SavedSearches {
 			couch.createDocuments(viewDocument, false);	
 		}
 
-		return "{'data': 'success'}";
+		ReturnMessage rm = new ReturnMessage();
+		rm.setResult("success");
+		return rm;
     }
 	
 	
