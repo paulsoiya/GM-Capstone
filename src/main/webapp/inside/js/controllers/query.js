@@ -140,7 +140,7 @@ angular.module('controllers').controller('QueryCtrl',['$scope', '$http', '$filte
       var wordCloud = document.getElementById('wordCloud_canvas');
       var pieChart = document.getElementById('pieGraph_canvas');
       var barGraph = document.getElementById('barGraph_canvas');
-      drawQuery(response, wordCloud, pieChart, barGraph);          
+      $scope.grade = drawQuery(response, wordCloud, pieChart, barGraph);          
     });
   };
   
