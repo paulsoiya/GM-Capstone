@@ -381,10 +381,14 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   			    var myOptions = {
   			        zoom: 3,
   			        center: myLatlng
-  			    }
-  			    var map = new google.maps.Map(document.getElementById("GMap"), myOptions);
 
-  			    var heatmap = new HeatmapOverlay(map, 
+  			    }
+
+  			   
+  			    var map = new google.maps.Map(document.getElementById("GMap"), myOptions);
+  			    var map2 = new google.maps.Map(document.getElementById("GMap2"), myOptions);
+
+  		    var heatmap = new HeatmapOverlay(map, 
                 {
                   // radius should be small ONLY if scaleRadius is true (or small radius is intended)
                   "radius": 2,
@@ -404,8 +408,38 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
                 }
                     );
 
+  			    var heatmap2 = new HeatmapOverlay(map2,
+               {
+
+                   gradient: {
+                       // enter n keys between 0 and 1 here
+                       // for gradient color customization
+                       '.5': 'blue',
+                       '.8': 'red',
+                       '.95': 'white'
+                   },
+                   // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+                   "radius": 2,
+                   "maxOpacity": 1,
+                   // scales the radius based on map zoom
+                   "scaleRadius": true,
+                   // if set to false the heatmap uses the global maximum for colorization
+                   // if activated: uses the data maximum within the current map boundaries 
+                   //   (there will always be a red spot with useLocalExtremas true)
+                   "useLocalExtrema": true,
+                   // which field name in your data represents the latitude - default "lat"
+                   latField: 'lat',
+                   // which field name in your data represents the longitude - default "lng"
+                   lngField: 'lng',
+                   // which field name in your data represents the data value - default "value"
+                   valueField: 'count'
+
+               }
+                   );
+
+  			  
   			    var testData = {
-  			        max: 3,
+  			        max: 5,
   			        data: [{
   			            lat: 27.664827,
   			            lng: -81.515754,
@@ -429,7 +463,24 @@ controllers.controller('QueryCtrl',['$scope', '$http', '$filter', function($scop
   			        }]
   			    };
 
+  			    var testData2 = {
+  			        max: 3,
+  			        data: [{
+  			            lat: 40.712784, 
+  			            lng: -74.005941,
+  			            count: 100
+  			        }, {
+  			            lat: 36.778261,
+  			            lng: -119.417932,
+  			            count: 100
+  			        }, {
+  			            lat: 46.879682,
+  			            lng: -110.362566,
+  			            count: 100
+  			        }]
+  			    };
   			    heatmap.setData(testData);
+  			    heatmap2.setData(testData2);
 			}
 
   			$scope.Gmap()
