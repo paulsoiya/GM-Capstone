@@ -32,24 +32,17 @@
           <!-- makes dropdown -->
           <div class="form-group nullable">
             <label for="selectMake">Make:</label>
-            <select ng-change="makesChange()" id="selectMake" class="form-control" ng-model="selectMake">
-              <option ng-repeat="make in makes" value={{make.makeId}}>{{make.makeName}}</option>
-            </select>
-            
+            <select onchange="changeMake()" id="selectMake" class="form-control"> </select>
           </div>
           <!-- models dropdown -->
           <div class="form-group nullable">
             <label for="selectModel">Model:</label>
-            <select ng-change="modelsChange()" id="selectModel" class="form-control" ng-model="selectModel" disabled="true">
-              <option ng-repeat="model in models | filter:{makeId:selectMake}" value={{model.modelId}}>{{model.modelName}}</option>
-            </select>
+            <select onchange="changeModel()" id="selectModel" class="form-control" disabled="true"> </select>
           </div>
           <!-- years dropdown -->
           <div class="form-group nullable">
             <label for="selectYear">Year:</label>
-            <select id="selectYear" class="form-control" ng-model="selectYear" disabled="true">
-              <option ng-repeat="year in years | filter:{modelId:selectModel}" value={{year.yearId}}>{{year.yearName}}</option>
-            </select>
+            <select id="selectYear" class="form-control" disabled="true"> </select>
           </div>
           <button type="submit" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>
         </form>

@@ -2,6 +2,54 @@
 
 var notLoaded = true;
 
+
+
+
+var makes;
+var models;
+var years;
+
+var changeMake = function(){
+  $("#selectModel").empty();
+  $("#selectYear").empty();
+
+  $("#selectYear").attr('disabled', 'disabled');
+  $("#selectYear").append($('<option>', {value: -1, text: "All Years"}));
+  $("#selectYear").val(-1);
+
+  $("#selectModel").append($('<option>', {value: -1, text: "All Models"}));
+  if($("#selectMake").val() === -1){
+    $("#selectModel").attr('disabled', 'disabled');
+    $("#selectModel").val(-1);
+  }
+  else{
+    for(var i = 0; i < models.length; ++i){
+      if(models[i].makeId == $("#selectMake").val()){
+        $("#selectModel").append($('<option>', {value: models[i].modelId, text: models[i].modelName}));
+      }
+    }
+    $("#selectModel").removeAttr('disabled');
+  }
+}
+
+var changeModel = function(){
+  $("#selectYear").empty();
+
+  $("#selectYear").append($('<option>', {value: -1, text: "All Years"}));
+  if($("#selectModel").val() == -1){
+    $("#selectYear").attr('disabled', 'disabled');
+    $("#selectYear").val(-1);
+  }
+  else{
+    for(var i = 0; i < years.length; ++i){
+      if(years[i].modelId == $("#selectModel").val()){
+        $("#selectYear").append($('<option>', {value: years[i].yearId, text: years[i].yearName}));
+      }
+    }
+    $("#selectYear").removeAttr('disabled');
+  }
+}
+
 angular.module('controllers').controller('QueryCtrl',['$scope', '$http', '$filter', 
                                                       function($scope, $http, $filter){
   // Loading stuff
@@ -22,36 +70,39 @@ angular.module('controllers').controller('QueryCtrl',['$scope', '$http', '$filte
   // Get data from SQL and set up stuff
   $scope.getMakes = function() {
     $http.get('../api/makes').success(function(data) {
-        $scope.makes = data;
+        makes = data;
         var allMakes = {makeId: -1, makeName: "All Makes"};
-        $scope.makes.unshift(allMakes);
+        makes.unshift(allMakes);
+
+        for(var i = 0; i < makes.length; ++i){
+          $("#selectMake").append($('<option>', {
+            value: makes[i].makeId,
+            text: makes[i].makeName
+          }));
+        }
+
         $scope.getModels();
     });
   }
   $scope.getModels = function() {
     $http.get('../api/models').success(function(data) {
-        
-        $scope.models = data;
-        var allModels = {makeId: -1, modelId: -1, modelName: "All Models"};
-        $scope.models.unshift(allModels); 
-        var length = $scope.makes.length;
-        for (var i=0; i<length; i++) {
-          allModels = {makeId: $scope.makes[i].makeId, modelId: -1, modelName: "All Models"};
-          $scope.models.unshift(allModels);
-        }
-        $scope.getYears();
+      models = data;
+      var allModels = {makeId: -1, modelId: -1, modelName: "All Models"};
+      models.unshift(allModels); 
+
+      $("#selectModel").append($('<option>', {value: -1, text: "All Models"}));
+      $("#selectModel").val(-1);
+      $scope.getYears();
     });
   }
   $scope.getYears = function() {
     $http.get('../api/model-years').success(function(data) {
-        $scope.years = data;
-        var allYears = {modelId: -1, yearId: -1, yearName: "All Years"};
-        $scope.years.unshift(allYears); 
-        var length = $scope.models.length;
-        for (var i=0; i<length; i++) {
-          allYears = {modelId: $scope.models[i].modelId, yearId: -1, yearName: "All Years"};
-          $scope.years.unshift(allYears);
-        }
+      years = data;
+      var allYears = {modelId: -1, yearId: -1, yearName: "All Years"};
+      years.unshift(allYears); 
+
+      $("#selectYear").append($('<option>', {value: -1, text: "All Years"}));
+      $("#selectYear").val(-1);
     });   
   }
   
