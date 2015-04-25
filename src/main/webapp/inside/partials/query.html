@@ -31,30 +31,18 @@
           </div>
           <!-- makes dropdown -->
           <div class="form-group nullable">
-            <label for="selectMake">Make </label>
-            <!--<select id="selectMake" ng-change="changeMake()" ng-model="selectMake" ng-options="make.makeName for make in makes" class="form-control"></select>-->
-            <select ng-change="changeMake()" id="selectMake" class="form-control" ng-model="selectMake">
-              <option value='All Makes'>All Makes</option>
-              <option ng-repeat="make in makes" value={{make.makeId}}>{{make.makeName}}</option>
-            </select>
+            <label for="selectMake">Make:</label>
+            <select onchange="changeMake()" id="selectMake" class="form-control"> </select>
           </div>
           <!-- models dropdown -->
           <div class="form-group nullable">
-            <label for="selectModel">Model </label>
-            <!--<select id="selectModel" ng-change="changeModel()" ng-model="selectModel" class="form-control" ng-options="model.modelName for model in models | filter:{makeId:selectMake.makeId}" disabled="true"></select>-->
-            <select id="selectModel" ng-change="changeModel()" class="form-control" ng-model="selectModel" disabled="true">
-              <option value='All Models'>All Models</option>
-              <option ng-repeat="model in models | filter:{makeId:selectMake}" value={{model.modelId}}>{{model.modelName}}</option>
-            </select>
+            <label for="selectModel">Model:</label>
+            <select onchange="changeModel()" id="selectModel" class="form-control" disabled="true"> </select>
           </div>
           <!-- years dropdown -->
           <div class="form-group nullable">
-            <label for="selectYear">Year </label>
-            <!--<select id="selectYear" ng-model="selectYear" class="form-control" ng-options="year.yearName for year in years | filter:{modelId:selectModel.modelId}" disabled="true"></select>-->
-            <select id="selectYear" class="form-control" ng-model="selectYear" disabled="true">
-              <option value='All Years'>All Years</option>
-              <option ng-repeat="year in years | filter:{modelId:selectModel}" value={{year.yearId}}>{{year.yearName}}</option>
-            </select>
+            <label for="selectYear">Year:</label>
+            <select id="selectYear" class="form-control" disabled="true"> </select>
           </div>
           <button type="submit" class="btn btn-primary btn-lg" ng-click="queryPost()">Submit</button>
         </form>
@@ -86,7 +74,6 @@
     <div class="panel panel-default">
       <div class="panel-heading">Save Searches</div>
       <div class="panel-body">
-        <!-- Compare should be saved locally, as cookie -->
         <form id="saveForm" ng-controller="QueryCtrl" ng-submit="saveQuery()">
           <div class="form-inline form-group">
             <input ng-model="searchName" class="form-control" type="text" placeholder="Save As...">

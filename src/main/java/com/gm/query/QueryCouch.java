@@ -46,10 +46,10 @@ public class QueryCouch {
 		
 		System.out.println(endDate);
 		System.out.println(startDate);
-		System.out.println(make);
-		System.out.println(model );
-		System.out.println(make != "undefined");
-		System.out.println(model != "undefined");
+		System.out.println("|"+make+"|");
+		System.out.println("|"+model+"|");
+		System.out.println(make.equals(""));
+		System.out.println(model.equals(""));
 		
 		System.out.println(year);
 		//System.out.println(user);
@@ -59,14 +59,17 @@ public class QueryCouch {
 		//if(user.equals("undefined")){
 		//	user = "tempUser";
 		//}
-		if(!make.equals("undefined") || make.equals("All Makes")){
+		if( !make.equals("undefined") && !make.equals("All Makes") && !make.equals("") ){
 			couch = new CouchConnection("http://localhost:5984/", make.toLowerCase()+"/");
+			System.out.println("into makes");
 		}
-		if(!model.equals("undefined") || model.equals("All Models")){
+		if( !model.equals("undefined") && !model.equals("All Models") && !model.equals("") ){
 			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+"/");
+			System.out.println("into models");
 		}
-		if(!year.equals("undefined") || year.equals("All Years")){
+		if( !year.equals("undefined") && !year.equals("All Years") && !year.equals("") ){
 			couch = new CouchConnection("http://localhost:5984/", model.toLowerCase()+year+"/");
+			System.out.println("into years");
 		}
 		
 		long startDateLong = 0;

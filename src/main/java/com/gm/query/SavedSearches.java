@@ -44,7 +44,7 @@ public class SavedSearches {
     @POST 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
-    public String saveSearch( @FormParam("user") String user,
+    public ReturnMessage saveSearch( @FormParam("user") String user,
 	@FormParam("endDate") String endDate,
 	@FormParam("startDate") String startDate,
 	@FormParam("make") String make,
@@ -60,13 +60,13 @@ public class SavedSearches {
 		
 		String db = "gm";
 		
-		if(!make.equals("undefined") && !make.equals("All Makes")){
+		if( !make.equals("undefined") && !make.equals("All Makes") && !make.equals("") ){
 			db = make.toLowerCase();
 		}
-		if(!model.equals("undefined") && !model.equals("All Models")){
+		if( !model.equals("undefined") && !model.equals("All Models") && !model.equals("") ){
 			db = model.toLowerCase();
 		}
-		if(!year.equals("undefined") && !year.equals("All Years")){
+		if( !year.equals("undefined") && !year.equals("All Years") && !year.equals("") ){
 			db = model.toLowerCase()+year;
 		}
 		
@@ -95,7 +95,9 @@ public class SavedSearches {
 			couch.createDocuments(viewDocument, false);	
 		}
 
-		return "{'data': 'success'}";
+		ReturnMessage rm = new ReturnMessage();
+		rm.setResult("success");
+		return rm;
     }
 	
 	
@@ -147,7 +149,8 @@ public class SavedSearches {
 			search = (JSONObject)viewDocument.get(searchName);
 			String viewName = (String)search.get("viewName");
 			String viewDBString = (String)search.get("db");
-			System.out.println(viewDBString);
+			System.out.println("Getting from view: "+viewName);
+			System.out.println("Getting from db: "+viewDBString);
 			CouchConnection viewDB = new CouchConnection("http://localhost:5984/", viewDBString+"/");
 
 			System.out.println(search);
