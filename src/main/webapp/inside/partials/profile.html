@@ -84,14 +84,13 @@
             <div class="panel-body">
 
                 <div class="form-group">
-                    <select placeholder="Save Name" id="selectSearch" class="form-control" ng-model="searchName">
-                        <option ng-repeat="name in searches" value="{{name}}">{{name}}</option> 
-                    </select>
+                    <select placeholder="Save Name" id="selectSearch" class="form-control"> </select>
                 </div>
 
                 <div class="form-group">
                 	<button type="submit" class="btn btn-primary" ng-click="savedSearch()">Open save</button>
-                    <button type="submit" class="btn btn-primary">Delete save</button>
+                    <button type="submit" class="btn btn-primary" ng-click="deleteSavedSearch()">Delete save</button>
+                    <span id="deletedMessage" class="hidden">Save deleted successfully</span>
                 </div>
             </div>
         </div>
