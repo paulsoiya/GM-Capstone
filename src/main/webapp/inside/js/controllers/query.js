@@ -2,6 +2,8 @@
 
 var notLoaded = true;
 
+console.log("query page");
+
 var makes;
 var models;
 var years;

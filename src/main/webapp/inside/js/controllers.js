@@ -20,9 +20,9 @@ controllers.controller('ManageDataCtrl', ['$scope', '$http', function($scope, $h
     // When you add enough makes / models, the models / years won't filter correctly.
     
     $scope.getMakes = function() {
-    $http.get('../api/makes').success(function(data) {
-      $scope.makes = data;
-    });
+      $http.get('../api/makes').success(function(data) {
+        $scope.makes = data;
+      });
     }
     $scope.getModels = function() {
       $http.get('../api/models').success(function(data) {

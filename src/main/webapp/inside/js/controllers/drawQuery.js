@@ -64,6 +64,7 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
     var positive = Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100 / 2 * 100;
     var grade;  
   
+  
     if (positive >= 60) {
             grade = "a.png";
     }

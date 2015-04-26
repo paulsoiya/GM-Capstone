@@ -2,16 +2,16 @@
 <div class="secondNavBar">
     <div class="row">
       <div class="col-md-8"><h1>SocialGM</h1></div>
-        <div class="col-md-4"> 
+        <div class="col-md-4" ng-controller="UserCtrl"> 
             <ul class="nav nav-pills pillMarigin">
                 <li role="presentation">
-                  <a ui-sref="user.query">Query</a>
+                  <a ng-click="queryLoad()">Query</a>
                 </li>
                 <li role="presentation">
-                  <a ui-sref="user.compare">Compare</a>
+                  <a ng-click="compareLoad()">Compare</a>
                 </li>
                 <li role="presentation">
-                  <a ui-sref="user.profile">Profile</a>
+                  <a ng-click="profileLoad()">Profile</a>
                 </li>
             </ul>
         </div>

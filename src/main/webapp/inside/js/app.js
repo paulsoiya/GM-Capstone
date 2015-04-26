@@ -20,7 +20,8 @@ socialGMApp.config(function($stateProvider, $urlRouterProvider){
     .state('user', {
       url: "",
       abstract: true,
-      templateUrl: "partials/user-navbar.html"
+      templateUrl: "partials/user-navbar.html",
+      controler: "UserCtrl"
     })
     .state('user.profile', {
       url: "/profile",

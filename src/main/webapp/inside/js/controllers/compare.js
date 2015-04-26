@@ -13,21 +13,22 @@ angular.module('controllers').controller('CompareCtrl',['$scope', '$http', '$fil
 
 
       $http({
-            method: 'post',
-            url: '../api/savedsearches/getSavedSearches',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "user="+_uToken
+        method: 'post',
+        url: '../api/savedsearches/getSavedSearches',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        data: "user="+_uToken
       }).then(function(response) {
         var data = response.data;
         var indexId = data.indexOf("_id");
         var indexRev = data.indexOf("_rev");
         if (indexId > -1) {
-            data.splice(indexId, 1);
+          data.splice(indexId, 1);
         }
         if (indexId > -1) {
-            data.splice(indexRev, 1);
+          data.splice(indexRev, 1);
         }
         $scope.searches = data;
+        
       });
       
       

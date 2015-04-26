@@ -27,7 +27,33 @@ controllers.controller('NavbarCtrl', ['$scope', '$state',
     $scope.userIsAdmin = _uAdmin;
     
 
-    $scope.isAdminState = function(){
+    $scope.isAdminState = function() {
       return $state.includes("admin");
+    }
+  }]);
+
+controllers.controller('UserCtrl', ['$scope', '$state', '$location',
+  function ($scope, $state, $location) {
+    $scope.queryLoad = function(){
+      $state.go("user.query");
+      $location.url('/query');
+      setTimeout(function(){
+        location.reload();
+      },5);
+      
+    }
+    $scope.compareLoad = function(){
+      $state.go("user.compare");
+      $location.url('/compare');
+      setTimeout(function(){
+        location.reload();
+      },5);
+    }
+    $scope.profileLoad = function(){
+      $state.go("user.profile");
+      $location.url('/profile');
+      setTimeout(function(){
+        location.reload();
+      },5);
     }
   }]);

@@ -54,6 +54,7 @@ public class SavedSearches {
 
 			System.out.println(userViews.toString());
 			userViews.remove(searchName);
+			System.out.println(searchName);
 			System.out.println(userViews.toString());
 			couch.updateDocument(user, userViews);
 
