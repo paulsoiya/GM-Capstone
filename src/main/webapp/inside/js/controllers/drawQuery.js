@@ -36,6 +36,7 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
     weightFactor: 2
   });
   
+  console.log("wordCountData: "+wordCountData);
   
   // Grabs the top four most frequent words and displays them and their frequency in a bar graph
   var barData = {

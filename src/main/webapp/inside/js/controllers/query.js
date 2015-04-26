@@ -83,19 +83,13 @@ angular.module('controllers').controller('QueryCtrl', ['$scope', '$http', '$filt
 
 
   // POST query to CouchDb, creating a view, and receiving the data in a response
-  // TODO: Because grade is image and pie graph is a canvas, drawing a throbber to 
-  //       the pie canvas makes it off-center. Resolved by creating a new canvas that
-  //       floats over grade and pie and is cleared when the data loads. Is now off-
-  //       center to the left - slightly better, but not awesome.
   $scope.queryPost = function() {
-    var gradeAndPie = document.getElementById('gradeAndPie_canvas');
-    var pieCtx = gradeAndPie.getContext("2d");
     var pieChart = document.getElementById('pieGraph_canvas');
     var wordCloud = document.getElementById('wordCloud_canvas');
     var barGraph = document.getElementById('barGraph_canvas');
     
     var start = new Date();
-    var pieThrob = drawThrobber(gradeAndPie,start);
+    var pieThrob = drawThrobber(pieChart,start);
     var barThrob = drawThrobber(barGraph,start);
     var cloudThrob = drawThrobber(wordCloud,start);
     
@@ -112,10 +106,19 @@ angular.module('controllers').controller('QueryCtrl', ['$scope', '$http', '$filt
       data: $.param(payload)
     }).then(function(response) {
       clearInterval(pieThrob);
-      pieCtx.clearRect(0, 0, gradeAndPie.width, gradeAndPie.height);
       clearInterval(barThrob);
       clearInterval(cloudThrob);
-      $scope.grade = drawQuery(response, wordCloud, pieChart, barGraph);          
+      $scope.grade = "blank.png";
+      if (response.data.wordCount.length < 15) {
+        $scope.errorMessage = "Sorry, data for that request is not available right now. Performing default query.";
+        $("#selectMake").val(-1);
+        $("#selectModel").val(-1);
+        $("#selectYear").val(-1);
+        $scope.queryPost();
+      } else {
+        $scope.grade = drawQuery(response, wordCloud, pieChart, barGraph);   
+        $scope.errorMessage = "Success!";
+      }
     });
   };
   
@@ -146,6 +149,7 @@ angular.module('controllers').controller('QueryCtrl', ['$scope', '$http', '$filt
   if (notLoaded) {
     $scope.getMakes();
     notLoaded = false;
+    $scope.errorMessage = "";
   }
 
 }]);
