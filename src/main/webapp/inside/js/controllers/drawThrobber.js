@@ -1,3 +1,8 @@
+/*
+ * Credit to René Ras (https://github.com/reneras) for code to make a throbber
+ * "Proof of concept of an HTML5 canvas spinner" (http://codepen.io/reneras/pen/HFrmC)
+ */
+
 function drawThrobber(canvas, start) {
   
   var context = canvas.getContext('2d');
