@@ -58,14 +58,14 @@
         <div  class="col-md-5">
           <img id="Grade" ng-src="../images/{{grade}}" class="img-responsive"/>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" id="pieCanvasArea">
           <canvas id="pieGraph_canvas" width="275"></canvas>
         </div>
       </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">Most Frequent Words</div>
-      <div class="panel-body">
+      <div class="panel-body" id="barCanvasArea">
         <canvas class="col-md-12" id="barGraph_canvas"></canvas>
       </div>
     </div>

@@ -59,8 +59,20 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
       }
     ]
   };
+  
+  $("#barGraph_canvas").remove();//remove the canvas from the dom
+  $("#barCanvasArea").append('<canvas id="barGraph_canvas"><canvas>');//append a new canvas to the dom
+  
+  var barCanvas = document.querySelector('#barGraph_canvas');//get the canvas
+  
+  var barCtx = barCanvas.getContext('2d');
+  barCtx.canvas.width = barGraphCanvas.width;
+  barCtx.canvas.height = barGraphCanvas.height;
+  
+  /*
   var barCtx = barGraphCanvas.getContext("2d");
   barCtx.clearRect(0, 0, barGraphCanvas.width, barGraphCanvas.height);
+  */
   var barChart = new Chart(barCtx).Bar(barData);
 
   
@@ -79,8 +91,17 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
       label: "Negative %"
     }
   ]
+
   var pieCtx = pieGraphCanvas.getContext("2d");
-  pieCtx.clearRect(0, 0, pieGraphCanvas.width, pieGraphCanvas.height);
+  
+  $("#pieGraph_canvas").remove(); // remove the canvas from the dom
+  $("#pieCanvasArea").append('<canvas id="pieGraph_canvas"><canvas>');//append a new canvas to the dom
+  
+  var canvas = document.querySelector('#pieGraph_canvas');//get the canvas
+  
+  var pieCtx = canvas.getContext('2d');
+  pieCtx.canvas.width = pieGraphCanvas.width;
+  pieCtx.canvas.height = pieGraphCanvas.height;
   var pieChart = new Chart(pieCtx).Pie(pieData);
 
   
