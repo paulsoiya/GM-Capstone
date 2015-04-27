@@ -39,7 +39,7 @@ controllers.controller('UserCtrl', ['$scope', '$state', '$location',
       $location.url('/query');
       setTimeout(function(){
         location.reload();
-      },5);
+      },50);
       
     }
     $scope.compareLoad = function(){
@@ -47,13 +47,13 @@ controllers.controller('UserCtrl', ['$scope', '$state', '$location',
       $location.url('/compare');
       setTimeout(function(){
         location.reload();
-      },5);
+      },50);
     }
     $scope.profileLoad = function(){
       $state.go("user.profile");
       $location.url('/profile');
       setTimeout(function(){
         location.reload();
-      },5);
+      },50);
     }
   }]);

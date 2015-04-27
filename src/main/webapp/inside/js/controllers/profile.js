@@ -34,10 +34,10 @@ angular.module('controllers').controller('ProfileCtrl',['$scope','$http', '$loca
       url: '../api/savedsearches/',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       data: "user="+_uToken+"&"+
-      "searchName="+$scope.searchName
+      "searchName="+$("#selectSearch option:selected").text(),
     }).then(function(response) {
       $("#deletedMessage").removeClass('hidden');
-      $("#selectSearch option[value='"+$("#selectMake option:selected").val()+"']").remove();
+      $scope.getSavedSearchList();
       setTimeout(function(){
         $("#deletedMessage").addClass('hidden');
       }, 2500)
