@@ -116,7 +116,7 @@ angular.module('controllers').controller('QueryCtrl', ['$scope', '$http', '$filt
         $("#selectYear").val(-1);
         $scope.queryPost();
       } else {
-        $scope.grade = drawQuery(response, wordCloud, pieChart, barGraph);   
+        $scope.grade = drawQuery(response, wordCloud, "pieCanvasArea", "pieGraph_canvas", "barCanvasArea", "barGraph_canvas"); 
         $scope.errorMessage = "Success!";
       }
     });
