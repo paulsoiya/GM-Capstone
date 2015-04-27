@@ -52,10 +52,7 @@ public class SavedSearches {
     	try{
 			JSONObject userViews = new JSONObject(couch.queryDB(user));
 
-			System.out.println(userViews.toString());
 			userViews.remove(searchName);
-			System.out.println(searchName);
-			System.out.println(userViews.toString());
 			couch.updateDocument(user, userViews);
 
 			rm.setResult("success");

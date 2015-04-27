@@ -41,8 +41,6 @@ angular.module('controllers').controller('ProfileCtrl',['$scope','$http', '$loca
       setTimeout(function(){
         $("#deletedMessage").addClass('hidden');
       }, 2500)
-      console.log("response");
-      console.log(response);
     });
   }
   

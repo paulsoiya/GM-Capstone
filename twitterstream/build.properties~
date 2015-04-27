@@ -1,6 +1,0 @@
-#Tue Mar 10 01:54:09 MST 2015
-mysql-password=
-mysql=jdbc\:mysql\://localhost/testGM
-couchdb=http\://localhost\:5984/
-mysql-user=root
-stanbol=http\://swent1linux.asu.edu\:8080/enhancer
