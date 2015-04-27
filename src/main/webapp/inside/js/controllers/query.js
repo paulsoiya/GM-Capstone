@@ -113,7 +113,9 @@ angular.module('controllers').controller('QueryCtrl', ['$scope', '$http', '$filt
         $scope.errorMessage = "Sorry, data for that request is not available right now. Performing default query.";
         $("#selectMake").val(-1);
         $("#selectModel").val(-1);
+        $("#selectModel").attr('disabled', 'disabled');
         $("#selectYear").val(-1);
+        $("#selectYear").attr('disabled', 'disabled');
         $scope.queryPost();
       } else {
         $scope.grade = drawQuery(response, wordCloud, "pieCanvasArea", "pieGraph_canvas", "barCanvasArea", "barGraph_canvas"); 
