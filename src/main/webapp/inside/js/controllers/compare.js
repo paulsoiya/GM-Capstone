@@ -64,7 +64,7 @@ angular.module('controllers').controller('CompareCtrl', ['$scope', '$http', '$fi
       clearInterval(pieThrob);
       clearInterval(barThrob);
       clearInterval(cloudThrob);
-      $scope.firstGrade = drawQuery(response, wordCloud, pieChart, barGraph);
+      $scope.firstGrade = drawQuery(response, wordCloud, "firstPieParent", "first_pie_canvas", "firstBarParent", "first_bar_canvas");
     });
   }
 
@@ -89,7 +89,7 @@ angular.module('controllers').controller('CompareCtrl', ['$scope', '$http', '$fi
       clearInterval(pieThrob);
       clearInterval(barThrob);
       clearInterval(cloudThrob);
-      $scope.secondGrade = drawQuery(response, wordCloud, pieChart, barGraph);          
+      $scope.secondGrade = drawQuery(response, wordCloud, "secondPieParent", "second_pie_canvas", "secondBarParent", "second_bar_canvas");          
     });
   }
   
