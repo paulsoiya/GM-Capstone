@@ -115,7 +115,7 @@ angular.module('controllers').controller('QueryCtrl', ['$scope', '$http', '$filt
       pieCtx.clearRect(0, 0, gradeAndPie.width, gradeAndPie.height);
       clearInterval(barThrob);
       clearInterval(cloudThrob);
-      $scope.grade = drawQuery(response, wordCloud, pieChart, barGraph);          
+      $scope.grade = drawQuery(response, wordCloud, "pieCanvasArea", "pieGraph_canvas", "barCanvasArea", "barGraph_canvas");          
     });
   };
   

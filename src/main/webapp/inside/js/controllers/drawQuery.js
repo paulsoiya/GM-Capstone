@@ -1,4 +1,4 @@
-function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
+function drawQuery(response, wordCloudCanvas, pieParentId, pieId, barParentId, barId){
 
   var responseJSON = response.data;
   
@@ -60,14 +60,14 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
     ]
   };
   
-  $("#barGraph_canvas").remove();//remove the canvas from the dom
-  $("#barCanvasArea").append('<canvas id="barGraph_canvas"><canvas>');//append a new canvas to the dom
+  $("#"+barId).remove();//remove the canvas from the dom
+  $("#"+barParentId).append('<canvas id="'+barId+'"><canvas>');//append a new canvas to the dom
   
-  var barCanvas = document.querySelector('#barGraph_canvas');//get the canvas
+  var barCanvas = document.querySelector("#"+barId);//get the canvas
   
   var barCtx = barCanvas.getContext('2d');
-  barCtx.canvas.width = barGraphCanvas.width;
-  barCtx.canvas.height = barGraphCanvas.height;
+  barCtx.canvas.width = document.getElementById(barId).width;
+  barCtx.canvas.height = document.getElementById(barId).height;
   
   /*
   var barCtx = barGraphCanvas.getContext("2d");
@@ -92,16 +92,20 @@ function drawQuery(response, wordCloudCanvas, pieGraphCanvas, barGraphCanvas){
     }
   ]
 
-  var pieCtx = pieGraphCanvas.getContext("2d");
+
   
-  $("#pieGraph_canvas").remove(); // remove the canvas from the dom
-  $("#pieCanvasArea").append('<canvas id="pieGraph_canvas"><canvas>');//append a new canvas to the dom
+  //$("#pieGraph_canvas").remove(); // remove the canvas from the dom
+  //$("#pieCanvasArea").append('<canvas id="pieGraph_canvas"><canvas>');//append a new canvas to the dom
   
-  var canvas = document.querySelector('#pieGraph_canvas');//get the canvas
+  $("#"+pieId).remove();
+  $("#"+pieParentId).append('<canvas id="'+pieId+'"><canvas>')
+  
+  
+  var canvas = document.querySelector("#"+pieId);//get the canvas
   
   var pieCtx = canvas.getContext('2d');
-  pieCtx.canvas.width = pieGraphCanvas.width;
-  pieCtx.canvas.height = pieGraphCanvas.height;
+  pieCtx.canvas.width = document.getElementById(pieId).width;
+  pieCtx.canvas.height = document.getElementById(pieId).height;
   var pieChart = new Chart(pieCtx).Pie(pieData);
 
   
