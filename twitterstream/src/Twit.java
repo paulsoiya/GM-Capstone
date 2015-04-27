@@ -16,11 +16,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Twit {
-	//public static final String HOST = "104.131.150.198:5984";
-	//public static final String DB_NAME = "104.131.150.198:5984";
-	//public static final String STANBOL = "http://swent1linux.asu.edu:8080/enhancer";
-	//public static final String COUCHDB = "http://swent1linux.asu.edu:5984/";
-	
 	private static String STANBOL;
 	private static String COUCHDB;
 	private static String MYSQL;
@@ -43,6 +38,8 @@ public class Twit {
   		Statement statementAlternateMakes = null;
   		Statement statementAlternateModels = null;
   		Statement statementModelYears = null;
+  		Statement statementCommonWords = null;
+  		Statement statementExplicitWords = null;
 
   		ResultSet resultSetMakes = null;
   		ResultSet resultSetModels = null;
@@ -50,6 +47,8 @@ public class Twit {
   		ResultSet resultSetAlternateModels = null;
   		ResultSet resultSetAlternateModelYears = null;
   		ResultSet resultSetModelYears = null;
+  		ResultSet resultSetCommonWords = null;
+  		ResultSet resultSetExplicitWords = null;
 
   		try { 
 			is = new FileInputStream("build.properties");
@@ -70,9 +69,6 @@ public class Twit {
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 			dbConn = DriverManager.getConnection(MYSQL, MYSQLUSER, MYSQLPASSWORD);
-   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
-   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "digiocean2@");
-
 			
    			statementMakes = dbConn.createStatement();
    			resultSetMakes = statementMakes.executeQuery("SELECT * FROM makes");
@@ -88,6 +84,12 @@ public class Twit {
 
    			statementAlternateModels = dbConn.createStatement();
    			resultSetAlternateModels = statementAlternateModels.executeQuery("SELECT * FROM model_alternates");
+
+   			statementCommonWords = dbConn.createStatement();
+   			resultSetCommonWords = statementCommonWords.executeQuery("SELECT * FROM common_content");
+
+   			statementExplicitWords = dbConn.createStatement();
+   			resultSetExplicitWords = statementExplicitWords.executeQuery("SELECT * FROM explicit_content");
   		}
   		catch(Exception e) {
   			e.printStackTrace();
@@ -102,7 +104,33 @@ public class Twit {
 				}
 			}
 		}
- 
+ 		
+ 		final ResultSet resultSetCommonWordsFinal = resultSetCommonWords;
+		// Add models to	 filter list
+	    ArrayList<String> commons = new ArrayList<String>();
+	    ArrayList<String> commonsFinal = null;
+	    ArrayList<String> explicitsFinal = null;
+	    try{
+			while(resultSetCommonWordsFinal.next()) {
+				commons.add(resultSetCommonWordsFinal.getString("common_words"));
+		    }
+		    commonsFinal = commons;
+
+	 		final ResultSet resultSetExplicitWordsFinal = resultSetExplicitWords;
+			// Add models to	 filter list
+		    final ArrayList<String> explicits = new ArrayList<String>();
+			while(resultSetExplicitWordsFinal.next()) {
+				explicits.add(resultSetExplicitWordsFinal.getString("explicit_words"));
+		    } 
+		    explicitsFinal = explicits;
+	    }
+	    catch(Exception e) {
+	    	e.printStackTrace();
+	    }
+	    final ArrayList<String> commonsFinal2 = commonsFinal;
+	    final ArrayList<String> explicitsFinal2 = commonsFinal;
+			
+
   		List<Status> tweets = new ArrayList<Status>();
 
 		try {
@@ -144,7 +172,6 @@ public class Twit {
 		    	}
 		    }
 
-
 		    // Add altenates to filter list
 		    ArrayList<String> alternateMakes = new ArrayList<String>();
 			while(resultSetAlternateMakes.next()) {
@@ -180,8 +207,6 @@ public class Twit {
 		    	System.out.println(tag);
 		    }
 			
-			
-			
 			TwitterStream stream = new TwitterStreamFactory().getInstance();
 		    StatusListener listener = new StatusListener() {
 		    	int count = 0;
@@ -212,6 +237,25 @@ public class Twit {
 					p = Pattern.compile(regexRemaining);
 					m = p.matcher(text); 
 					text = m.replaceAll("");
+
+					System.out.println("OLD: " + text);
+					// common words
+					for(int i = 0; i < commonsFinal2.size(); i++) {
+					    String commonWord = commonsFinal2.get(i);
+					    if(text.contains(commonWord)) {
+					    	text.replace(commonWord, "");
+					    	System.out.println("NEW: " + text);
+					    }
+				    }
+
+				    //explicit words
+				    for(int i = 0; i < explicitsFinal2.size(); i++) {
+					    String explicitWord = explicitsFinal2.get(i);
+					    if(text.contains(explicitWord)) {
+					    	text.replace(explicitWord, "");
+					    	System.out.println("NEW: " + text);
+					    }
+				    }
 					
 					
 					//Puts all the words in the tweet into a hashmap
@@ -227,8 +271,6 @@ public class Twit {
 							}
 						}
 					}
-					
-					
 					
 		    		JSONObject injectObj = new JSONObject();
 
@@ -255,9 +297,6 @@ public class Twit {
 					
 					if("en".equals(language) && !ignoreTweet){
 						try {
-							
-						
-							//injectObj.put("source", String.valueOf(status.getSource()));
 							injectObj.put("tweettext", text);
 							if(hasLocation) {
 								injectObj.put("tweetlocation", location);
@@ -271,9 +310,6 @@ public class Twit {
 							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) { 
 								injectObj.put(entry.getKey(), entry.getValue());	
 							}
-							
-							
-							
 							
 							injectObj.put("tweetsentiment", sentiment);
 
@@ -294,16 +330,12 @@ public class Twit {
 									couch.createDocuments(injectObj, false);    
 								}
 							}
-							
 							count++;
-							
 						}
 						catch(JSONException je) {
 							je.printStackTrace();
 						}
 					}
-					
-					
 		    	}
 
 		    	public void onStallWarning(StallWarning warning) {
@@ -326,9 +358,7 @@ public class Twit {
 	                ex.printStackTrace();
 	            }
 		    };
-		    //listener.filter("#chevy OR #generalmotors OR #gmc OR #buick");
 		    stream.addListener(listener);
-
 			
 		    filter.track(filterTags);
 		    stream.filter(filter);
