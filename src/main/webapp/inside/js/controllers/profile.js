@@ -1,45 +1,69 @@
 'use strict';
 
+var notLoaded = true;
+
 angular.module('controllers').controller('ProfileCtrl',['$scope','$http', '$location',
                                                         function($scope, $http, $location){
 
-      $http({
-            method: 'post',
-            url: '../api/savedsearches/getSavedSearches',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            data: "user="+_uToken
-      }).then(function(response) {
-        var data = response.data;
-        var indexId = data.indexOf("_id");
-        var indexRev = data.indexOf("_rev");
-        if (indexId > -1) {
-            data.splice(indexId, 1);
-        }
-        if (indexId > -1) {
-            data.splice(indexRev, 1);
-        }
-        $scope.searches = data;
-      });
+  $scope.getSavedSearchList = function() {                                                        
+    $http({
+      method: 'post',
+      url: '../api/savedsearches/getSavedSearches',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: "user="+_uToken
+    }).then(function(response) {
+      var data = response.data;
+      var indexId = data.indexOf("_id");
+      var indexRev = data.indexOf("_rev");
+      if (indexId > -1) {
+          data.splice(indexId, 1);
+      }
+      if (indexId > -1) {
+          data.splice(indexRev, 1);
+      }
+      $("#selectSearch").empty();
+      for(var i = 0; i < data.length; ++i){
+        $("#selectSearch").append($('<option>', {value: data[i], text: data[i]}));
+      }
+    });
+  }
+
+  $scope.deleteSavedSearch = function() { 
+    $http({
+      method: 'delete',
+      url: '../api/savedsearches/',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: "user="+_uToken+"&"+
+      "searchName="+$("#selectSearch option:selected").text(),
+    }).then(function(response) {
+      $("#deletedMessage").removeClass('hidden');
+      $scope.getSavedSearchList();
+      setTimeout(function(){
+        $("#deletedMessage").addClass('hidden');
+      }, 2500)
+    });
+  }
+  
+
 
 
       $scope.savedSearch = function() {
-          $location.path('query');
+        $location.path('query');
+        $http({
+          method: 'post',
+          url: '../api/savedsearches/getSavedSearch',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          data: "user="+_uToken+"&"+
+          "searchName="+$scope.searchName
+        }).then(function(response) {
+          //$scope.searches = response.data;
+          console.log(response);
 
-            $http({
-                  method: 'post',
-                  url: '../api/savedsearches/getSavedSearch',
-                  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                  data: "user="+_uToken+"&"+
-                  "searchName="+$scope.searchName
-            }).then(function(response) {
-                  //$scope.searches = response.data;
-                  console.log(response);
-
-                  var wordCloud = document.getElementById('first_cloud_canvas');
-                  var pieChart = document.getElementById('first_pie_canvas');
-                  var barGraph = document.getElementById('first_bar_canvas');
-                  drawQuery(response, wordCloud, pieChart, barGraph);
-            });
+          var wordCloud = document.getElementById('first_cloud_canvas');
+          var pieChart = document.getElementById('first_pie_canvas');
+          var barGraph = document.getElementById('first_bar_canvas');
+          drawQuery(response, wordCloud, pieChart, barGraph);
+        });
       }
 
       $scope.getUserDetail = function() {
@@ -102,4 +126,8 @@ angular.module('controllers').controller('ProfileCtrl',['$scope','$http', '$loca
 
               });
         }
+
+  if(notLoaded){
+    $scope.getSavedSearchList();
+  }
 }]);

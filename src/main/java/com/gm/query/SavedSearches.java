@@ -41,6 +41,28 @@ import org.json.JSONObject;
 @Path("/savedsearches")
 public class SavedSearches {
 
+	@DELETE 
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces("application/json")
+    public ReturnMessage deleteSearch( @FormParam("user") String user,
+	@FormParam("searchName") String searchName ){
+
+    	CouchConnection couch = new CouchConnection("http://localhost:5984/", "savedsearches/");
+		ReturnMessage rm = new ReturnMessage();
+    	try{
+			JSONObject userViews = new JSONObject(couch.queryDB(user));
+
+			userViews.remove(searchName);
+			couch.updateDocument(user, userViews);
+
+			rm.setResult("success");
+		}
+		catch(Exception e){
+			rm.setResult("failure");
+		}
+		return rm;
+    }
+
     @POST 
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")

@@ -28,6 +28,14 @@ function drawQuery(response, wordCloudCanvas, pieParentId, pieId, barParentId, b
     }
     wordCountData = tempData;
   }
+  var max = wordCountData[0][1];
+  for(var i = 0; i < 30; ++i) {
+    if(!(wordCountData[i] === undefined)){
+      wordCountData[i][1] = Math.round((wordCountData[i][1]/max)*40);
+      console.log(wordCountData[i][1]);
+    }
+  }
+
   WordCloud(wordCloudCanvas, { 
     list: wordCountData, 
     color: 'random-dark',
@@ -36,7 +44,7 @@ function drawQuery(response, wordCloudCanvas, pieParentId, pieId, barParentId, b
     weightFactor: 2
   });
   
-  console.log("wordCountData: "+wordCountData);
+  console.log(wordCountData);
   
   // Grabs the top four most frequent words and displays them and their frequency in a bar graph
   var barData = {
@@ -80,13 +88,13 @@ function drawQuery(response, wordCloudCanvas, pieParentId, pieId, barParentId, b
   // Turn the sentiment into an arbitrary, normalized percentage and display in a pie chart
   var pieData = [
     {
-      value: (Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) / 2 * 100,
+      value: ((Math.round(Math.abs(sentiment.rows[0].value[0] + 1) * 100) / 100) / 2 * 100).toString().substring(0,4),
       color:"#000080",
       highlight: "#00004c",
       label: "Positive %"
     },
     {
-      value: (Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100) / 2 * 100,
+      value: ((Math.round(Math.abs(sentiment.rows[0].value[0] - 1) * 100) / 100) / 2 * 100).toString().substring(0,4),
       color: "#7f7fff",
       highlight: "#4c4cff",
       label: "Negative %"

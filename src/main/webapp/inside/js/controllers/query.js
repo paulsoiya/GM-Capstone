@@ -13,6 +13,8 @@
 
 var notLoaded = true;
 
+console.log("query page");
+
 var makes;
 var models;
 var years;
@@ -109,7 +111,7 @@ angular.module('controllers').controller('QueryCtrl', ['$scope', '$http', '$filt
       clearInterval(barThrob);
       clearInterval(cloudThrob);
       $scope.grade = "blank.png";
-      if (response.data.wordCount.length < 15) {
+      if (response.data.wordCount === undefined || response.data.wordCount.length < 15) {
         $scope.errorMessage = "Sorry, data for that request is not available right now. Performing default query.";
         $("#selectMake").val(-1);
         $("#selectModel").val(-1);
