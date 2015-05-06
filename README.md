@@ -43,7 +43,7 @@ GM-Capstone/
 │......├── src/  
 │......├── build.xml  
 │......├── couchdb_setup.bat	
-│......├── twitter4j.properties	
+│......├── twitter4j.properties		
 │......├── build.properties
 
  1. Database setup script in src/main/resources/sql/master-gm-db-setup.sql must have been run on machine with a MySQL install. In MySQL Workbench: 
