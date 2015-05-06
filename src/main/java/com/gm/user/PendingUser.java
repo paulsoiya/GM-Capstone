@@ -10,8 +10,6 @@ package com.gm.user;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -47,6 +45,7 @@ public class PendingUser implements Serializable {
     
     public PendingUser() { } 
     
+
     public PendingUser(Long id, String email, String password,
                        String position, String reason,
                        String firstName, String lastName) {

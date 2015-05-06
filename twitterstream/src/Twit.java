@@ -16,11 +16,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class Twit {
-	//public static final String HOST = "104.131.150.198:5984";
-	//public static final String DB_NAME = "104.131.150.198:5984";
-	//public static final String STANBOL = "http://swent1linux.asu.edu:8080/enhancer";
-	//public static final String COUCHDB = "http://swent1linux.asu.edu:5984/";
-	
 	private static String STANBOL;
 	private static String COUCHDB;
 	private static String MYSQL;
@@ -42,11 +37,18 @@ public class Twit {
   		Statement statementModels = null;
   		Statement statementAlternateMakes = null;
   		Statement statementAlternateModels = null;
+  		Statement statementModelYears = null;
+  		Statement statementCommonWords = null;
+  		Statement statementExplicitWords = null;
 
   		ResultSet resultSetMakes = null;
   		ResultSet resultSetModels = null;
   		ResultSet resultSetAlternateMakes = null;
   		ResultSet resultSetAlternateModels = null;
+  		ResultSet resultSetAlternateModelYears = null;
+  		ResultSet resultSetModelYears = null;
+  		ResultSet resultSetCommonWords = null;
+  		ResultSet resultSetExplicitWords = null;
 
   		try { 
 			is = new FileInputStream("build.properties");
@@ -67,9 +69,6 @@ public class Twit {
    			Class.forName("com.mysql.jdbc.Driver").newInstance();
 
 			dbConn = DriverManager.getConnection(MYSQL, MYSQLUSER, MYSQLPASSWORD);
-   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "");
-   			//dbConn = DriverManager.getConnection("jdbc:mysql://localhost/testGM", "root", "digiocean2@");
-
 			
    			statementMakes = dbConn.createStatement();
    			resultSetMakes = statementMakes.executeQuery("SELECT * FROM makes");
@@ -77,11 +76,20 @@ public class Twit {
    			statementModels = dbConn.createStatement();
    			resultSetModels = statementModels.executeQuery("SELECT * FROM models");
 
+   			statementModelYears = dbConn.createStatement();
+   			resultSetModelYears = statementModelYears.executeQuery("SELECT * FROM model_years");
+
    			statementAlternateMakes = dbConn.createStatement();
    			resultSetAlternateMakes = statementAlternateMakes.executeQuery("SELECT * FROM make_alternates");
 
    			statementAlternateModels = dbConn.createStatement();
    			resultSetAlternateModels = statementAlternateModels.executeQuery("SELECT * FROM model_alternates");
+
+   			statementCommonWords = dbConn.createStatement();
+   			resultSetCommonWords = statementCommonWords.executeQuery("SELECT * FROM common_content");
+
+   			statementExplicitWords = dbConn.createStatement();
+   			resultSetExplicitWords = statementExplicitWords.executeQuery("SELECT * FROM explicit_content");
   		}
   		catch(Exception e) {
   			e.printStackTrace();
@@ -96,11 +104,38 @@ public class Twit {
 				}
 			}
 		}
- 
+ 		
+ 		final ResultSet resultSetCommonWordsFinal = resultSetCommonWords;
+		// Add models to	 filter list
+	    ArrayList<String> commons = new ArrayList<String>();
+	    ArrayList<String> commonsFinal = null;
+	    ArrayList<String> explicitsFinal = null;
+	    try{
+			while(resultSetCommonWordsFinal.next()) {
+				commons.add(resultSetCommonWordsFinal.getString("common_words"));
+		    }
+		    commonsFinal = commons;
+
+	 		final ResultSet resultSetExplicitWordsFinal = resultSetExplicitWords;
+			// Add models to	 filter list
+		    final ArrayList<String> explicits = new ArrayList<String>();
+			while(resultSetExplicitWordsFinal.next()) {
+				explicits.add(resultSetExplicitWordsFinal.getString("explicit_words"));
+		    } 
+		    explicitsFinal = explicits;
+	    }
+	    catch(Exception e) {
+	    	e.printStackTrace();
+	    }
+	    final ArrayList<String> commonsFinal2 = commonsFinal;
+	    final ArrayList<String> explicitsFinal2 = commonsFinal;
+			
+
   		List<Status> tweets = new ArrayList<Status>();
 
 		try {
-			// MongoClient mongoClient = new MongoClient("localhost", 27017);
+			//Couch connection
+			CouchConnection cc = new CouchConnection(COUCHDB, null); 
 		    // Filter
 		    FilterQuery filter = new FilterQuery();
 		    ArrayList<String> paramsAsList = new ArrayList<String>();
@@ -108,26 +143,45 @@ public class Twit {
 		    // Add makes to filter list
 		    ArrayList<String> makes = new ArrayList<String>();
 		    while(resultSetMakes.next()) {
-					makes.add("#"+resultSetMakes.getString("make_name"));
+				makes.add("#"+resultSetMakes.getString("make_name"));
+				cc.makeDB(resultSetMakes.getString("make_name"));
 		    } 
 
 		    // Add models to filter list
 		    ArrayList<String> models = new ArrayList<String>();
+		    ArrayList<Integer> modelIds = new ArrayList<Integer>();
 			while(resultSetModels.next()) {
 				models.add("#"+resultSetModels.getString("model_name"));
-				
+				cc.makeDB(resultSetModels.getString("model_name"));
+				modelIds.add(resultSetModels.getInt("model_id"));
 		    } 
+
+ 			ArrayList<String> modelYears = new ArrayList<String>();
+ 			ArrayList<Integer> modelYearMakeIds = new ArrayList<Integer>();
+			while(resultSetModels.next()) {
+				modelYears.add(resultSetModelYears.getString("model_year"));
+				modelYearMakeIds.add(resultSetModelYears.getInt("model_id"));
+		    } 
+
+		    //Create databases on couch if doesn't already exist
+		    for(int i = 0; i < modelYears.size(); ++i){
+		    	for(int j = 0; j < modelIds.size(); ++j){
+		    		if(modelIds.get(i) == modelYearMakeIds.get(i)){
+		    			cc.makeDB((models.get(i)+modelYears.get(i)).toLowerCase());
+		    		}
+		    	}
+		    }
 
 		    // Add altenates to filter list
 		    ArrayList<String> alternateMakes = new ArrayList<String>();
 			while(resultSetAlternateMakes.next()) {
-			    alternateMakes.add("#"+resultSetAlternateMakes.getString("make_alternate"));
+			    alternateMakes.add("#"+resultSetAlternateMakes.getString("make_alternate_name"));
 		    }
 
 		    // Add altenates to filter list
 		    ArrayList<String> alternateModels = new ArrayList<String>();
 			while(resultSetAlternateModels.next()) {
-			    alternateModels.add("#"+resultSetAlternateModels.getString("model_alternate"));
+			    alternateModels.add("#"+resultSetAlternateModels.getString("model_alternate_name"));
 		    }
 
 		    for(String make : makes) {
@@ -136,6 +190,8 @@ public class Twit {
 
 		    for(String model : models) {
 		    	paramsAsList.add(model);
+				paramsAsList.add(model+"2014");
+				paramsAsList.add(model+"2015");
 		    }
 
 		    for(String alternate : alternateMakes) {
@@ -150,8 +206,6 @@ public class Twit {
 		    for(String tag : filterTags) {
 		    	System.out.println(tag);
 		    }
-			
-			
 			
 			TwitterStream stream = new TwitterStreamFactory().getInstance();
 		    StatusListener listener = new StatusListener() {
@@ -183,6 +237,25 @@ public class Twit {
 					p = Pattern.compile(regexRemaining);
 					m = p.matcher(text); 
 					text = m.replaceAll("");
+
+					System.out.println("OLD: " + text);
+					// common words
+					for(int i = 0; i < commonsFinal2.size(); i++) {
+					    String commonWord = commonsFinal2.get(i);
+					    if(text.contains(commonWord)) {
+					    	text.replace(commonWord, "");
+					    	System.out.println("NEW: " + text);
+					    }
+				    }
+
+				    //explicit words
+				    for(int i = 0; i < explicitsFinal2.size(); i++) {
+					    String explicitWord = explicitsFinal2.get(i);
+					    if(text.contains(explicitWord)) {
+					    	text.replace(explicitWord, "");
+					    	System.out.println("NEW: " + text);
+					    }
+				    }
 					
 					
 					//Puts all the words in the tweet into a hashmap
@@ -198,8 +271,6 @@ public class Twit {
 							}
 						}
 					}
-					
-					
 					
 		    		JSONObject injectObj = new JSONObject();
 
@@ -226,9 +297,6 @@ public class Twit {
 					
 					if("en".equals(language) && !ignoreTweet){
 						try {
-							
-						
-							//injectObj.put("source", String.valueOf(status.getSource()));
 							injectObj.put("tweettext", text);
 							if(hasLocation) {
 								injectObj.put("tweetlocation", location);
@@ -239,17 +307,9 @@ public class Twit {
 							//injectObj.put("length", length);
 							
 							
-							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) {
-								//JSONObject wordDocument = new JSONObject();
-								//wordDocument.put("_id", entry.getKey());
-								//wordDocument.put("_frequency", entry.getValue());
-								
-								//JSONObject currentWordDocument = new JSONObject( cc.queryDB(entry.getKey()) ); 
+							for (Map.Entry<String, Integer> entry: wordCount.entrySet()) { 
 								injectObj.put(entry.getKey(), entry.getValue());	
 							}
-							
-							
-							
 							
 							injectObj.put("tweetsentiment", sentiment);
 
@@ -257,21 +317,25 @@ public class Twit {
 							cc.createDocuments(injectObj, false);    
 							
 							for(String tag : filterTags) {
-								if(text.contains(tag)){
-									CouchConnection couch = new CouchConnection(COUCHDB, tag+"/");	
+								System.out.println();
+
+
+								if(text.toLowerCase().contains(tag.toLowerCase().substring(1))){;
+									for(int i = 0; i < 100; ++i){
+										System.out.println("");
+										System.out.println(tag.toLowerCase());
+										System.out.println("");
+									}
+									CouchConnection couch = new CouchConnection(COUCHDB, tag.toLowerCase().substring(1)+"/");	
 									couch.createDocuments(injectObj, false);    
 								}
 							}
-							
 							count++;
-							
 						}
 						catch(JSONException je) {
 							je.printStackTrace();
 						}
 					}
-					
-					
 		    	}
 
 		    	public void onStallWarning(StallWarning warning) {
@@ -294,9 +358,7 @@ public class Twit {
 	                ex.printStackTrace();
 	            }
 		    };
-		    //listener.filter("#chevy OR #generalmotors OR #gmc OR #buick");
 		    stream.addListener(listener);
-
 			
 		    filter.track(filterTags);
 		    stream.filter(filter);

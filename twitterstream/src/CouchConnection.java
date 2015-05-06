@@ -141,12 +141,21 @@ public class CouchConnection {
 	}
 	
 	public String deleteDocuments(String id, String rev){
+		return httpRequest("DELETE", host+database+id+"?rev="+rev);
+	}	
+
+	public String makeDB(String databaseName){
+		return httpRequest("PUT", host+"/"+databaseName);
+	}
+
+
+	public String httpRequest(String verb, String url){
 		HttpURLConnection request;
 		BufferedReader instream = null;
 		String response = null;
 		try{
-			request = (HttpURLConnection)new URL(host+database+id+"?rev="+rev).openConnection();
-			request.setRequestMethod("DELETE");
+			request = (HttpURLConnection)new URL(url).openConnection();
+			request.setRequestMethod(verb);
         
 			instream = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			StringBuffer result = new StringBuffer();
@@ -156,117 +165,23 @@ public class CouchConnection {
 			}
 			response = result.toString();
 		}catch(IOException e){
-			e.printStackTrace();
+			System.out.println("Can't delete");
 		}finally{
 			if (instream != null)
 				try {
 					instream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+
 				}
 		}
 		return response;
-	}	
-
-
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		try {
-			CouchConnection couch = new CouchConnection("http://localhost:5984/","gm/");
-			JSONObject bulk = new JSONObject();
-			JSONArray docs = new JSONArray();
-			//System.out.println(couch.queryDB("_design/tweets/_view/buick"));
-			JSONObject doc0 = new JSONObject();
-			
-			doc0.put("make", "Buick");
-			doc0.put("year", "2015");
-			doc0.put("varname", "2015");
-			
-			for(int i = 0; i < 100; ++i){
-	        	docs.put(doc0);
-	        	//couch.createDocuments(doc0, false);
-	        }
-			bulk.put("docs", docs);
-			
-//			JSONObject viewDocument = new JSONObject(couch.queryDB("_design/tweets"));
-//			String viewName = "varname";
-//			couch.createDocuments(bulk, true);
-			
-			
-//			JSONObject view = new JSONObject();
-//			view.put("map", "function(doc) { if (doc."+viewName+" == '2015') { emit(doc._id, doc.make); } }");
-//			viewDocument.getJSONObject("views").put(viewName, view);
-			
-			//couch.updateDocument("_design/tweets", viewDocument);
-			
-			//JSONObject test = viewDocument.getJSONObject("views").put(viewName, );
-			//viewDocument.put("views", test);
-			
-			//System.out.println(couch.updateDocument("_design/tweets", viewDocument));
-			
-			//couch.createDocuments(bulk, true);
-			
-			
-			JSONObject viewDocument = new JSONObject();
-			viewDocument.put("_id", "_design/old");
-			viewDocument.put("language", "javascript");
-			int hours = 4;
-			int days = 1;
-			int months = 1;
-			JSONObject view = new JSONObject();
-			JSONObject viewType = new JSONObject();
-
-			String viewName = "oldTweets";
-			
-			viewType.put("map", "function(doc) {if((Date.now() - doc.timeLong) >"
-					+ " 1000*60*60*"+hours+"*"+days+"*"+months+"){emit(doc._id, doc);}}");
-			view.put("oldTweets", viewType);
-			viewDocument.put("views", view);
-			
-//			couch.createDocuments(viewDocument, false);
-			JSONObject oldTweets = new JSONObject(couch.queryDB("_design/old/_view/oldTweets"));
-	
-			JSONArray ja = (JSONArray) oldTweets.get("rows");
-			for(int i = 0; ja.length() > i; ++i){
-				couch.deleteDocuments(ja.getJSONObject(i).getString("id"),ja.getJSONObject(i).getString("value"));
-			}
-			
-			
-			
-			//JSONObject r1 = new JSONObject();
-			//couch.updateDocument("_design/tweets/_view/buick", r0);
-			/*			JSONArray rows = (JSONArray)r0.get("rows");
-			for(int i = 0; i < 10; ++i){
-				couch.deleteDocument(rows.getJSONObject(i).getString("id"), rows.getJSONObject(i).getJSONObject("value").getString("rev"));
-			}
-			
-			JSONObject example = new JSONObject();
-	        example.put("source", "twitter");
-	        example.put("make", "Buick");
-	        
-			JSONObject makeMany = new JSONObject();
-			JSONArray docs = new JSONArray();
-	        for(int i = 0; i < 100000; ++i){
-	        	docs.put(example);
-	        }
-	        makeMany.put("docs", docs);
-			couch.createDocuments(makeMany, true);
-	        for(int i = 0; i < 100000; ++i){
-	        	couch.createDocument(example);
-	        }	
-			System.out.println(makeMany.toString());
-			
-			JSONObject r1 = new JSONObject(couch.createDocument());
-			couch.deleteDocument(r1.getString("id"), r1.getString("rev"));
-*/
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
 	}
+
+	public static void main(String[] args) {
+
+	}
+	
+	
+	
 
 }
