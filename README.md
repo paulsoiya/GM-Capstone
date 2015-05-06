@@ -27,6 +27,7 @@ GM-Capstone/
  - [MySQL Community Server 5.6] (http://dev.mysql.com/downloads/mysql/) 
  - [JDK 1.6 ] (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
  - [Ant 1.9.4] (http://ant.apache.org/bindownload.cgi)
+ - [Couchdb 1.6.1] (http://couchdb.apache.org/)
 
 #### Build entire project
 
@@ -41,28 +42,34 @@ GM-Capstone/
 │......├── lib/  
 │......├── src/  
 │......├── build.xml  
-│......├── dbSetub.txt  
+│......├── couchdb_setup.bat
+│......├── twitter4j.properties
+│......├── build.properties
 
- 1. Database setup script must have been run on machine with a MySQL install. In MySQL Workbench: 
+ 1. Database setup script in src/main/resources/sql/master-gm-db-setup.sql must have been run on machine with a MySQL install. In MySQL Workbench: 
   - File > New Query Tab
   - Type "CREATE DATABASE dbname;"                    
   -- # NOTE: Currently, dbname = testGM
   - Query > execute                                   
   -- # OR, click the lightning bolt
-  - File > Open SQL Script... > dbSetup.txt
+  - File > Open SQL Script... > master-gm-db-setup.sql
   - Query > execute
   -- # OR, click the lightning bolt
  2. Ensure your SQL root password is correct:
-  - TODO: extract db credentials to properties file
-  - For now: In Twit.java, ~ line 38, change dbConn root password to your password
- 3. Uses "ant" to build, simply use the following commands in the twitterstream directory:  
+  - In build.properties input your credentials
+  - stanbol points to your default enhancement chain described below
+ 3. On machine with couch installed, run couch_setup.bat
+  - set couch property in build.properties to point to your db
+ 4. twitter4j.properties contains your twitter streaming api key
+  - obtain an access token from twitter
+ 5. Uses "ant" to build, simply use the following commands in the twitterstream directory:  
   - ant compile  
   - ant execute
   
   
   
 #### Apache Stanbol Installation  
-1.  
+1. There is no server provided for Apache Stanbol, you must run your own instance of the service.
  - export MAVEN_OPTS="-Xmx1024M -XX:MaxPermSize=256M"
  - svn co http://svn.apache.org/repos/asf/stanbol/trunk stanbol
  - cd stanbol
