@@ -86,13 +86,13 @@ GM-Capstone/
  - Go here: http://localhost:8080/enhancer/chain
  - Click the configure link next to default, default credentials admin/admin
  - Set the engine chain to this order:
- --	langdetect
- -- opennlp-sentence
- --	opennlp-token
- --	opennlp-pos
- --	opennlp-ner
- --	sentiment-wordclassifier
- --	sentiment-summarization
+ - langdetect
+ - opennlp-sentence
+ - opennlp-token
+ - opennlp-pos
+ - opennlp-ner
+ - sentiment-wordclassifier
+ - sentiment-summarization
 
 4. Stanbol's endpoint example
  - curl -X POST -H "Accept:  application/json" -H "Content-type: text/plain" --data "This is a positive sentence because I like sentences. This is a negative sentence because I hate sentences.  I like animals.  I hate hats." http://localhost:8080/enhancer
